@@ -7,3 +7,5 @@ lib/wrappers/ccp4/pdbset.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/uniqueify.py -text
+src/modules/intensity_data_preparation.py -text
+src/modules/pdb_preparation.py -text
