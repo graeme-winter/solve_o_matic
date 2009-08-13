@@ -9,3 +9,5 @@ lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/uniqueify.py -text
 src/modules/intensity_data_preparation.py -text
 src/modules/pdb_preparation.py -text
+src/modules/refine.py -text
+src/modules/rigid_body.py -text
