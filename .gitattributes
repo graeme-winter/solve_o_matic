@@ -1,2 +1,4 @@
 * text=auto !eol
 /README -text
+lib/objects/__init__.py -text
+lib/objects/sites.py -text
