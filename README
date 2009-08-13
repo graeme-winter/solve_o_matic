@@ -1,0 +1,13 @@
+Solve-o-Matic
+-------------
+
+A swiss army knife of structure solution tools, which will vary in speed and
+quality, and aim to allow on-line structure solution for MX (i.e. phasing and 
+model building.) Clearly this will build on some software, including but not 
+limited to:
+
+ - CCP4 
+ - PHENIX
+ - CCTBX
+ - SHELX
+
