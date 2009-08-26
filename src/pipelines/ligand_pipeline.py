@@ -93,7 +93,8 @@ class ligand_pipeline:
 
         name = os.path.split(self._hklin)[-1][:-4]
         hklout = os.path.join(self.get_working_directory(),
-                              '%s_idb.mtz' % name)
+                              '%s_idp.mtz' % name)
+        temporary_files.append(hklout)
 
         idp = self.module().intensity_data_preparation()
         idp.set_hklin(self._hklin)
