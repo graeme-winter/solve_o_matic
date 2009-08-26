@@ -1,6 +1,5 @@
 * text=auto !eol
 /README -text
-/__init__.py -text
 bin/ligand_pipeline -text
 data/lyso_example_i.mtz -text
 lib/__init__.py -text
