@@ -9,7 +9,7 @@ if not os.environ['SOM_ROOT'] in sys.path:
     
 # now import the factories that we will need
 
-from wrappers.ccp4.factory import ccp4_factory
+from wrappers.ccp4.ccp4_factory import ccp4_factory
 
 # first pass this module will just provide a wrapper for the restrained
 # refinement in refmac5...

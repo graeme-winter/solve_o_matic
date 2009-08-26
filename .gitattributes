@@ -8,9 +8,9 @@ lib/objects/sites.py -text
 lib/wrappers/__init__.py -text
 lib/wrappers/ccp4/__init__.py -text
 lib/wrappers/ccp4/cad.py -text
+lib/wrappers/ccp4/ccp4_factory.py -text
 lib/wrappers/ccp4/chainsaw.py -text
 lib/wrappers/ccp4/empty.py -text
-lib/wrappers/ccp4/factory.py -text
 lib/wrappers/ccp4/freerflag.py -text
 lib/wrappers/ccp4/mtzdump.py -text
 lib/wrappers/ccp4/pdbset.py -text
@@ -18,8 +18,11 @@ lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
+src/__init__.py -text
 src/modules/__init__.py -text
 src/modules/intensity_data_preparation.py -text
+src/modules/module_factory.py -text
 src/modules/pdb_preparation.py -text
 src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
+src/pipelines/__init__.py -text
