@@ -47,7 +47,7 @@ def Reindex(DriverType = None):
 
             if self._symmetry:
                 self.input('symmetry %s' % self._symmetry)
-            if self._reindex:
+            if self._reindex_op:
                 self.input('reindex %s' % self._reindex)
 
             self.close_wait()

@@ -12,17 +12,17 @@ from Decorators.DecoratorFactory import DecoratorFactory
 
 from mtzdump import Mtzdump
 
-def Empty(DriverType = None):
+def Cad(DriverType = None):
 
     DriverInstance = DriverFactory.Driver(DriverType)
     CCP4DriverInstance = DecoratorFactory.Decorate(DriverInstance, 'ccp4')
 
-    class EmptyWrapper(CCP4DriverInstance.__class__):
+    class CadWrapper(CCP4DriverInstance.__class__):
 
         def __init__(self):
             # generic things
             CCP4DriverInstance.__class__.__init__(self)
-            self.set_executable('empty')
+            self.set_executable('cad')
 
             # N.B. Since CAD takes more than one input file the
             # ccp4 decorator hklin is not helpful...
@@ -265,7 +265,7 @@ def Empty(DriverType = None):
 
             return
         
-    return EmptyWrapper()
+    return CadWrapper()
 
 if __name__ == '__main__':
     # really need to figure out how to write a test here...

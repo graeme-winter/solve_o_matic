@@ -55,7 +55,7 @@ def Unique(DriverType = None):
 
             self.start()
             self.input('cell %f %f %f %f %f %f' % self._cell)
-            self.input('symmetry %s' % self._symmetry)
+            self.input('symmetry "%s"' % self._symmetry)
             self.input('resolution %f' % self._resolution)
             self.input('labout F=F_UNIQUE SIGF=SIGF_UNIQUE')
             self.close_wait()

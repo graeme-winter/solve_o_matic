@@ -40,3 +40,5 @@ def Freerflag(DriverType = None):
 if __name__ == '__main__':
     # add a free flag to a file which did not have one, confirm that it
     # is now there...
+
+    pass
