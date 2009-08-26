@@ -10,6 +10,7 @@ lib/wrappers/ccp4/__init__.py -text
 lib/wrappers/ccp4/cad.py -text
 lib/wrappers/ccp4/chainsaw.py -text
 lib/wrappers/ccp4/empty.py -text
+lib/wrappers/ccp4/factory.py -text
 lib/wrappers/ccp4/freerflag.py -text
 lib/wrappers/ccp4/mtzdump.py -text
 lib/wrappers/ccp4/pdbset.py -text
