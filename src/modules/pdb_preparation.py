@@ -5,11 +5,11 @@ if not 'SOM_ROOT' in os.environ:
     raise RuntimeError, 'SOM_ROOT undefined'
 
 if not os.environ['SOM_ROOT'] in sys.path:
-    sys.path.append(os.environ['SOM_ROOT'])
+    sys.path.append(os.environ['SOM_ROOT'], 'lib')
     
 # now import the factories that we will need
 
-from lib.wrappers.ccp4.factory import ccp4_factory
+from wrappers.ccp4.factory import ccp4_factory
 
 # first pass this module will just define the methods necessary to prepare
 # pdb file for rigid body refinement

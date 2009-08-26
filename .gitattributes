@@ -18,6 +18,7 @@ lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
+src/modules/__init__.py -text
 src/modules/intensity_data_preparation.py -text
 src/modules/pdb_preparation.py -text
 src/modules/refine.py -text
