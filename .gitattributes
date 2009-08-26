@@ -27,3 +27,4 @@ src/modules/pdb_preparation.py -text
 src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
 src/pipelines/__init__.py -text
+src/pipelines/ligand_pipeline.py -text
