@@ -21,4 +21,4 @@ lib/wrappers/ccp4/unique.py -text
 src/modules/intensity_data_preparation.py -text
 src/modules/pdb_preparation.py -text
 src/modules/refine.py -text
-src/modules/rigid_body.py -text
+src/modules/rigid_body_refine.py -text
