@@ -5,7 +5,7 @@ if not 'SOM_ROOT' in os.environ:
     raise RuntimeError, 'SOM_ROOT undefined'
 
 if not os.environ['SOM_ROOT'] in sys.path:
-    sys.path.append(os.environ['SOM_ROOT'], 'lib')
+    sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
     
 # now import the factories that we will need
 
@@ -55,7 +55,7 @@ class refine:
     def ccp4(self):
         return self._ccp4_factory
 
-    def rigid_body_refine(self):
+    def refine(self):
         if not self._hklin:
             raise RuntimeError, 'hklin not defined'
 
@@ -71,7 +71,7 @@ class refine:
         refmac5 = self.ccp4().refmac5()
 
         refmac5.set_hklin(self._hklin)
-        refmac5.set_hklout(hklout)
+        refmac5.set_hklout(self._hklout)
         refmac5.set_xyzin(self._xyzin)
         refmac5.set_xyzout(self._xyzout)
 
