@@ -4,6 +4,8 @@ data/lyso_example_i.mtz -text
 lib/objects/__init__.py -text
 lib/objects/sites.py -text
 lib/wrappers/ccp4/chainsaw.py -text
+lib/wrappers/ccp4/empty.py -text
+lib/wrappers/ccp4/mtzdump.py -text
 lib/wrappers/ccp4/pdbset.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
