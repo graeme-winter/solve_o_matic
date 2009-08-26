@@ -77,7 +77,7 @@ def Mtzdump(DriverType = None):
                         '(')[1].split()[:2]))
 
                 if 'Space group' in line:
-                    self._header['spacegroup'] = line.split('\'')[1].strip()
+                    self._header['symmetry'] = line.split('\'')[1].strip()
                     
                 if 'Dataset ID, ' in line:
                     block = 0
@@ -129,11 +129,11 @@ def Mtzdump(DriverType = None):
 
         def get_dataset_info(self, dataset):
             result = copy.deepcopy(self._header['dataset_info'][dataset])
-            result['spacegroup'] = self._header['spacegroup']
+            result['symmetry'] = self._header['symmetry']
             return result
 
-        def get_spacegroup(self):
-            return self._header['spacegroup']
+        def get_symmetry(self):
+            return self._header['symmetry']
 
         def get_batches(self):
             return self._batches
@@ -158,7 +158,7 @@ if __name__ == '__main__':
         print '%s' % d
         info = mtzdump.get_dataset_info(d)
         print '%s (%6.4fA) %6.2f %6.2f %6.2f %6.2f %6.2f %6.2f' % \
-              (info['spacegroup'], info['wavelength'],
+              (info['symmetry'], info['wavelength'],
                info['cell'][0], info['cell'][1], info['cell'][2],
                info['cell'][1], info['cell'][4], info['cell'][5])
     print '%.2f %.2f' % mtzdump.get_resolution_range()
