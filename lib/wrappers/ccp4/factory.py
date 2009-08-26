@@ -4,6 +4,7 @@ from cad import Cad
 from freerflag import Freerflag
 from mtzdump import Mtzdump
 from pdbset import Pdbset
+from refmac5 import Refmac5
 from reindex import Reindex
 from truncate import Truncate
 from unique import Unique
@@ -37,6 +38,11 @@ class ccp4_factory:
         _pdbset = Pdbset()
         _pdbset.set_working_directory(self._working_directory)
         return _pdbset
+
+    def refmac5(self):
+        _refmac5 = Refmac5()
+        _refmac5.set_working_directory(self._working_directory)
+        return _refmac5
 
     def reindex(self):
         _reindex = Reindex()
