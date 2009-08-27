@@ -51,9 +51,9 @@ class find_sites:
     def shelx(self):
         return self._shelx_factory
 
-    def calculate_fa(self):
+    def find_sites(self):
 
-        temporaty_files = []
+        temporary_files = []
 
         # first get the cell / symmetry
 
@@ -77,7 +77,7 @@ class find_sites:
         # now run mtz2sca -> get a useful input file
 
         scaout = os.path.join(self.get_working_directory(),
-                              os.path.split(self._hklin)[-1][:-4])
+                              '%s.sca' % os.path.split(self._hklin)[-1][:-4])
         temporary_files.append(scaout)
 
         mtz2sca = self.shelx().mtz2sca()
@@ -92,7 +92,7 @@ class find_sites:
         shelxc = self.shelx().shelxc()
         shelxc.set_cell(cell)
         shelxc.set_symmetry(symmetry)
-        shelxc.set_hna(self._nha)
+        shelxc.set_nha(self._nha)
         shelxc.set_sad(scaout)
         shelxc.set_name(self._name)
         shelxc.shelxc()

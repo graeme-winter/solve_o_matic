@@ -35,8 +35,8 @@ def Mtz2sca(DriverType = None):
             return
 
         def mtz2sca(self):
-            self.add_command_line(hklin)
-            self.add_command_line(scaout)
+            self.add_command_line(self._hklin)
+            self.add_command_line(self._scaout)
             self.start()
             self.close_wait()
             self.check_for_errors()

@@ -1,6 +1,6 @@
 import os
 
-from mtz2sca import Mtz2sca as Mtz2sca
+from mtz2sca import Mtz2sca as _Mtz2sca
 from shelxc import Shelxc as _Shelxc
 from shelxd import Shelxd as _Shelxd
 from shelxe import Shelxe as _Shelxe
@@ -16,22 +16,22 @@ class shelx_factory:
         return
 
     def mtz2sca(self):
-        _mtz2sca = Mtz2sca()
+        _mtz2sca = _Mtz2sca()
         _mtz2sca.set_working_directory(self._working_directory)
         return _mtz2sca
 
     def shelxc(self):
-        _shelxc = Shelxc()
+        _shelxc = _Shelxc()
         _shelxc.set_working_directory(self._working_directory)
         return _shelxc
 
     def shelxd(self):
-        _shelxd = Shelxd()
+        _shelxd = _Shelxd()
         _shelxd.set_working_directory(self._working_directory)
         return _shelxd
 
     def shelxe(self):
-        _shelxe = Shelxe()
+        _shelxe = _Shelxe()
         _shelxe.set_working_directory(self._working_directory)
         return _shelxe
 

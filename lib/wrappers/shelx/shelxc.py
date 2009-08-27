@@ -112,18 +112,10 @@ def Shelxc(DriverType = None):
             self.input('CELL %f %f %f %f %f %f' % tuple(self._cell))
             self.input('SPAG %s' % self._symmetry)
             self.input('FIND %d' % self._nha)
-            self.input('NTRY 200')
+            self.input('NTRY 50')
             self.input('MIND -3.5')
 
-            self.close()
-
-            while True:
-                line = self.output()
-
-                if not line:
-                    break
-
-                print line[:-1]
+            self.close_wait()
 
             return
 

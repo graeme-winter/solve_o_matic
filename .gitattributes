@@ -1,6 +1,7 @@
 * text=auto !eol
 /README -text
 bin/ligand_pipeline -text
+bin/shelx_cc_weak_pipeline -text
 data/lyso_example_i.mtz -text
 lib/__init__.py -text
 lib/objects/__init__.py -text
@@ -18,6 +19,7 @@ lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
+lib/wrappers/shelx/__init__.py -text
 lib/wrappers/shelx/empty.py -text
 lib/wrappers/shelx/mtz2sca.py -text
 lib/wrappers/shelx/shelx_factory.py -text
@@ -34,3 +36,4 @@ src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
 src/pipelines/__init__.py -text
 src/pipelines/ligand_pipeline.py -text
+src/pipelines/shelx_cc_weak_pipeline.py -text
