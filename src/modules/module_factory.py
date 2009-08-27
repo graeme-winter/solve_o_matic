@@ -6,6 +6,7 @@ from pdb_preparation import pdb_preparation as _pdb_preparation
 from rigid_body_refine import rigid_body_refine as _rigid_body_refine
 from refine import refine as _refine
 from interrogate_mtz import interrogate_mtz as _interrogate_mtz
+from find_sites import find_sites as _find_sites
 
 class module_factory:
 
@@ -18,31 +19,38 @@ class module_factory:
         return
 
     def intensity_data_preparation(self):
-        intensity_data_preparation = _intensity_data_preparation()
-        intensity_data_preparation.set_working_directory(
+        intensity_data_preparation_instance = _intensity_data_preparation()
+        intensity_data_preparation_instance.set_working_directory(
             self._working_directory)
-        return intensity_data_preparation
+        return intensity_data_preparation_instance
 
     def pdb_preparation(self):
-        pdb_preparation = _pdb_preparation()
-        pdb_preparation.set_working_directory(self._working_directory)
-        return pdb_preparation
+        pdb_preparation_instance = _pdb_preparation()
+        pdb_preparation_instance.set_working_directory(
+            self._working_directory)
+        return pdb_preparation_instance
 
     def rigid_body_refine(self):
-        rigid_body_refine = _rigid_body_refine()
-        rigid_body_refine.set_working_directory(self._working_directory)
-        return rigid_body_refine
+        rigid_body_refine_instance = _rigid_body_refine()
+        rigid_body_refine_instance.set_working_directory(
+            self._working_directory)
+        return rigid_body_refine_instance
 
     def refine(self):
-        refine = _refine()
-        refine.set_working_directory(self._working_directory)
-        return refine
+        refine_instance = _refine()
+        refine_instance.set_working_directory(self._working_directory)
+        return refine_instance
 
     def interrogate_mtz(self):
-        interrogate_mtz = _interrogate_mtz()
-        interrogate_mtz.set_working_directory(self._working_directory)
-        return interrogate_mtz
+        interrogate_mtz_instance = _interrogate_mtz()
+        interrogate_mtz_instance.set_working_directory(self._working_directory)
+        return interrogate_mtz_instance
 
+    def find_sites(self):
+        find_sites_instance = _find_sites()
+        find_sites_instance.set_working_directory(self._working_directory)
+        return find_sites_instance
+    
     
 
         
