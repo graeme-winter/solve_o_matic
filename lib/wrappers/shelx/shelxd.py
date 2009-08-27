@@ -21,6 +21,9 @@ def Shelxd(DriverType = None):
             self.set_executable('shelxd')
 
             self._name = None
+            self._cc = None
+            self._cc_weak = None
+            return
 
         def set_name(self, name):
             self._name = name
@@ -38,9 +41,19 @@ def Shelxd(DriverType = None):
             self.start()
             self.close_wait()
 
-            # FIXME get the final CC weak from the .lst file
+            # FIXME get the final CC weak from the output
+
+            for record in self.get_all_output():
+                if 'All/Weak' in record:
+                    tokens = record.split()
+                    self._cc = float(tokens[8])
+                    self._cc_weak = float(tokens[10].replace(',', ''))
 
             return
+
+        def get_cc(self):
+            return self._cc, self._cc_weak
+        
 
     return ShelxdWrapper()
 

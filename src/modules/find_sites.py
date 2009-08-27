@@ -97,14 +97,28 @@ class find_sites:
         shelxc.set_name(self._name)
         shelxc.shelxc()
 
+        # shelxc makes the following files: 
+        for f in '_fa.ins', '_fa.hkl', '.hkl':
+            temporary_files.append(os.path.join(self.get_working_directory(),
+                                                '%s%s' % (self._name, f)))
+
         # find sites, get the CC stats
 
         shelxd = self.shelx().shelxd()
         shelxd.set_name(self._name)
         shelxd.shelxd()
 
-        for record in shelxd.get_all_output():
-            print record[:-1]
+        cc, cc_weak = shelxd.get_cc()
+
+        # shelxd makes the following files: 
+        for f in '_fa.pdb', '_fa.res', '_fa.lst':
+            temporary_files.append(os.path.join(self.get_working_directory(),
+                                                '%s%s' % (self._name, f)))
+
+        print 'Final CC All / Weak: %.2f / %.2f' % (cc, cc_weak)
+        
+        for temporary_file in temporary_files:
+            os.remove(temporary_file)
 
         return
 
