@@ -26,6 +26,7 @@ lib/wrappers/shelx/shelxd.py -text
 lib/wrappers/shelx/shelxe.py -text
 src/__init__.py -text
 src/modules/__init__.py -text
+src/modules/find_sites.py -text
 src/modules/intensity_data_preparation.py -text
 src/modules/module_factory.py -text
 src/modules/pdb_preparation.py -text
