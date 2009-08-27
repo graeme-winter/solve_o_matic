@@ -1,0 +1,50 @@
+import os
+import sys
+
+if not os.environ.has_key('XIA2CORE_ROOT'):
+    raise RuntimeError, 'XIA2CORE_ROOT not defined'
+
+sys.path.append(os.path.join(os.environ['XIA2CORE_ROOT'],
+                             'Python'))
+
+from Driver.DriverFactory import DriverFactory
+
+def Mtz2sca(DriverType = None):
+
+    DriverInstance = DriverFactory.Driver(DriverType)
+
+    class Mtz2scaWrapper(DriverInstance.__class__):
+        '''A wrapper class for Mtz2sca.'''
+
+        def __init__(self):
+            DriverInstance.__class__.__init__(self)
+
+            self.set_executable('mtz2sca')
+
+            self._hklin = None
+            self._scaout = None
+
+            return
+
+        def set_hklin(self, hklin):
+            self._hklin = hklin
+            return
+
+        def set_scaout(self, scaout):
+            self._scaout = scaout
+            return
+
+        def mtz2sca(self):
+            self.add_command_line(hklin)
+            self.add_command_line(scaout)
+            self.start()
+            self.close_wait()
+            self.check_for_errors()
+
+            return
+
+    return Mtz2scaWrapper()
+
+if __name__ == '__main__':
+    # FIXME add a test in here
+    pass

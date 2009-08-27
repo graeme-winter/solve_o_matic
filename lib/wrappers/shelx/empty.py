@@ -1,0 +1,24 @@
+import os
+import sys
+
+if not os.environ.has_key('XIA2CORE_ROOT'):
+    raise RuntimeError, 'XIA2CORE_ROOT not defined'
+
+sys.path.append(os.path.join(os.environ['XIA2CORE_ROOT'],
+                             'Python'))
+
+from Driver.DriverFactory import DriverFactory
+
+def Empty(DriverType = None):
+
+    DriverInstance = DriverFactory.Driver(DriverType)
+
+    class EmptyWrapper(DriverInstance.__class__):
+        '''A wrapper class for Empty.'''
+
+        def __init__(self):
+            DriverInstance.__class__.__init__(self)
+
+            self.set_executable('empty')
+
+    return EmptyWrapper()

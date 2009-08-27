@@ -18,6 +18,8 @@ lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
+lib/wrappers/shelx/empty.py -text
+lib/wrappers/shelx/mtz2sca.py -text
 lib/wrappers/shelx/shelxc.py -text
 lib/wrappers/shelx/shelxd.py -text
 lib/wrappers/shelx/shelxe.py -text
