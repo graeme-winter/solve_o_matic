@@ -18,6 +18,9 @@ lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
+lib/wrappers/shelx/shelxc.py -text
+lib/wrappers/shelx/shelxd.py -text
+lib/wrappers/shelx/shelxe.py -text
 src/__init__.py -text
 src/modules/__init__.py -text
 src/modules/intensity_data_preparation.py -text
