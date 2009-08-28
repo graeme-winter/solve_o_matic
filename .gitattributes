@@ -1,5 +1,6 @@
 * text=auto !eol
 /README -text
+bin/empty_pipeline -text
 bin/ligand_pipeline -text
 bin/shelx_cc_weak_pipeline -text
 data/lyso_example_i.mtz -text
