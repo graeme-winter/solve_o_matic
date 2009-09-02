@@ -26,6 +26,10 @@ class refine:
         self._xyzin = None
         self._xyzout = None
 
+        # return values
+
+        self._residuals = { }
+
         return
 
     def set_working_directory(self, working_directory):
@@ -78,7 +82,28 @@ class refine:
         refmac5.set_mode_restrained()
         refmac5.refmac5()
 
+        # get the loggraphs out
+
+        loggraphs = refmac5.parse_ccp4_loggraph()
+        loggraph = loggraphs['Rfactor analysis, stats vs cycle']
+        
+        cycle_col = loggraph['columns'].index('Ncyc')
+        r_col = loggraph['columns'].index('Rfact')
+        rfree_col = loggraph['columns'].index('Rfree')
+        fom_col = loggraph['columns'].index('FOM')
+
+        for record in loggraph['data']:
+            cycle = int(record[cycle_col])
+            r = float(record[r_col])
+            rfree = float(record[rfree_col])
+            fom = float(record[fom_col])
+
+            self._residuals[cycle] = (r, rfree, fom)
+
         return
+
+    def get_residuals(self):
+        return self._residuals
 
 if __name__ == '__main__':
     # then I should run a test...

@@ -183,6 +183,15 @@ class ligand_pipeline:
         r.set_xyzout(self._xyzout)
         r.refine()
 
+        # and print out the residuals
+
+        residuals = r.get_residuals()
+
+        print '%5s %6s %6s %6s' % ('Cycle', 'Rwork', 'Rfree', 'FOM')
+        for cycle in sorted(residuals):
+            r, rfree, fom = residuals[cycle]
+            print '%5d %6.4f %6.4f %6.4f' % (cycle, r, rfree, fom)
+
         for temporary_file in temporary_files:
             os.remove(temporary_file)
 
