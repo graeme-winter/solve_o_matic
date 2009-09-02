@@ -11,6 +11,10 @@ if not os.environ['SOM_ROOT'] in sys.path:
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
 
+# N.B. definition of CRYST1 record from
+# http://www.rcsb.org/robohelp/files_formats/structures/pdb/\
+# coordinate_file_description/cryst1.htm
+
 class interrogate_pdb:
 
     def __init__(self):
