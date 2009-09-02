@@ -136,9 +136,13 @@ class ligand_pipeline:
 
         for j in range(6):
             if (math.fabs(pdb_cell[j] - cell[j]) / cell[j]) > 0.1:
+                for temporary_file in temporary_files:
+                    os.remove(temporary_file)
                 raise RuntimeError, 'mismatching unit cell constants'
 
         if pdb_symmetry != self._symmetry.replace(' ', ''):
+            for temporary_file in temporary_files:
+                os.remove(temporary_file)                
             raise RuntimeError, 'mismatching symmetry'
 
         # copy the experimental cell constants in to the pdb file -> this 
