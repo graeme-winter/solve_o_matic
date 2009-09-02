@@ -63,6 +63,11 @@ class intensity_data_preparation:
         return
 
     def set_symmetry(self, symmetry):
+
+        # verify that this symmetry is recognised
+
+        pointgroup = self._symmetry_information.get_pointgroup(symmetry)
+
         self._symmetry = symmetry
         return
     
@@ -95,14 +100,17 @@ class intensity_data_preparation:
         # specified symmetry
 
         im = interrogate_mtz()
-        im..set_working_directory(self._working_directory)
-        im.set_hklin(hklin)
+        im.set_working_directory(self._working_directory)
+        im.set_hklin(self._hklin)
         im.interrogate_mtz()
+        
         cell = im.get_cell()
         symmetry = im.get_symmetry()
 
         if self._symmetry_information.get_pointgroup(symmetry) != \
            self._symmetry_information.get_pointgroup(self._symmetry):
+            for temporary_file in temporary_files:
+                os.remove(temporary_file)
             raise RuntimeError, 'symmetry mismatch'
 
         # this will implement the following procedure:

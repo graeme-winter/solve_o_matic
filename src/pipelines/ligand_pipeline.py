@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 
 if not 'SOM_ROOT' in os.environ:
     raise RuntimeError, 'SOM_ROOT undefined'
@@ -87,7 +88,17 @@ class ligand_pipeline:
             raise RuntimeError, 'xyzout not defined'
 
         if not self._symmetry:
-            raise RuntimeError, 'symmetry not defined'
+            # copy the symmetry from the input pdb, if no reindex operation
+            # set...
+
+            if self._reindex_op:
+                raise RuntimeError, 'symmetry not defined'
+            
+            ip = self.module().interrogate_pdb()
+            ip.set_xyzin(self._xyzin)
+            ip.interrogate_pdb()
+            self._symmetry = ip.get_symmetry()
+            
     
         # prepare intensity data
 
@@ -110,8 +121,28 @@ class ligand_pipeline:
         
         im = self.module().interrogate_mtz()
         im.set_hklin(hklin)
-        im.interrogate()
+        im.interrogate_mtz()
         cell = im.get_cell()
+
+        # verify that the resulting unit cell corresponds (roughly)
+        # to the CRYST1 record: allow 10% - note well that this has to
+        # follow the data preparation
+
+        ip = self.module().interrogate_pdb()
+        ip.set_xyzin(self._xyzin)
+        ip.interrogate_pdb()
+        pdb_cell = ip.get_cell()
+        pdb_symmetry = ip.get_symmetry()
+
+        for j in range(6):
+            if (math.fabs(pdb_cell[j] - cell[j]) / cell[j]) > 0.1:
+                raise RuntimeError, 'mismatching unit cell constants'
+
+        if pdb_symmetry != self._symmetry.replace(' ', ''):
+            raise RuntimeError, 'mismatching symmetry'
+
+        # copy the experimental cell constants in to the pdb file -> this 
+        # should give better refinement results
 
         xyzout = os.path.join(self.get_working_directory(),
                               '%s_pp.pdb' % name)
@@ -155,16 +186,21 @@ class ligand_pipeline:
 
 if __name__ == '__main__':
 
-    if len(sys.argv) < 6 or len(sys.argv) > 7:
+    if len(sys.argv) < 5 or len(sys.argv) > 7:
         raise RuntimeError, \
-              '%s hklin xyzin hklout xyzout symm [reindex_op]' % sys.argv[0]
+              '%s hklin xyzin hklout xyzout [symm] [reindex_op]' % sys.argv[0]
 
     hklin = sys.argv[1]
     xyzin = sys.argv[2]
     hklout = sys.argv[3]
     xyzout = sys.argv[4]
-    symmetry = sys.argv[5]
-    if len(sys.argv) == 7:
+
+    if len(sys.argv) > 5:
+        symmetry = sys.argv[5]
+    else:
+        symmetry = None
+        
+    if len(sys.argv) > 6:
         reindex_op = sys.argv[6]
     else:
         reindex_op = None
@@ -174,7 +210,9 @@ if __name__ == '__main__':
     lp.set_hklout(hklout)
     lp.set_xyzin(xyzin)
     lp.set_xyzout(xyzout)
-    lp.set_symmetry(symmetry)
+    
+    if symmetry:
+        lp.set_symmetry(symmetry)
     if reindex_op:
         lp.set_reindex_op(reindex_op)
 

@@ -47,6 +47,10 @@ class symmetry_information:
         return self._short_name_to_long_name[short_name]
 
     def get_short_name(self, long_name):
+
+        if long_name in self._short_name_to_long:
+            return long_name
+
         if not long_name in self._long_name_to_short_name:
             raise RuntimeError, 'long name %s not known' % long_name
 
