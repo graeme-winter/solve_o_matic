@@ -7,17 +7,17 @@ if not 'SOM_ROOT' in os.environ:
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
     
-# now import the factories that we will need
+# now import the factories that we may need
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
 
-class interrogate_mtz:
+class interrogate_pdb:
 
     def __init__(self):
         self._working_directory = os.getcwd()
         self._ccp4_factory = ccp4_factory()
 
-        self._hklin = None
+        self._xyzin = None
 
         # return results
 
@@ -32,30 +32,28 @@ class interrogate_mtz:
     def get_working_directory(self):
         return self._working_directory
 
-    def set_hklin(self, hklin):
-        self._hklin = hklin
+    def set_xyzin(self, xyzin):
+        self._xyzin = xyzin
         return
 
     def ccp4(self):
         return self._ccp4_factory
 
-    def interrogate_mtz(self):
-        if not self._hklin:
-            raise RuntimeError, 'hklin not defined'
+    def interrogate_pdb(self):
+        if not self._xyzin:
+            raise RuntimeError, 'xyzin not defined'
 
-        mtzdump = self.ccp4().mtzdump()
-        mtzdump.set_hklin(self._hklin)
-        mtzdump.mtzdump()
-        
-        datasets = mtzdump.get_datasets()
-        
-        if len(datasets) != 1:
-            raise RuntimeError, 'need exactly one data set in %s' % \
-                  self._hklin
-    
-        info = mtzdump.get_dataset_info(datasets[0])
-        self._cell = tuple(info['cell'])
-        self._symmetry = info['symmetry']
+        for record in open(self._xyzin):
+            if 'CRYST1' in record[:6]:
+                cell = map(float, record[6:54].split())
+                symmetry = record[55:66].strip().replace(' ', '')
+                break
+
+        if not cell or not symmetry:
+            raise RuntimeError, 'CRYST1 record not found in %s' % self._xyzin
+
+        self._cell = tuple(cell)
+        self._symmetry = symmetry
 
         return
 
@@ -66,7 +64,9 @@ class interrogate_mtz:
         return self._symmetry
 
 if __name__ == '__main__':
-    # FIXME add a test here
-
-    pass
+    ip = interrogate_pdb()
+    ip.set_xyzin(sys.argv[1])
+    ip.interrogate_pdb()
+    print '%6.3f %6.3f %6.3f %6.3f %6.3f %6.3f' % ip.get_cell()
+    print ip.get_symmetry()
 

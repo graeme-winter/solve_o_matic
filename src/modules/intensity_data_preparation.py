@@ -6,6 +6,11 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
+
+# external modules used here
+
+from interrogate_mtz import interrogate_mtz
+from symmetry_information import symmetry_information
     
 # now import the factories that we will need
 
@@ -32,7 +37,9 @@ class intensity_data_preparation:
 
         self._symmetry = None
         self._reindex_op = None
-        
+
+        self._symmetry_information = symmetry_information()
+               
         return
 
     def set_working_directory(self, working_directory):
@@ -83,6 +90,20 @@ class intensity_data_preparation:
 
         if not self._symmetry:
             raise RuntimeError, 'symmetry not defined'
+
+        # first check that the crystal pointgroup corresponds to the
+        # specified symmetry
+
+        im = interrogate_mtz()
+        im..set_working_directory(self._working_directory)
+        im.set_hklin(hklin)
+        im.interrogate_mtz()
+        cell = im.get_cell()
+        symmetry = im.get_symmetry()
+
+        if self._symmetry_information.get_pointgroup(symmetry) != \
+           self._symmetry_information.get_pointgroup(self._symmetry):
+            raise RuntimeError, 'symmetry mismatch'
 
         # this will implement the following procedure:
         #

@@ -32,10 +32,12 @@ src/modules/__init__.py -text
 src/modules/find_sites.py -text
 src/modules/intensity_data_preparation.py -text
 src/modules/interrogate_mtz.py -text
+src/modules/interrogate_pdb.py -text
 src/modules/module_factory.py -text
 src/modules/pdb_preparation.py -text
 src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
+src/modules/symmetry_information.py -text
 src/pipelines/__init__.py -text
 src/pipelines/ligand_pipeline.py -text
 src/pipelines/shelx_cc_weak_pipeline.py -text

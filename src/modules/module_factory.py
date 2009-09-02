@@ -6,6 +6,9 @@ from pdb_preparation import pdb_preparation as _pdb_preparation
 from rigid_body_refine import rigid_body_refine as _rigid_body_refine
 from refine import refine as _refine
 from interrogate_mtz import interrogate_mtz as _interrogate_mtz
+from interrogate_pdb import interrogate_pdb as _interrogate_pdb
+from symmetry_information import symmetry_information as \
+     _symmetry_information
 from find_sites import find_sites as _find_sites
 
 class module_factory:
@@ -45,6 +48,14 @@ class module_factory:
         interrogate_mtz_instance = _interrogate_mtz()
         interrogate_mtz_instance.set_working_directory(self._working_directory)
         return interrogate_mtz_instance
+
+    def interrogate_pdb(self):
+        interrogate_pdb_instance = _interrogate_pdb()
+        interrogate_pdb_instance.set_working_directory(self._working_directory)
+        return interrogate_pdb_instance
+
+    def symmetry_information(self):
+        return _symmetry_information()
 
     def find_sites(self):
         find_sites_instance = _find_sites()
