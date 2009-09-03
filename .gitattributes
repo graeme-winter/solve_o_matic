@@ -1,8 +1,8 @@
 * text=auto !eol
 /README -text
 bin/empty_pipeline -text
-bin/ligand_pipeline -text
-bin/shelx_cc_weak_pipeline -text
+bin/som.difference_map -text
+bin/som.substructure -text
 data/lyso_example_i.mtz -text
 lib/__init__.py -text
 lib/objects/__init__.py -text
@@ -39,5 +39,5 @@ src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
 src/modules/symmetry_information.py -text
 src/pipelines/__init__.py -text
-src/pipelines/ligand_pipeline.py -text
-src/pipelines/shelx_cc_weak_pipeline.py -text
+src/pipelines/difference_map.py -text
+src/pipelines/substructure.py -text
