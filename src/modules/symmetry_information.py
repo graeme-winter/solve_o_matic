@@ -38,6 +38,12 @@ class symmetry_information:
             self._long_name_to_short_name[long_name] = short_name
             self._short_name_to_pointgroup[short_name] = pointgroup
 
+            # cope with long names with no spaces, e.g. P1211
+
+            long_name_ns = long_name.replace(' ', '')
+            if not long_name_ns in self._long_name_to_short_name:
+                self._long_name_to_short_name[long_name_ns] = short_name
+
         return
 
     def get_long_name(self, short_name):
