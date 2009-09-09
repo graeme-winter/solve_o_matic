@@ -16,8 +16,10 @@ lib/wrappers/ccp4/empty.py -text
 lib/wrappers/ccp4/freerflag.py -text
 lib/wrappers/ccp4/mtzdump.py -text
 lib/wrappers/ccp4/pdbset.py -text
+lib/wrappers/ccp4/pointless.py -text
 lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text
+lib/wrappers/ccp4/sfall.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
 lib/wrappers/shelx/__init__.py -text
