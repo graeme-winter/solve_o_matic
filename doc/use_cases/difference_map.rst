@@ -89,3 +89,29 @@ In the first pass the following procedure will be implemented:
 - Perform restrained refinement to calculate map from resulting reorientated
   molecule.
 
+The data preparation step will be defined in a separate use case, as this 
+will be used in several places (this will essentially take the intensity 
+measurements from data reduction and as necessary assign the correct 
+spacegroup, then calculate structure factor amplitudes using the 
+TRUNCATE procedure and add a FreeR column. It may be necessary to allow
+provision of a previous data set which may already have FreeR assigned, in 
+which case complete this. This should include an analysis of the axial 
+reflections to estimate the correct spacegroup screw axes.
+
+To determine the correct setting from a model alone it will be necessary to 
+compare the cell constants if these are not ambiguous i.e. differences between
+a, b, c more than 10 percent. If there is some ambiguity then it will be 
+necessary to calculate a reference reflection file using sfcalc, sftools
+and cad, then use pointless to calculate the appropriate reindexing operation 
+to this reference for the measured diffraction data.
+
+The refinement steps will use refmac5 and a fairly standard set of scripts. 
+This is necessary as many industrial users are not licensed to use phenix and 
+I also don't know where we stand with this.
+
+Licensing
+=========
+
+During development this will not be distributed. When it is "finished" the 
+resulting pipeline should be made available to CCP4 using an EDNA framework
+to provide the interface.
