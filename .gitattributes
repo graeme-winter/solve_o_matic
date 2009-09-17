@@ -12,7 +12,6 @@ doc/use_cases/data_preparation.pdf -text
 doc/use_cases/data_preparation.rst -text
 doc/use_cases/difference_map.pdf -text
 doc/use_cases/difference_map.rst -text
-doc/use_cases/fast_data_reduction.pdf -text svneol=unset#unset
 doc/use_cases/fast_data_reduction.rst -text
 doc/use_cases/readme.rst -text
 lib/__init__.py -text
