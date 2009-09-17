@@ -53,7 +53,6 @@ Error States
 
 To be defined.
 
-
 Process
 =======
 
@@ -62,7 +61,10 @@ FIXME
 License
 =======
 
-FIXME 
+During development this will not be distributed. When it is "finished" the 
+resulting pipeline should be made available to CCP4 using an EDNA framework
+to provide the interface.
+
 
 
 

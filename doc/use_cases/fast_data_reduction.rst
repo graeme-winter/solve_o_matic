@@ -141,8 +141,8 @@ On the latter, will move towards the use of templates for different XDS steps
 which may be kept in a library of their own. This will allow additional
 detectors to be defined and used easily.
 
-Licensing
-=========
+License
+=======
 
 During development this will not be distributed. When it is "finished" the 
 resulting pipeline should be made available to CCP4 using an EDNA framework
