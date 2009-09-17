@@ -5,6 +5,7 @@ bin/som.difference_map -text
 bin/som.substructure -text
 data/lyso_example_i.mtz -text
 doc/architecture/model_phaser.rst -text
+doc/architecture/overview.rst -text
 doc/use_cases/data_preparation.rst -text
 doc/use_cases/difference_map.rst -text
 doc/use_cases/fast_data_reduction.rst -text
