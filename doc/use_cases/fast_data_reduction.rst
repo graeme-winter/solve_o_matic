@@ -29,6 +29,14 @@ A primary aim of this is to give back:
 
 - Measurements for downstream processing e.g. difference map calculation
 
+The seconary uses for this are:
+
+- Provide beamline scienists / local contacts with a real-time idea of how
+  the beamline is behaving
+
+- Check that all of the images are ok (i.e. not blank) for example from 
+  the output of COLSPOT, NSTRONG pixels.
+
 Preconditions
 =============
 
@@ -65,6 +73,41 @@ The following error states may be defined:
 
 - Data reduction was successful, but the unit cell and spacegroup given 
   are not possible
+
+- Images missing from the given sequence
+
+- Images present but blank
+
+Data Reduction Failed
+---------------------
+
+This is the circumstance where something went wrong. Need to enumerate these.
+In some cases it will be that the data reduction jobs fell off the cluster.
+
+Disagreement with Unit Cell / Spacegroup
+----------------------------------------
+
+If the unit cell and spacegroup were specified and they did not match one
+of the options from IDXREF then the user should be informed, however the 
+cell constants and symmetry should be ignored and data reduction continued.
+This may occur when a new crystal form is found, so it is potentially 
+valuable.
+
+Images Missing
+--------------
+
+If there are apparently images missing (i.e. 1-65, 67-90 are visible) then
+an error should be raised and the offending images identified.
+
+Images Blank
+------------
+
+If there were untrapped problems during data collection it may be the case
+that there are blank images. These will be found by running XDS COLSPOT
+on all available frames (over the cluster again, perhaps) and the number
+of strong pixels reported on each frame identified. If there is a sudden 
+change in this (e.g. one or a few blank images somewhere) this should be
+raised as an exception.
 
 Process
 =======
