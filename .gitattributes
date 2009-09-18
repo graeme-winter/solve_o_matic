@@ -15,6 +15,8 @@ doc/specifications/difference_map.rst -text
 doc/specifications/fast_data_reduction.pdf -text
 doc/specifications/fast_data_reduction.rst -text
 doc/specifications/readme.rst -text
+doc/use_cases/top_level.pdf -text
+doc/use_cases/top_level.rst -text
 lib/__init__.py -text
 lib/interfaces/AtomPhaser.py -text
 lib/interfaces/MADAtomPhaser.py -text
