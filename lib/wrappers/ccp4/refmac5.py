@@ -46,6 +46,7 @@ def Refmac5(DriverType = None):
             self._mode_rigidbody = 'RIGIDBODY'
 
             self._mode = None
+            self._ncycles = None
             
             return
 
@@ -55,6 +56,12 @@ def Refmac5(DriverType = None):
 
         def set_labout(self, program_label, file_label):
             self._labout[program_label] = file_label
+            return
+
+        def set_ncycles(self, ncycles):
+            '''Set the number of cycles of refinement to use.'''
+            
+            self._ncycles = ncycles
             return
 
         def set_mode_rigidbody(self):
@@ -103,13 +110,19 @@ def Refmac5(DriverType = None):
                 self.input('weight matrix 0.2')
                 self.input('scale type simple lssc anisotropic experimental')
                 self.input('solvent yes vdwprob 1.4 ionprob 0.8 mshrink 0.8')
-                self.input('ncycle 15')
+                if self._ncycles is None:
+                    self.input('ncycle 15')
+                else:
+                    self.input('ncycle %d' % self._ncycles)
                 
             elif self._mode == self._mode_rigidbody:
                 self.input('refinement type rigidbody resolution 15 3.5')
                 self.input('scale type simple lssc anisotropic experimental')
                 self.input('solvent yes vdwprob 1.4 ionprob 0.8 mshrink 0.8')
-                self.input('rigidbody ncycle 10')
+                if self._ncycles is None:
+                    self.input('rigidbody ncycle 10')
+                else:
+                    self.input('rigidbody ncycle %d' % self._ncycles)
 
             else:
                 pass
