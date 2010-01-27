@@ -126,6 +126,11 @@ def Refmac5(DriverType = None):
 
             else:
                 pass
+
+            # always switch on the TWIN keyword to cope with awkward
+            # reindexing issues... thanks, Garib.
+
+            self.input('twin')
                 
             self.close_wait()
 
