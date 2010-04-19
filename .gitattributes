@@ -2,6 +2,7 @@
 /README -text
 bin/empty_pipeline -text
 bin/som.difference_map -text
+bin/som.dimple -text
 bin/som.substructure -text
 data/lyso_example_i.mtz -text
 doc/architecture/model_phaser.pdf -text
@@ -62,4 +63,5 @@ src/modules/rigid_body_refine.py -text
 src/modules/symmetry_information.py -text
 src/pipelines/__init__.py -text
 src/pipelines/difference_map.py -text
+src/pipelines/dimple.py -text
 src/pipelines/substructure.py -text
