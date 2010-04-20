@@ -275,7 +275,7 @@ if __name__ == '__main__':
     candidates = []
 
     for arg in sys.argv:
-        if os.path.split(arg)[-1].replace('.pdb', '') in os.getcwd():
+        if os.path.split(arg)[-1].split('.')[0] in os.getcwd():
             candidates.append(arg)
 
     if len(candidates) == 0:
@@ -289,6 +289,8 @@ if __name__ == '__main__':
 
     if not xyzin:
         raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
+
+    print 'Selected %s' % xyzin
 
     im = module_factory().interrogate_mtz()
     im.set_hklin(hklin)

@@ -82,9 +82,12 @@ class refine:
         refmac5.set_mode_restrained()
         refmac5.refmac5()
 
+        # fixme - check the status
+
         # get the loggraphs out
 
         loggraphs = refmac5.parse_ccp4_loggraph()
+
         loggraph = loggraphs['Rfactor analysis, stats vs cycle']
         
         cycle_col = loggraph['columns'].index('Ncyc')
