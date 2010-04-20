@@ -50,7 +50,7 @@ class interrogate_pdb:
         for record in open(self._xyzin):
             if 'CRYST1' in record[:6]:
                 cell = map(float, record[6:54].split())
-                symmetry = record[55:66].strip().replace(' ', '')
+                symmetry = record[55:66].strip()
                 break
 
         if not cell or not symmetry:
@@ -65,12 +65,14 @@ class interrogate_pdb:
         return self._cell
 
     def get_symmetry(self):
+        return self._symmetry.replace(' ', '')
+
+    def get_symmetry_full(self):
         return self._symmetry
 
 if __name__ == '__main__':
-    ip = interrogate_pdb()
-    ip.set_xyzin(sys.argv[1])
-    ip.interrogate_pdb()
-    print '%6.3f %6.3f %6.3f %6.3f %6.3f %6.3f' % ip.get_cell()
-    print ip.get_symmetry()
 
+    im = interrogate_pdb()
+    im.set_xyzin(os.path.join(os.environ['SOM_ROOT'], 'data', 'insulin.pdb'))
+    im.interrogate_pdb()
+    print im.get_symmetry_full()

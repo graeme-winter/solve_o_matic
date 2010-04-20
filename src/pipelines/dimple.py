@@ -199,33 +199,109 @@ class ligand_pipeline:
 
         return
 
+# function to guess the point group
+
+def ersatz_pointgroup(spacegroup):
+    
+    result = ''
+
+    for token in spacegroup.split():
+        result += token[0]
+
+    return result
+
+# add a function in here to select the right PDB file - defined as having
+# something in common name-wise and having the same pointgroup
+
+def select_right_pdb(hklin, pdb_list):
+    '''Find a reflection file which appears to have the right symmetry.'''
+
+    candidates = []
+
+    im = self.module().interrogate_mtz()
+    im.set_hklin(hklin)
+    im.interrogate_mtz()
+    reference = ersatz_pointgroup(im.get_symmetry())
+
+    for xyzin in pdblist:
+        ip = self.module().interrogate_pdb()
+        ip.set_xyzin(xyzin)
+        ip.interrogate_pdb()
+        if reference == ersatz_pointgroup(ip.get_symmetry_full()):
+            candidates.append(xyzin)
+
+    assert(len(candidates) == 1)
+
+    return candidates[0]
+
+# then add a function to determine (if possible) the right reindexing
+# operation for orthorhombic spacegroups
+
+def test_orthorhombic(ref_cell, test_cell):
+
+    for j in 3, 4, 5:
+        if int(round(ref_cell[j])) != 90:
+            return None
+
+    for j in 3, 4, 5:
+        assert(int(round(test_cell[j])) == 90)
+
+    a, b, c = tuple(test_cell[:3])
+
+    best = a * a + b * b * c * c
+    best_rdx = None
+
+    for test, reindex in ((a, b, c), 'h,k,l'), \
+            ((b, c, a), 'k,l,h'), \
+            ((c, a, b), 'l,h,k'):
+        
+        diff = sum(
+            [(test[j] - ref_cell[j]) * (test[j] - ref_cell[j]) \
+             for j in range(3)])
+
+        if diff < best:
+            best = diff
+            best_rdx = reindex
+
+    assert(best_rdx)
+
+    return best_rdx
+
+# then add a function which will run pointless
+
 if __name__ == '__main__':
 
     xyzin = None
 
+    candidates = []
+
     for arg in sys.argv:
         if os.path.split(arg)[-1].replace('.pdb', '') in os.getcwd():
-            if xyzin:
-                raise RuntimeError, 'multiple candidate pdb files: %s %s' % \
-                      (xyzin, arg)
-            xyzin = arg
+            candidates.append(arg)
 
-    if not xyzin:
+    if len(candidates) == 0:
         raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
 
     hklin = 'fast_dp.mtz'
     hklout = 'map.mtz'
     xyzout = 'refined.pdb'
 
-    if len(sys.argv) > 5:
-        symmetry = sys.argv[5]
-    else:
-        symmetry = None
-        
-    if len(sys.argv) > 6:
-        reindex_op = sys.argv[6]
-    else:
-        reindex_op = None
+    xyzin = select_right_pdb(hklin, candidates)
+
+    if not xyzin:
+        raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
+
+    im = self.module().interrogate_mtz()
+    im.set_hklin(hklin)
+    im.interrogate_mtz()
+    if ersatz_pointgroup(im.get_symmetry()) == 'P222':
+
+        # compare unit cells...
+
+        ip = self.module().interrogate_pdb()
+        ip.set_xyzin(xyzin)
+        ip.interrogate_pdb()
+        reindex_op = test_orthorhombic(ip.get_cell(), im.get_cell())
 
     lp = ligand_pipeline()
     lp.set_hklin(hklin)
@@ -233,9 +309,8 @@ if __name__ == '__main__':
     lp.set_xyzin(xyzin)
     lp.set_xyzout(xyzout)
     
-    if symmetry:
-        lp.set_symmetry(symmetry)
     if reindex_op:
         lp.set_reindex_op(reindex_op)
 
     lp.ligand_pipeline()
+

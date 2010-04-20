@@ -66,7 +66,8 @@ class interrogate_mtz:
         return self._symmetry
 
 if __name__ == '__main__':
-    # FIXME add a test here
-
-    pass
+    im = interrogate_mtz()
+    im.set_hklin(os.path.join(os.environ['SOM_ROOT'], 'data', 'insulin.mtz'))
+    im.interrogate_mtz()
+    print im.get_symmetry()
 
