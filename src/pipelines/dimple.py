@@ -100,8 +100,7 @@ class ligand_pipeline:
             ip.set_xyzin(self._xyzin)
             ip.interrogate_pdb()
             self._symmetry = ip.get_symmetry()
-            
-    
+                
         # prepare intensity data
 
         name = os.path.split(self._hklin)[-1][:-4]
