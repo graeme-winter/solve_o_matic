@@ -217,13 +217,13 @@ def select_right_pdb(hklin, pdb_list):
 
     candidates = []
 
-    im = self.module().interrogate_mtz()
+    im = module_factory().interrogate_mtz()
     im.set_hklin(hklin)
     im.interrogate_mtz()
     reference = ersatz_pointgroup(im.get_symmetry())
 
-    for xyzin in pdblist:
-        ip = self.module().interrogate_pdb()
+    for xyzin in pdb_list:
+        ip = module_factory().interrogate_pdb()
         ip.set_xyzin(xyzin)
         ip.interrogate_pdb()
         if reference == ersatz_pointgroup(ip.get_symmetry_full()):
@@ -290,14 +290,17 @@ if __name__ == '__main__':
     if not xyzin:
         raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
 
-    im = self.module().interrogate_mtz()
+    im = module_factory().interrogate_mtz()
     im.set_hklin(hklin)
     im.interrogate_mtz()
+
+    reindex_op = None
+    
     if ersatz_pointgroup(im.get_symmetry()) == 'P222':
 
         # compare unit cells...
 
-        ip = self.module().interrogate_pdb()
+        ip = module_factory().interrogate_pdb()
         ip.set_xyzin(xyzin)
         ip.interrogate_pdb()
         reindex_op = test_orthorhombic(ip.get_cell(), im.get_cell())
