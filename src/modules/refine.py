@@ -82,6 +82,13 @@ class refine:
         refmac5.set_mode_restrained()
         refmac5.refmac5()
 
+        fout = open('refmac_restrained.log', 'w')
+
+        for record in refmac5.get_all_output():
+            fout.write(record)
+
+        fout.close()
+
         # fixme - check the status
 
         # get the loggraphs out
