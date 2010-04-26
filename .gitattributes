@@ -38,6 +38,7 @@ lib/wrappers/ccp4/empty.py -text
 lib/wrappers/ccp4/freerflag.py -text
 lib/wrappers/ccp4/mtzdump.py -text
 lib/wrappers/ccp4/pdbset.py -text
+lib/wrappers/ccp4/phaser.py -text
 lib/wrappers/ccp4/pointless.py -text
 lib/wrappers/ccp4/refmac5.py -text
 lib/wrappers/ccp4/reindex.py -text

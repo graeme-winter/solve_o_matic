@@ -14,6 +14,13 @@ if not os.environ['SOM_ROOT'] in sys.path:
 
 from modules.module_factory import module_factory
 
+# static variables for different modes - think C/C++ #defines
+
+LP_MODE_MR = 'molecular replacement'
+LP_MODE_MS = 'molecular substitution'
+
+LP_MODES = [LP_MODE_MR, LP_MODE_MS]
+
 class ligand_pipeline:
 
     def __init__(self):
@@ -30,8 +37,29 @@ class ligand_pipeline:
 
         self._symmetry = None
         self._reindex_op = None
+
+        self._mode = LP_MODE_MS
         
         return
+
+    def set_mode(self, mode):
+        assert(mode in LP_MODES)
+        self._mode = mode
+        return
+
+    def set_mode_molecular_replacement(self):
+        self._mode = LP_MODE_MR
+        return
+
+    def set_mode_molecular_substitution(self):
+        self._mode = LP_MODE_MS
+        return
+
+    def get_mode(self):
+        return self._mode
+
+    def get_modes(self):
+        return LP_MODES
     
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
@@ -69,6 +97,14 @@ class ligand_pipeline:
         return self._factory
 
     def ligand_pipeline(self):
+        if self._mode == LP_MODE_MS:
+            return ligand_pipeline_molecular_substitution()
+        if self._mode == LP_MODE_MR:
+            return ligand_pipeline_molecular_replacement()
+
+        raise RuntimeError, 'unhandled mode: %s' % self._mode
+
+    def ligand_pipeline_molecular_substitution(self):
 
         # this will run the following pipeline:
         #
@@ -165,6 +201,7 @@ class ligand_pipeline:
         xyzin = xyzout
         xyzout = os.path.join(self.get_working_directory(),
                               '%s_rb.pdb' % name)
+
         temporary_files.append(xyzout)
         
         rbr = self.module().rigid_body_refine()
@@ -172,6 +209,141 @@ class ligand_pipeline:
         rbr.set_xyzin(xyzin)
         rbr.set_xyzout(xyzout)
         rbr.rigid_body_refine()
+
+        # then the "proper" refinement
+
+        xyzin = xyzout
+        
+        r = self.module().refine()
+        r.set_hklin(hklin)
+        r.set_hklout(self._hklout)
+        r.set_xyzin(xyzin)
+        r.set_xyzout(self._xyzout)
+        r.refine()
+
+        # and print out the residuals
+
+        residuals = r.get_residuals()
+
+        print '%5s %6s %6s %6s' % ('Cycle', 'Rwork', 'Rfree', 'FOM')
+        for cycle in sorted(residuals):
+            r, rfree, fom = residuals[cycle]
+            print '%5d %6.4f %6.4f %6.4f' % (cycle, r, rfree, fom)
+
+        for temporary_file in temporary_files:
+            os.remove(temporary_file)
+
+        return
+
+    def ligand_pipeline_molecular_replacement(self):
+
+        # this will run the following pipeline:
+        #
+        # get the cell constants -> prepare the intensity data ->
+        # prepare the pdb file -> rigid body refinement -> real refinement
+        
+        temporary_files = []
+
+        if not self._hklin:
+            raise RuntimeError, 'hklin not defined'
+
+        if not self._hklout:
+            raise RuntimeError, 'hklout not defined'
+
+        if not self._xyzin:
+            raise RuntimeError, 'xyzin not defined'
+
+        if not self._xyzout:
+            raise RuntimeError, 'xyzout not defined'
+
+        if not self._symmetry:
+            # copy the symmetry from the input pdb, if no reindex operation
+            # set...
+
+            if self._reindex_op:
+                raise RuntimeError, 'symmetry not defined'
+            
+            ip = self.module().interrogate_pdb()
+            ip.set_xyzin(self._xyzin)
+            ip.interrogate_pdb()
+            self._symmetry = ip.get_symmetry()
+                
+        # prepare intensity data
+
+        name = os.path.split(self._hklin)[-1][:-4]
+        hklout = os.path.join(self.get_working_directory(),
+                              '%s_idp.mtz' % name)
+        temporary_files.append(hklout)
+
+        idp = self.module().intensity_data_preparation()
+        idp.set_hklin(self._hklin)
+        idp.set_hklout(hklout)
+        idp.set_symmetry(self._symmetry)
+        if self._reindex_op:
+            idp.set_reindex_op(self._reindex_op)
+        idp.prepare_data_native()
+
+        hklin = hklout
+
+        # prepare the pdb file
+        
+        im = self.module().interrogate_mtz()
+        im.set_hklin(hklin)
+        im.interrogate_mtz()
+        cell = im.get_cell()
+
+        # verify that the resulting unit cell corresponds (roughly)
+        # to the CRYST1 record: allow 10% - note well that this has to
+        # follow the data preparation
+
+        ip = self.module().interrogate_pdb()
+        ip.set_xyzin(self._xyzin)
+        ip.interrogate_pdb()
+        pdb_cell = ip.get_cell()
+        pdb_symmetry = ip.get_symmetry()
+
+        for j in range(6):
+            if (math.fabs(pdb_cell[j] - cell[j]) / cell[j]) > 0.1:
+                for temporary_file in temporary_files:
+                    os.remove(temporary_file)
+                raise RuntimeError, 'mismatching unit cell constants'
+
+        if pdb_symmetry != self._symmetry.replace(' ', ''):
+            for temporary_file in temporary_files:
+                os.remove(temporary_file)                
+            raise RuntimeError, 'mismatching symmetry'
+
+        # copy the experimental cell constants in to the pdb file -> this 
+        # should give better refinement results
+
+        xyzout = os.path.join(self.get_working_directory(),
+                              '%s_pp.pdb' % name)
+        temporary_files.append(xyzout)
+
+        pp = self.module().pdb_preparation()
+        pp.set_xyzin(self._xyzin)
+        pp.set_xyzout(xyzout)
+        pp.set_symmetry(self._symmetry)
+        pp.set_cell(cell)
+        pp.prepare_pdb_refine()
+        
+        # run some molecular replacement
+
+        xyzin = xyzout
+        xyzout = os.path.join(self.get_working_directory(),
+                              '%s_rb.pdb' % name)
+
+        hklout = os.path.join(self.get_working_directory(),
+                              '%s_rb.mtz' % name)
+
+        temporary_files.append(xyzout)
+        
+        mr = self.module().molecular_replace()
+        mr.set_hklin(hklin)
+        mr.set_hklout(hklout)
+        mr.set_xyzin(xyzin)
+        mr.set_xyzout(xyzout)
+        mr.molecular_replace()
 
         # then the "proper" refinement
 
@@ -213,7 +385,7 @@ def ersatz_pointgroup(spacegroup):
 # something in common name-wise and having the same pointgroup
 
 def select_right_pdb(hklin, pdb_list):
-    '''Find a reflection file which appears to have the right symmetry.'''
+    '''Find a coordinate file which appears to have the right symmetry.'''
 
     candidates = []
 
@@ -222,21 +394,45 @@ def select_right_pdb(hklin, pdb_list):
     im.interrogate_mtz()
     reference = ersatz_pointgroup(im.get_symmetry())
 
+    reference_cell = im.get_cell()
+
+    cells = { }
+
     for xyzin in pdb_list:
         ip = module_factory().interrogate_pdb()
         ip.set_xyzin(xyzin)
         ip.interrogate_pdb()
         if reference == ersatz_pointgroup(ip.get_symmetry_full()):
             candidates.append(xyzin)
+            cells[xyzin] = ip.get_cell()
 
-    assert(len(candidates) == 1)
+    if len(candidates) == 0:
+        raise RuntimeError, 'no matching coordinate files found'
 
-    return candidates[0]
+    # then if there are more than one, see if one matches closer than
+    # the others... do this by sorting on the absolute differences in
+    # cell constants then picking the closest match
+
+    if len(candidates) == 1:
+        return candidates[0]
+
+    diffs = []
+
+    for xyzin in candidates:
+        diff = sum([math.fabs(reference_cell[j] - cells[xyzin][j]) \
+                    for j in range(6)])
+        diffs.append((diff, xyzin))
+
+    diffs.sort()
+
+    return diffs[0][1]
 
 # then add a function to determine (if possible) the right reindexing
 # operation for orthorhombic spacegroups
 
 def test_orthorhombic(ref_cell, test_cell):
+    '''Test for alternative indexing possibilities for an orthorhombic
+    primitive lattice, to handle e.g. P21221 vs. P21212.'''
 
     for j in 3, 4, 5:
         if int(round(ref_cell[j])) != 90:
@@ -249,6 +445,8 @@ def test_orthorhombic(ref_cell, test_cell):
 
     best = a * a + b * b * c * c
     best_rdx = None
+
+    # try permuting the cell axes
 
     for test, reindex in ((a, b, c), 'h,k,l'), \
             ((b, c, a), 'k,l,h'), \
