@@ -14,6 +14,17 @@ from Decorators.DecoratorFactory import DecoratorFactory
 # &c. behave differently. May want to change this decision and retain the
 # overloading of set_hklin etc. though if loggraph parsing proves to be useful.
 
+example_script = '''
+  phaser << eof
+  mode mr_auto
+  hklin f.mtz
+  labin F=F SIGF=SIGF
+  ensemble model pdb 2VHK.pdb identity 100
+  composition protein mw 25600 num 1
+  search ensemble model num 1
+  root mr
+  eof'''
+
 def Phaser(DriverType = None):
 
     DriverInstance = DriverFactory.Driver(DriverType)

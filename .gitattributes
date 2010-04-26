@@ -60,6 +60,7 @@ src/modules/intensity_data_preparation.py -text
 src/modules/interrogate_mtz.py -text
 src/modules/interrogate_pdb.py -text
 src/modules/module_factory.py -text
+src/modules/molecular_replace.py -text
 src/modules/pdb_preparation.py -text
 src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
