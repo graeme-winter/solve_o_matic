@@ -7,10 +7,6 @@ if not 'SOM_ROOT' in os.environ:
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
     
-# now import the factories that we may need
-
-from wrappers.ccp4.ccp4_factory import ccp4_factory
-
 # N.B. definition of CRYST1 record from
 # http://www.rcsb.org/robohelp/files_formats/structures/pdb/\
 # coordinate_file_description/cryst1.htm
@@ -19,7 +15,6 @@ class interrogate_pdb:
 
     def __init__(self):
         self._working_directory = os.getcwd()
-        self._ccp4_factory = ccp4_factory()
 
         self._xyzin = None
 
@@ -27,10 +22,10 @@ class interrogate_pdb:
 
         self._cell = None
         self._symmetry = None
+        self._sequence = None
 
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
-        self._ccp4_factory.set_working_directory(working_directory)
         return
 
     def get_working_directory(self):
@@ -40,9 +35,6 @@ class interrogate_pdb:
         self._xyzin = xyzin
         return
 
-    def ccp4(self):
-        return self._ccp4_factory
-
     def interrogate_pdb(self):
         if not self._xyzin:
             raise RuntimeError, 'xyzin not defined'
@@ -51,7 +43,12 @@ class interrogate_pdb:
             if 'CRYST1' in record[:6]:
                 cell = map(float, record[6:54].split())
                 symmetry = record[55:66].strip()
-                break
+
+                continue
+
+            if 'SEQRES' in record[:6]:
+                for token in record[19:].split():
+                    self._sequence.append(token)
 
         if not cell or not symmetry:
             raise RuntimeError, 'CRYST1 record not found in %s' % self._xyzin

@@ -14,6 +14,15 @@ from Decorators.DecoratorFactory import DecoratorFactory
 # &c. behave differently. May want to change this decision and retain the
 # overloading of set_hklin etc. though if loggraph parsing proves to be useful.
 
+# Modules that will be useful here:
+#
+# interrogate_pdb
+
+if not os.path.join(os.environ['SOM_ROOT'], 'src') in sys.path:
+    sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
+
+from modules.interrogate_pdb import interrogate_pdb
+
 example_script = '''
   phaser << eof
   mode mr_auto
@@ -41,11 +50,16 @@ def Phaser(DriverType = None):
             self._xyzout = None
 
             # FIXME code around this for cases where the identity is 100%
-            # - i.e. copy the sequence from the input pdb file
+            # - i.e. copy the sequence from the input pdb file. No!
+            # allow for a sequence file, if not set then compute molecular
+            # weight from sequence in input pdb file.
 
-            self._sequence = None
+            self._sequence_file = None
 
             self._mode = 'MR'
+
+            self._colin = {'F':'F',
+                           'SIGF':'SIGF'}
 
             return
 
