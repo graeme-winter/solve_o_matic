@@ -22,7 +22,7 @@ class interrogate_pdb:
 
         self._cell = None
         self._symmetry = None
-        self._sequence = None
+        self._sequence = []
 
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
