@@ -98,9 +98,9 @@ class ligand_pipeline:
 
     def ligand_pipeline(self):
         if self._mode == LP_MODE_MS:
-            return ligand_pipeline_molecular_substitution()
+            return self.ligand_pipeline_molecular_substitution()
         if self._mode == LP_MODE_MR:
-            return ligand_pipeline_molecular_replacement()
+            return self.ligand_pipeline_molecular_replacement()
 
         raise RuntimeError, 'unhandled mode: %s' % self._mode
 
@@ -129,7 +129,7 @@ class ligand_pipeline:
             # copy the symmetry from the input pdb, if no reindex operation
             # set...
 
-            if self._reindex_op:
+            if self._reindex_op and False:
                 raise RuntimeError, 'symmetry not defined'
             
             ip = self.module().interrogate_pdb()
@@ -260,7 +260,7 @@ class ligand_pipeline:
             # copy the symmetry from the input pdb, if no reindex operation
             # set...
 
-            if self._reindex_op:
+            if self._reindex_op and False:
                 raise RuntimeError, 'symmetry not defined'
             
             ip = self.module().interrogate_pdb()
@@ -482,8 +482,6 @@ if __name__ == '__main__':
     hklin = 'fast_dp.mtz'
     hklout = 'map.mtz'
     xyzout = 'refined.pdb'
-
-    print candidates
 
     xyzin = select_right_pdb(hklin, candidates)
 
