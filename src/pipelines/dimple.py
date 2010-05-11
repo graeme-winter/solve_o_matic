@@ -472,7 +472,7 @@ if __name__ == '__main__':
 
     candidates = []
 
-    for arg in sys.argv:
+    for arg in sys.argv[1:]:
         if os.path.split(arg)[-1].split('.')[0] in os.getcwd():
             candidates.append(arg)
 
@@ -482,6 +482,8 @@ if __name__ == '__main__':
     hklin = 'fast_dp.mtz'
     hklout = 'map.mtz'
     xyzout = 'refined.pdb'
+
+    print candidates
 
     xyzin = select_right_pdb(hklin, candidates)
 

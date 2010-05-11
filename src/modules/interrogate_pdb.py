@@ -36,6 +36,9 @@ class interrogate_pdb:
         return
 
     def interrogate_pdb(self):
+        cell = None
+        symmetry = None
+
         if not self._xyzin:
             raise RuntimeError, 'xyzin not defined'
 
