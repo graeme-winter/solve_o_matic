@@ -8,6 +8,7 @@ from refmac5 import Refmac5
 from reindex import Reindex
 from truncate import Truncate
 from unique import Unique
+from phaser import Phaser
 
 class ccp4_factory:
 
@@ -58,6 +59,11 @@ class ccp4_factory:
         _unique = Unique()
         _unique.set_working_directory(self._working_directory)
         return _unique
+
+    def phaser(self):
+        _phaser = Phaser()
+        _phaser.set_working_directory(self._working_directory)
+        return _phaser
 
 
 

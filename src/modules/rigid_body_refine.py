@@ -11,8 +11,9 @@ if not os.environ['SOM_ROOT'] in sys.path:
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
 
-# first pass this module will just provide a wrapper for the rigid body
-# refinement in refmac5...
+# and any helpful modules
+
+from interrogate_pdb import interrogate_pdb
 
 class rigid_body_refine:
 
@@ -76,6 +77,53 @@ class rigid_body_refine:
         refmac5.set_mode_rigidbody()
         refmac5.refmac5()
 
+        os.remove(hklout)
+
+        # get r factor - if < 45% return, else run mr
+
+        loggraphs = refmac5.parse_ccp4_loggraph()
+
+        loggraph = loggraphs['Rfactor analysis, stats vs cycle']
+        
+        cycle_col = loggraph['columns'].index('Ncyc')
+        r_col = loggraph['columns'].index('Rfact')
+        rfree_col = loggraph['columns'].index('Rfree')
+        fom_col = loggraph['columns'].index('FOM')
+
+        for record in loggraph['data']:
+            cycle = int(record[cycle_col])
+            r = float(record[r_col])
+            rfree = float(record[rfree_col])
+            fom = float(record[fom_col])
+
+        if r < 0.45:
+
+            return
+
+        # ok perhaps run some mr...
+
+        print 'Rigid body refinement failed: trying MR'
+        
+        ip = interrogate_pdb()
+
+        ip.set_xyzin(self._xyzin)
+        ip.interrogate_pdb()
+
+        mw = ip.get_molecular_weight()
+
+        phaser = self.ccp4().phaser()
+
+        hklout = os.path.join(self.get_working_directory(),
+                              '%s_phaser_mr.mtz' % name)
+
+        phaser.set_hklin(self._hklin)
+        phaser.set_hklout(hklout)
+        phaser.set_xyzin(self._xyzin)
+        phaser.set_xyzout(self._xyzout)
+        phaser.set_molecular_weight(mw)
+
+        phaser.mr()
+        
         os.remove(hklout)
 
         return

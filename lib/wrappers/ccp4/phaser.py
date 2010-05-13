@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 
 if not os.environ.has_key('XIA2CORE_ROOT'):
     raise RuntimeError, 'XIA2CORE_ROOT not defined'
@@ -13,15 +14,6 @@ from Decorators.DecoratorFactory import DecoratorFactory
 # N.B. this does *not* inherit from the CCP4 Driver enhancements - as hklin
 # &c. behave differently. May want to change this decision and retain the
 # overloading of set_hklin etc. though if loggraph parsing proves to be useful.
-
-# Modules that will be useful here:
-#
-# interrogate_pdb
-
-if not os.path.join(os.environ['SOM_ROOT'], 'src') in sys.path:
-    sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-
-from modules.interrogate_pdb import interrogate_pdb
 
 example_script = '''
   phaser << eof
@@ -42,6 +34,7 @@ def Phaser(DriverType = None):
 
         def __init__(self):
 
+            DriverInstance.__class__.__init__(self)
             self.set_executable('phaser')
 
             self._hklin = None
@@ -54,7 +47,7 @@ def Phaser(DriverType = None):
             # allow for a sequence file, if not set then compute molecular
             # weight from sequence in input pdb file.
 
-            self._sequence_file = None
+            self._molecular_weight = 0
 
             self._mode = 'MR'
 
@@ -63,12 +56,9 @@ def Phaser(DriverType = None):
 
             return
 
-        def set_sequence(self, sequence):
-            self._sequence = sequence
+        def set_molecular_weight(self, molecular_weight):
+            self._molecular_weight = molecular_weight
             return
-
-        def get_sequence(self):
-            return self._sequence
 
         def set_hklin(self, hklin):
             self._hklin = hklin
@@ -98,7 +88,38 @@ def Phaser(DriverType = None):
         def get_xyzout(self):
             return self._xyzout
 
+        def mr(self):
+            assert(self._xyzin)
+            assert(self._hklin)
+
+            assert(self._molecular_weight)
+
+            self.start()
+
+            self.input('mode mr_auto')
+            self.input('hklin %s' % self._hklin)
+            self.input('labin F=F SIGF=SIGF')
+            self.input('ensemble model pdb %s identity 100' % self._xyzin)
+            self.input('composition protein mw %d num 1' % \
+                       self._molecular_weight)
+            self.input('search ensemble model num 1')
+            self.input('root mr')
+
+            self.close_wait()
+            
+            # fixme check return status &c.
+
+            self.check_for_errors()
+
+            shutil.copyfile(os.path.join(self.get_working_directory(),
+                                         'mr.1.pdb'), self._xyzout)
+            shutil.copyfile(os.path.join(self.get_working_directory(),
+                                         'mr.1.mtz'), self._hklout)
+
+            return
+            
     return PhaserWrapper()
 
 if __name__ == '__main__':
     # run a test...
+    pass

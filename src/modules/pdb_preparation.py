@@ -57,6 +57,10 @@ class pdb_preparation:
         self._cell = cell
         return
 
+    # fixme add method to compose list of known monomers from $CLIBD/monomers
+
+    # fixme add method to remove unknown monomers from pdb file
+
     # accessor methods for the factories
 
     def ccp4(self):

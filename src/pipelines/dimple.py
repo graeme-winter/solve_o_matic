@@ -154,7 +154,8 @@ class ligand_pipeline:
 
         hklin = hklout
 
-        # prepare the pdb file
+        # prepare the pdb file - N.B. this should include removing the
+        # residues which are not in the monomer library
         
         im = self.module().interrogate_mtz()
         im.set_hklin(hklin)
