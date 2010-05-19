@@ -4,7 +4,7 @@ import sys
 if not 'CCP4' in os.environ:
     raise RuntimeError, 'CCP4 undefined'
 
-class check_pdb_ligands:
+class check_pdb:
     '''A class to check that the ligands in a PDB file all appear in the
     CCP4 monomer dictionary.'''
 
@@ -20,7 +20,42 @@ class check_pdb_ligands:
 
         return
 
+    def check_pdb(self, pdb_file):
+        '''Check a PDB file that all of the ATOM and HETATM records belong
+        to a known ligand or residue.'''
+
+        unknown = []
+
+        for record in open(pdb_file):
+            if 'ATOM  ' in record[:6] or 'HETATM' in record[:6]:
+                residue = record[17:20]
+
+                if not residue in self._known_monomers:
+                    unknown.append(residue)
+
+        if unknown:
+            unknown_residues = unknown[0]
+            for m in unknown_residues[1:]:
+                unknown_residues += ' %s' % m
+            raise RuntimeError, 'Unknown residues: %s' % unknown_residues
+
+        return
+
 if __name__ == '__main__':
 
-    cpl = check_pdb_ligands()
+    cpl = check_pdb()
 
+    if len(sys.argv) < 2:
+        raise RuntimeError, '%s file.pdb [...]' % sys.argv[0]
+    
+    for arg in sys.argv[1:]:
+        print arg
+        try:
+            cpl.check_pdb(arg)
+            print 'ok'
+        except Exception, e:
+            print e
+
+    
+
+    
