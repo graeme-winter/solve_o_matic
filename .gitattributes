@@ -1,6 +1,7 @@
 * text=auto !eol
 /README -text
 bin/empty_pipeline -text
+bin/som.check_pdb -text
 bin/som.difference_map -text
 bin/som.dimple -text
 bin/som.substructure -text
