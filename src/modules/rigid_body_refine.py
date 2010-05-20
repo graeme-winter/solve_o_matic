@@ -96,7 +96,7 @@ class rigid_body_refine:
             rfree = float(record[rfree_col])
             fom = float(record[fom_col])
 
-        if r < 0.45:
+        if r < 0.375:
 
             return
 
