@@ -6,7 +6,7 @@ if not 'CCP4' in os.environ:
 
 class check_pdb:
     '''A class to check that the ligands in a PDB file all appear in the
-    CCP4 monomer dictionary.'''
+    CCP4 monomer dictionary. Will also check for a CRYST1 record.'''
 
     def __init__(self):
 
@@ -26,7 +26,13 @@ class check_pdb:
 
         unknown = []
 
+        CRYST1 = False
+
         for record in open(pdb_file):
+
+            if 'CRYST1' in record:
+                CRYST1 = True
+            
             if 'ATOM  ' in record[:6] or 'HETATM' in record[:6]:
                 residue = record[17:20]
 
@@ -38,6 +44,9 @@ class check_pdb:
             for m in unknown_residues[1:]:
                 unknown_residues += ' %s' % m
             raise RuntimeError, 'Unknown residues: %s' % unknown_residues
+
+        if not CRYST1:
+            raise RuntimeError, 'CRYST1 record not found'
 
         return
 
