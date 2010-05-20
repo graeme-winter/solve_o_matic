@@ -4,6 +4,7 @@ bin/empty_pipeline -text
 bin/som.check_pdb -text
 bin/som.difference_map -text
 bin/som.dimple -text
+bin/som.edit_pdb -text
 bin/som.substructure -text
 data/insulin.mtz -text
 data/insulin.pdb -text
