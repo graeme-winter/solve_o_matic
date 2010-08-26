@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 
 if not os.environ.has_key('XIA2CORE_ROOT'):
     raise RuntimeError, 'XIA2CORE_ROOT not defined'
@@ -45,6 +46,11 @@ def Pointless(DriverType = None):
 
             for record in self.get_all_output():
 
+                if 'No possible alternative indexing' in record:
+                    self._cc = 1.0
+                    self._reindex = 'h,k,l'
+                    return self.get_hklin()
+
                 if 'Alternative reindexing' in record and 'CC' in record:
                     collect = True
                     continue
@@ -54,7 +60,7 @@ def Pointless(DriverType = None):
                     self._cc = float(record.split()[1])
                     collect = False
 
-            return
+            return self.get_hklout()
 
         def get_cc(self):
             return self._cc

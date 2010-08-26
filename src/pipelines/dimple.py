@@ -148,6 +148,7 @@ class ligand_pipeline:
         idp.set_hklin(self._hklin)
         idp.set_hklout(hklout)
         idp.set_symmetry(self._symmetry)
+        idp.set_xyzin(self._xyzin)
         if self._reindex_op:
             idp.set_reindex_op(self._reindex_op)
         idp.prepare_data_native()

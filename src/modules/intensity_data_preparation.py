@@ -32,6 +32,7 @@ class intensity_data_preparation:
 
         self._hklin = None
         self._hklout = None
+        self._xyzin = None
 
         self._nres = None
 
@@ -56,6 +57,10 @@ class intensity_data_preparation:
 
     def set_hklout(self, hklout):
         self._hklout = hklout
+        return
+
+    def set_xyzin(self, xyzin):
+        self._xyzin = xyzin
         return
 
     def set_nres(self, nres):
@@ -126,13 +131,43 @@ class intensity_data_preparation:
 
         temporary_files.append(hklout)
 
-        reindex = self.ccp4().reindex()
-        reindex.set_hklin(hklin)
-        reindex.set_hklout(hklout)
-        reindex.set_symmetry(self._symmetry)
-        if self._reindex_op:
-            reindex.set_reindex_op(self._reindex_op)
-        reindex.reindex()
+        # if we have an input coordinate file, use pointless to compare
+        # these measurements, else just reindex according to the input
+        # reindexing operation. N.B. may need to run reindex anyways to
+        # assign the spacegroup to these measurements.
+
+        if self._xyzin:
+
+            pointless = self.ccp4().pointless()
+            pointless.set_hklin(hklin)
+            pointless.set_xyzin(self._xyzin)
+            pointless.set_hklout(hklout)
+
+            # pointless wrapper will return hklin if no alternative
+            # indexing is possible
+            
+            hklout = pointless.check_origin()
+
+            hklin = hklout
+            hklout = os.path.join(self.get_working_directory(),
+                                  '%s_reindex_sg.mtz' % name)
+            temporary_files.append(hklout)
+
+            reindex = self.ccp4().reindex()
+            reindex.set_hklin(hklin)
+            reindex.set_hklout(hklout)
+            reindex.set_symmetry(self._symmetry)
+            reindex.reindex()
+
+        else:
+
+            reindex = self.ccp4().reindex()
+            reindex.set_hklin(hklin)
+            reindex.set_hklout(hklout)
+            reindex.set_symmetry(self._symmetry)
+            if self._reindex_op:
+                reindex.set_reindex_op(self._reindex_op)
+            reindex.reindex()
 
         hklin = hklout
         hklout = os.path.join(self.get_working_directory(),
@@ -200,7 +235,10 @@ class intensity_data_preparation:
         # ok, I think we're all done now... remove the temporary files
 
         for temporary_file in temporary_files:
-            os.remove(temporary_file)
+            try:
+                os.remove(temporary_file)
+            except:
+                pass
 
         return
 
