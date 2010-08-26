@@ -9,6 +9,7 @@ from reindex import Reindex
 from truncate import Truncate
 from unique import Unique
 from phaser import Phaser
+from pointless import Pointless
 
 class ccp4_factory:
 
@@ -64,6 +65,11 @@ class ccp4_factory:
         _phaser = Phaser()
         _phaser.set_working_directory(self._working_directory)
         return _phaser
+
+    def pointless(self):
+        _pointless = Pointless()
+        _pointless.set_working_directory(self._working_directory)
+        return _pointless
 
 
 
