@@ -5,6 +5,7 @@ bin/som.check_pdb -text
 bin/som.difference_map -text
 bin/som.dimple -text
 bin/som.edit_pdb -text
+bin/som.select_pdb -text
 bin/som.substructure -text
 data/insulin.mtz -text
 data/insulin.pdb -text
@@ -72,4 +73,5 @@ src/modules/symmetry_information.py -text
 src/pipelines/__init__.py -text
 src/pipelines/difference_map.py -text
 src/pipelines/dimple.py -text
+src/pipelines/select_pdb.py -text
 src/pipelines/substructure.py -text
