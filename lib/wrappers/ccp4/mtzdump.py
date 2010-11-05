@@ -79,7 +79,7 @@ def Mtzdump(DriverType = None):
                         map(float, output[i + 2].replace('-', ' ').split(
                         '(')[1].split()[:2]))
 
-                if 'Space group' in line:
+                if 'Space group' in line and '\'' in line:
                     self._header['symmetry'] = line.split('\'')[1].strip()
                     
                 if 'Dataset ID, ' in line:
