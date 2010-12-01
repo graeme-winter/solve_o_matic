@@ -10,6 +10,10 @@ from interrogate_pdb import interrogate_pdb as _interrogate_pdb
 from symmetry_information import symmetry_information as \
      _symmetry_information
 from find_sites import find_sites as _find_sites
+from characterise_diffraction import characterise_diffraction as \
+     _characterise_diffraction
+from calculate_strategy import calculate_strategy as \
+     _calculate_strategy
 
 class module_factory:
 
@@ -61,6 +65,18 @@ class module_factory:
         find_sites_instance = _find_sites()
         find_sites_instance.set_working_directory(self._working_directory)
         return find_sites_instance
+    
+    def characterise_diffraction(self):
+        characterise_diffraction_instance = _characterise_diffraction()
+        characterise_diffraction_instance.set_working_directory(
+            self._working_directory)
+        return characterise_diffraction_instance
+    
+    def calculate_strategy(self):
+        calculate_strategy_instance = _calculate_strategy()
+        calculate_strategy_instance.set_working_directory(
+            self._working_directory)
+        return calculate_strategy_instance
     
     
 
