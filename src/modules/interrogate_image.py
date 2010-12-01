@@ -149,6 +149,7 @@ def read_image_metadata(image):
             metadata['template'] = template
             metadata['start'] = min(matching)
             metadata['end'] = max(matching)
+            metadata['images'] = matching
 
             return metadata
 
