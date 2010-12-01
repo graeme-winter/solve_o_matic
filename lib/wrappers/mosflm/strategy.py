@@ -23,7 +23,6 @@ def Mosflm_strategy(DriverType = None):
             self._template = None
             self._directory = None
             self._images = []
-            self._cell = None
             self._spacegroup = None
             self._mosaic = None
             self._anomalous = False
@@ -56,10 +55,6 @@ def Mosflm_strategy(DriverType = None):
 
         def set_resolution(self, resolution):
             self._resolution = resolution
-
-        def set_cell(self, cell):
-            self._cell = cell
-            return
 
         def set_mosaic(self, mosaic):
             self._mosaic = mosaic
