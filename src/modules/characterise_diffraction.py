@@ -77,11 +77,6 @@ class characterise_diffraction:
         else:
             raise RuntimeError, 'implement something here'
 
-        print 'Selected images: ',
-        for i in self._images:
-            print i,
-        print ''
-
         return
 
     def index(self):

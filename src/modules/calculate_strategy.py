@@ -95,6 +95,9 @@ class calculate_strategy:
     def get_completeness(self):
         return self._completeness
 
+    def get_resolution(self):
+        return self._resolution
+
     # real methods
 
     def select_images(self):
@@ -102,11 +105,6 @@ class calculate_strategy:
             self._images = self._interrogate_image.get_images()
         else:
             raise RuntimeError, 'implement something here'
-
-        print 'Selected images: ',
-        for i in self._images:
-            print i,
-        print ''
 
         return
 
@@ -122,8 +120,6 @@ class calculate_strategy:
         theta = 0.5 * math.atan(r / d)
 
         self._resolution = l / (2 * math.sin(theta))
-
-        print 'Inscribed circle resolution: %.2f' % self._resolution
 
         return
 
