@@ -83,7 +83,7 @@ def Mosflm_index(DriverType = None):
                 if 'Final cell' in record and 'after refinement' in record:
                     self._cell = tuple(map(float, record.split()[-6:]))
                 if 'Refining solution #' in record:
-                    self._spacegroup = record.split()[5]
+                    self._spacegroup = record.split('(')[0].split()[-1]
                 if 'The mosaicity has been estimated as' in record:
                     self._mosaic = float(record.split()[7])
 
