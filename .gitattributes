@@ -51,6 +51,7 @@ lib/wrappers/ccp4/sftools.py -text
 lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
 lib/wrappers/mosflm/index.py -text
+lib/wrappers/mosflm/mosflm_factory.py -text
 lib/wrappers/mosflm/strategy.py -text
 lib/wrappers/phenix/index.py -text
 lib/wrappers/shelx/__init__.py -text
@@ -62,6 +63,7 @@ lib/wrappers/shelx/shelxd.py -text
 lib/wrappers/shelx/shelxe.py -text
 src/__init__.py -text
 src/modules/__init__.py -text
+src/modules/characterise_diffraction.py -text
 src/modules/check_pdb.py -text
 src/modules/edit_pdb.py -text
 src/modules/find_sites.py -text
