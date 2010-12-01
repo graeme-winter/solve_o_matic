@@ -30,6 +30,7 @@ lib/interfaces/ModelBuilder.py -text
 lib/interfaces/ModelPhaser.py -text
 lib/interfaces/SADAtomPhaser.py -text
 lib/interfaces/SequencePhaser.py -text
+lib/jiffies/files.py -text
 lib/objects/__init__.py -text
 lib/objects/sites.py -text
 lib/wrappers/__init__.py -text
