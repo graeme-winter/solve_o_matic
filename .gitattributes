@@ -64,6 +64,7 @@ lib/wrappers/shelx/shelxd.py -text
 lib/wrappers/shelx/shelxe.py -text
 src/__init__.py -text
 src/modules/__init__.py -text
+src/modules/calculate_strategy.py -text
 src/modules/characterise_diffraction.py -text
 src/modules/check_pdb.py -text
 src/modules/edit_pdb.py -text
