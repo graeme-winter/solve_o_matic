@@ -85,4 +85,5 @@ src/pipelines/__init__.py -text
 src/pipelines/difference_map.py -text
 src/pipelines/dimple.py -text
 src/pipelines/select_pdb.py -text
+src/pipelines/strategy.py -text
 src/pipelines/substructure.py -text
