@@ -30,6 +30,7 @@ lib/interfaces/ModelBuilder.py -text
 lib/interfaces/ModelPhaser.py -text
 lib/interfaces/SADAtomPhaser.py -text
 lib/interfaces/SequencePhaser.py -text
+lib/jiffies/__init__.py -text
 lib/jiffies/files.py -text
 lib/objects/__init__.py -text
 lib/objects/sites.py -text
@@ -68,6 +69,7 @@ src/modules/check_pdb.py -text
 src/modules/edit_pdb.py -text
 src/modules/find_sites.py -text
 src/modules/intensity_data_preparation.py -text
+src/modules/interrogate_image.py -text
 src/modules/interrogate_mtz.py -text
 src/modules/interrogate_pdb.py -text
 src/modules/module_factory.py -text
