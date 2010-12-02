@@ -141,6 +141,36 @@ def write_dat_file(character, native, anomalous):
     dat_file.close()
     return
 
+def write_html_file(image, character, native, anomalous):
+    html_file = open('strategy.html', 'w')
+    template = open(os.path.join(os.environ['SOM_ROOT'], 'lib', 'templates',
+                                 'strategy_html_template.html')).read()
+    text = template.format(image = image,
+                           cell_a = character[0][0],
+                           cell_b = character[0][1], 
+                           cell_c = character[0][2],
+                           cell_alpha = character[0][3],
+                           cell_beta = character[0][4],
+                           cell_gamma = character[0][5],
+                           spacegroup = character[1],
+                           mosaic = character[2],
+                           phi_start_n = native[0],
+                           phi_end_n = native[1],
+                           phi_width_n = native[2],
+                           n_images_n = native[3],
+                           completeness_n = native[4],
+                           resolution_n = native[5],
+                           phi_start_a = anomalous[0],
+                           phi_end_a = anomalous[1],
+                           phi_width_a = anomalous[2],
+                           n_images_a = anomalous[3],
+                           completeness_a = anomalous[4],
+                           resolution_a = anomalous[5])
+
+    html_file.write(text)
+    html_file.close()
+    return
+
 if __name__ == '__main__':
 
     sp = strategy_pipeline()
@@ -181,5 +211,7 @@ if __name__ == '__main__':
                  sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
 
     write_dat_file(character, native, anomalous)
+    write_html_file(os.path.split(sys.argv[1])[-1],
+                    character, native, anomalous)
     
         

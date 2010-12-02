@@ -1,63 +1,75 @@
 <html>
 <head>
-<title>Strategy for image template thaumatin_die_M1S5_1_###.img </title>
+<title>Mosflm strategy for image template {image:s} </title>
 <style type="text/css"><!-- /* Hide the stylesheet from older browsers *"
 
 /* Default style for document */
-body { font-family: Arial, sans-serif;
+body {{ font-family: Arial, sans-serif;
        font-size: 12pt;
        color: black;
-       background-color: white; }
+       background-color: white; }}
 
 /* Styles for headings */
-h1 { font-family: Georgia, serif;
+h1 {{ font-family: Georgia, serif;
      background-color: gray;
      color: white;
-     padding: 5 10 5 10; }
+     padding: 5 10 5 10; }}
 
 /* Default margins for paragraphs and tables */
-table { margin-left: 10px;
+table {{ margin-left: 10px;
           margin-right: 10px;
           margin-top: 5px;
-          margin-bottom: 5px; }
+          margin-bottom: 5px; }}
 
 /* Default style for tables */
-table,td,th { border-style: none;
+table,td,th {{ border-style: none;
 	border-spacing: 0;
 	border-collapse: collapse;
 	padding: 2px;
 	font-size: 90%;
-	empty-cells: show; }
-td,th { border-style: solid;
+	empty-cells: show; }}
+td,th {{ border-style: solid;
 	border-width: 2px;
 	border-color: darkgray;
 	padding-left: 8px;
 	padding-right: 8px; 
-	text-align: center; }
-th { background-color: gray;
+	text-align: center; }}
+th {{ background-color: gray;
 	color: white;
 	font-weight: bold;
 	border-top-style: none;
-	border-bottom-style: none; }
+	border-bottom-style: none; }}
 
 /* Styling for collection plan table */
-table.faststrat th { background-color: green;
+table.faststrat th {{ background-color: green;
                            border: none;
                            border-left: solid 2px darkgray;
                            border-bottom: solid 2px darkgray;
                            color: white;
                            font-style: italic;
-                           text-align: left; }.
+                           text-align: left; }}.
 
 -->
 </style>
 
-<h1>Fast Strategy Results</h1>
+<h1>Mosflm / Solve-o-Matic Strategy Results</h1>
 
-<table width=640><tr><th></th><th colspan='6' >Refined unit cell parameters (&Aring;/degrees)</th><th></th></tr>
+<table width=640>
+<tr><th></th><th colspan='6' >Refined unit cell parameters (&Aring;/degrees)</th><th></th></tr>
 <tr><th>Spacegroup</th><td>a</td><td>b</td><td>c</td><td>&alpha</td><td>&beta</td><td>&gamma</td><th>Est Mosaicity</th></tr>
-<tr><td>P422</td><td>57.729</td><td>57.729</td><td>149.500</td><td>90.000</td><td>90.000</td><td>90.000</td><td>0.27</td></tr></table>
+<tr>
+<td>{spacegroup:s}</td><td>{cell_a:.3f}</td><td>{cell_b:.3f}</td><td>{cell_c:.3f}</td>
+<td>{cell_alpha:.3f}</td><td>{cell_beta:.3f}</td><td>{cell_gamma:.3f}</td><td>{mosaic:.2f}</td>
+</tr>
+</table>
 
 <table width=640 class='faststrat'><th>Description</th><th>Phi Start</th><th>Phi Oscillation</th><th>No Of Images</th><th>Phi End</th><th>Completeness</th><th>Resolution</th></tr>
-<tr><td>Native   </td><td>156&deg;</td><td>1.9&deg;</td><td>24</td><td>201&deg;</td><td>1.00</td><td>1.65&Aring;</td></tr>
-<tr><td>Anomalous</td><td>166&deg;</td><td>2.0&deg;</td><td>23</td><td>211&deg;</td><td>0.98</td><td>1.65&Aring;</td></tr>
+<tr><td>Native   </td>
+<td>{phi_start_n:.1f}&deg;</td><td>{phi_width_n:.1f}&deg;</td>
+<td>{n_images_n:d}</td><td>{phi_end_n:.1f}&deg;</td><td>{completeness_n:.2f}</td><td>{resolution_n:.2f}&Aring;</td></tr>
+<tr><td>Anomalous</td>
+<td>{phi_start_a:.1f}&deg;</td><td>{phi_width_a:.1f}&deg;</td>
+<td>{n_images_a:d}</td><td>{phi_end_a:.1f}&deg;</td><td>{completeness_a:.2f}</td><td>{resolution_a:.2f}&Aring;</td>
+</tr>
+</body>
+</html>
