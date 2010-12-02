@@ -93,17 +93,15 @@ def Mosflm_strategy(DriverType = None):
             self.input('matrix %s' % self._matrix)
             self.input('template %s' % self._template)
             self.input('directory %s' % self._directory)
-            self.input('xgui on')
-            self.input('image %d' % self._images[0])
+            self.input('findspots find %s' % self._images[0])
             self.input('go')
-            self.input('return')
             self.input('mosaic %f' % self._mosaic)
             if self._resolution:
                 self.input('resolution %f' % self._resolution)
             if self._anomalous:
-                self.input('strategy testgen anomalous on overlap 0.5')
+                self.input('strategy testgen anomalous overlap 0.5')
             else:
-                self.input('strategy testgen on overlap 0.5')
+                self.input('strategy testgen overlap 0.5')
             self.input('go')
             self.close_wait()
 

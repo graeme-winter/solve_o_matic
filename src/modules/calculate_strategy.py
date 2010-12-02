@@ -125,6 +125,10 @@ class calculate_strategy:
 
     def strategy(self):
         ms = self._mosflm_factory.strategy()
+        if self._anomalous:
+            ms.write_log_file('strategy_anomalous.log')
+        else:
+            ms.write_log_file('strategy_native.log')
         ms.set_matrix(self._matrix)
         ms.set_resolution(self._resolution)
         ms.set_mosaic(self._mosaic)
