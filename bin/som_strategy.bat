@@ -1,4 +1,4 @@
 @echo off
 
-python %SOM_ROOT%\src\pipelines\strategy.py %*
+cctbx.python %SOM_ROOT%\src\pipelines\strategy.py %*
 
