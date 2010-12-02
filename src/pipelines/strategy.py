@@ -136,8 +136,9 @@ def write_dat_file(character, native, anomalous):
     dat_file = open('strategy.dat', 'w')
     dat_file.write('character,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,' % character[0])
     dat_file.write('%s,%.2f\n' % (character[1], character[2]))
-    dat_file.write('native,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % native)
-    dat_file.write('anomalous,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % anomalous)
+    dat_file.write('mosflm native,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % native)
+    dat_file.write('mosflm anomalous,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % \
+                   anomalous)
     dat_file.close()
     return
 
@@ -145,6 +146,7 @@ def write_html_file(image, character, native, anomalous):
     html_file = open('strategy.html', 'w')
     template = open(os.path.join(os.environ['SOM_ROOT'], 'lib', 'templates',
                                  'strategy_html_template.html')).read()
+
     text = template.format(image = image,
                            cell_a = character[0][0],
                            cell_b = character[0][1], 
@@ -214,6 +216,14 @@ if __name__ == '__main__':
                  sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
 
     write_dat_file(character, native, anomalous)
+
+    if len(sys.argv) > 2:
+        spacegroup = '%s (ispyb)' % sp.get_spacegroup()
+    else:
+        spacegroup = sp.get_spacegroup()
+
+    character = (sp.get_cell(), spacegroup, sp.get_mosaic())
+
     write_html_file(os.path.split(sys.argv[1])[-1],
                     character, native, anomalous)
     
