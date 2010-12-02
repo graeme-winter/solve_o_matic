@@ -42,12 +42,16 @@ class strategy_pipeline:
         self._ccp4_factory.set_working_directory(working_directory)
         return
 
+    def get_working_directory(self):
+        return self._working_directory
+
     def set_image(self, image):
         self._image = image
         return
 
-    def get_working_directory(self):
-        return self._working_directory
+    def set_spacegroup(self, spacegroup):
+        self._spacegroup = spacegroup
+        return
 
     def get_spacegroup(self):
         return self._spacegroup
@@ -79,23 +83,31 @@ class strategy_pipeline:
     def get_resolution(self):
         return self._resolution
 
-    def strategy_pipeline(self):
+    def strategy_pipeline_characterise(self):
 
         assert(self._image)
 
         cd = self._factory.characterise_diffraction()
         cd.set_image(self._image)
+        if self._spacegroup:
+            cd.set_spacegroup(self._spacegroup)
         cd.characterise()
 
         self._cell = cd.get_cell()
         self._spacegroup = cd.get_spacegroup()
         self._mosaic = cd.get_mosaic()
+        self._matrix = cd.get_matrix()
+
+    def strategy_pipeline_strategy(self, anomalous = False):
+
+        assert(self._spacegroup != None)
 
         cs = self._factory.calculate_strategy()
         cs.set_image(self._image)
-        cs.set_matrix(cd.get_matrix())
-        cs.set_spacegroup(cd.get_spacegroup())
-        cs.set_mosaic(cd.get_mosaic())
+        cs.set_matrix(self._matrix)
+        cs.set_spacegroup(self._spacegroup)
+        cs.set_mosaic(self._mosaic)
+        cs.set_anomalous(anomalous)
         cs.calculate_strategy()
         
         self._phi_start = cs.get_phi_start()
@@ -123,16 +135,30 @@ if __name__ == '__main__':
     sp = strategy_pipeline()
     sp.set_image(sys.argv[1])
 
-    sp.strategy_pipeline()
+    if len(sys.argv) > 2:
+        sp.set_spacegroup(sys.argv[2])
+
+    sp.strategy_pipeline_characterise()
+    sp.strategy_pipeline_strategy()
 
     print 'Unit cell: %.3f %.3f %.3f %.3f %.3f %.3f' % sp.get_cell()
     print 'Spacegroup: %s' % sp.get_spacegroup()
     print 'Mosaic: %.2f' % sp.get_mosaic()
+    print 'Native strategy:'
     print 'Phi range: %.1f to %.1f' % (sp.get_phi_start(), sp.get_phi_end())
     print 'Phi width: %.1f' % sp.get_phi_width()
     print 'No. images: %d' % sp.get_n_images()
     print 'Completeness: %.2f' % sp.get_completeness()
     print 'Resolution:   %.2f' % sp.get_resolution()
+
+    sp.strategy_pipeline_strategy(anomalous = True)
+    print 'Anomalous strategy:'
+    print 'Phi range: %.1f to %.1f' % (sp.get_phi_start(), sp.get_phi_end())
+    print 'Phi width: %.1f' % sp.get_phi_width()
+    print 'No. images: %d' % sp.get_n_images()
+    print 'Completeness: %.2f' % sp.get_completeness()
+    print 'Resolution:   %.2f' % sp.get_resolution()
+
     
                  
     

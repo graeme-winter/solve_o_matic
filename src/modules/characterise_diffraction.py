@@ -57,6 +57,10 @@ class characterise_diffraction:
         self._interrogate_image.set_image(image)
         return
 
+    def set_spacegroup(self, spacegroup):
+        self._spacegroup = spacegroup
+        return
+
     def get_spacegroup(self):
         return self._spacegroup
     
@@ -87,6 +91,9 @@ class characterise_diffraction:
         
         mi.set_template(ii.get_template())
         mi.set_directory(ii.get_directory())
+
+        if self._spacegroup:
+            mi.set_spacegroup(self._spacegroup)
 
         for image in self._images:
             mi.add_image(image)

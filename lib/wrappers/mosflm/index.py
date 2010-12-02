@@ -45,6 +45,9 @@ def Mosflm_index(DriverType = None):
             return
 
         def set_spacegroup(self, spacegroup):
+
+            # FIXME add in test that the spacegroup is a sensible value
+
             self._spacegroup = spacegroup
             return
 
