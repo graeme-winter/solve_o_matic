@@ -445,7 +445,7 @@ def test_orthorhombic(ref_cell, test_cell):
 
     a, b, c = tuple(test_cell[:3])
 
-    best = a * a + b * b * c * c
+    best = a * a + b * b + c * c
     best_rdx = None
 
     # try permuting the cell axes

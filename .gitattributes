@@ -7,8 +7,8 @@ bin/som.dimple -text
 bin/som.edit_pdb -text
 bin/som.select_pdb -text
 bin/som.strategy -text
-bin/som.strategy.bat -text
 bin/som.substructure -text
+bin/som_strategy.bat -text
 data/insulin.mtz -text
 data/insulin.pdb -text
 data/lyso_example_i.mtz -text
