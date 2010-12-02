@@ -35,6 +35,7 @@ lib/jiffies/__init__.py -text
 lib/jiffies/files.py -text
 lib/objects/__init__.py -text
 lib/objects/sites.py -text
+lib/templates/strategy_html_template.html -text
 lib/wrappers/__init__.py -text
 lib/wrappers/ccp4/__init__.py -text
 lib/wrappers/ccp4/cad.py -text
