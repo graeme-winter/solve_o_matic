@@ -130,6 +130,17 @@ class strategy_pipeline:
 
         return
 
+# helper functions
+
+def write_dat_file(character, native, anomalous):
+    dat_file = open('strategy.dat', 'w')
+    dat_file.write('character,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,' % character[0])
+    dat_file.write('%s,%.2f\n' % (character[1], character[2]))
+    dat_file.write('native,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % native)
+    dat_file.write('anomalous,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % anomalous)
+    dat_file.close()
+    return
+
 if __name__ == '__main__':
 
     sp = strategy_pipeline()
@@ -144,6 +155,9 @@ if __name__ == '__main__':
     print 'Unit cell: %.3f %.3f %.3f %.3f %.3f %.3f' % sp.get_cell()
     print 'Spacegroup: %s' % sp.get_spacegroup()
     print 'Mosaic: %.2f' % sp.get_mosaic()
+
+    character = (sp.get_cell(), sp.get_spacegroup(), sp.get_mosaic())
+    
     print 'Native strategy:'
     print 'Phi range: %.1f to %.1f' % (sp.get_phi_start(), sp.get_phi_end())
     print 'Phi width: %.1f' % sp.get_phi_width()
@@ -151,15 +165,21 @@ if __name__ == '__main__':
     print 'Completeness: %.2f' % sp.get_completeness()
     print 'Resolution:   %.2f' % sp.get_resolution()
 
+    native = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
+              sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
+
     sp.strategy_pipeline_strategy(anomalous = True)
     print 'Anomalous strategy:'
-    print 'Phi range: %.1f to %.1f' % (sp.get_phi_start(), sp.get_phi_end())
+    print 'Phi range: %.1f to %.1f' % \
+          (sp.get_phi_start(), sp.get_phi_end())
     print 'Phi width: %.1f' % sp.get_phi_width()
     print 'No. images: %d' % sp.get_n_images()
     print 'Completeness: %.2f' % sp.get_completeness()
     print 'Resolution:   %.2f' % sp.get_resolution()
-
     
-                 
+    anomalous = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
+                 sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
+
+    write_dat_file(character, native, anomalous)
     
         
