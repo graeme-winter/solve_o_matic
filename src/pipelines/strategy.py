@@ -173,6 +173,9 @@ def write_html_file(image, character, native, anomalous):
 
 if __name__ == '__main__':
 
+    if len(sys.argv) < 2:
+        raise RuntimeError, '%s /path/to/one/image [spacegroup]' % sys.argv[0]
+
     sp = strategy_pipeline()
     sp.set_image(sys.argv[1])
 
