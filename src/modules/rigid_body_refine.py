@@ -79,6 +79,12 @@ class rigid_body_refine:
 
         os.remove(hklout)
 
+        fout = open('refmac_rigid_body.log', 'w')
+
+        for record in refmac5.get_all_output():
+            fout.write(record)
+
+        fout.close()
         # get r factor - if < 45% return, else run mr
 
         loggraphs = refmac5.parse_ccp4_loggraph()

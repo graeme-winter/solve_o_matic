@@ -3,6 +3,7 @@
 import os
 import sys
 import math
+import time
 
 if not 'SOM_ROOT' in os.environ:
     raise RuntimeError, 'SOM_ROOT undefined'
@@ -20,6 +21,15 @@ LP_MODE_MR = 'molecular replacement'
 LP_MODE_MS = 'molecular substitution'
 
 LP_MODES = [LP_MODE_MR, LP_MODE_MS]
+
+def get_debug():
+    if not 'SOM_DEBUG' in os.environ:
+        return False
+
+    if int(os.environ['SOM_DEBUG']) == 1:
+        return True
+
+    return False
 
 class ligand_pipeline:
 
@@ -144,6 +154,8 @@ class ligand_pipeline:
                               '%s_idp.mtz' % name)
         temporary_files.append(hklout)
 
+        t0 = time.time()
+
         idp = self.module().intensity_data_preparation()
         idp.set_hklin(self._hklin)
         idp.set_hklout(hklout)
@@ -198,6 +210,11 @@ class ligand_pipeline:
         pp.set_cell(cell)
         pp.prepare_pdb_refine()
         
+        if get_debug():
+            print 'Preparation: %.2f' % (time.time() - t0)
+
+        t0 = time.time()
+
         # run the rb refinement
 
         xyzin = xyzout
@@ -212,6 +229,11 @@ class ligand_pipeline:
         rbr.set_xyzout(xyzout)
         rbr.rigid_body_refine()
 
+        if get_debug():
+            print 'Ridig body: %.2f' % (time.time() - t0)
+
+        t0 = time.time()
+
         # then the "proper" refinement
 
         xyzin = xyzout
@@ -222,6 +244,11 @@ class ligand_pipeline:
         r.set_xyzin(xyzin)
         r.set_xyzout(self._xyzout)
         r.refine()
+
+        if get_debug():
+            print 'Restrained refinement: %.2f' % (time.time() - t0)
+
+        t0 = time.time()
 
         # and print out the residuals
 

@@ -107,7 +107,8 @@ def Refmac5(DriverType = None):
                 self.input(
                     'make hydrogen all hout no cispeptide yes ssbridge yes')
                 self.input('refinement type restrained')
-                self.input('weight matrix 0.2')
+                # self.input('weight matrix 0.2')
+                self.input('weight matrix 0.5')
                 self.input('scale type simple lssc anisotropic experimental')
                 self.input('solvent yes vdwprob 1.4 ionprob 0.8 mshrink 0.8')
                 if self._ncycles is None:

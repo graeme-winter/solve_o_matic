@@ -78,8 +78,9 @@ class refine:
         refmac5.set_hklout(self._hklout)
         refmac5.set_xyzin(self._xyzin)
         refmac5.set_xyzout(self._xyzout)
-
+        
         refmac5.set_mode_restrained()
+        refmac5.set_ncycles(7)
         refmac5.refmac5()
 
         fout = open('refmac_restrained.log', 'w')
