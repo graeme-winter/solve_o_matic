@@ -70,6 +70,12 @@ def failover_cbf(cbf_file):
             header['size'] = (1679, 1475)
             continue
 
+        if 'PILATUS 6M' in record:
+            header['detector_class'] = 'pilatus 6M'
+            header['detector'] = 'dectris'
+            header['size'] = (2527, 2463)
+            continue
+
         if 'Start_angle' in record:
             header['phi_start'] = float(record.split()[-2])
             continue
@@ -85,7 +91,7 @@ def failover_cbf(cbf_file):
             continue
 
         if 'Detector_distance' in record:
-            header['distance'] = 1000 * float(record.split()[-2])
+            header['distance'] = 1000 * float(record.split()[2])
             continue
 
         if 'Wavelength' in record:
@@ -142,8 +148,13 @@ def read_image_metadata(image):
     try:
         if '.cbf' in image[-4:]:
             metadata = failover_cbf(image)
-            assert(metadata['detector_class'] == 'pilatus 2M')
-            metadata['detector'] = 'PILATUS_2M'
+            assert(metadata['detector_class'] in \
+                   ['pilatus 2M', 'pilatus 6M'])
+
+            if metadata['detector_class'] == 'pilatus 2M':
+                metadata['detector'] = 'PILATUS_2M'
+            else:
+                metadata['detector'] = 'PILATUS_6M'
 
             metadata['directory'] = directory
             metadata['template'] = template
