@@ -93,7 +93,7 @@ def Mosflm_strategy(DriverType = None):
             self.input('matrix %s' % self._matrix)
             self.input('template %s' % self._template)
             self.input('directory %s' % self._directory)
-            if '.cbf' in template[-4:]:
+            if '.cbf' in self._template[-4:]:
                 self.input('detector pilatus')
             self.input('findspots find %s' % self._images[0])
             self.input('go')
