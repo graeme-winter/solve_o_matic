@@ -72,6 +72,10 @@ def Mosflm_index(DriverType = None):
             self.input('newmat mosflm_index.mat')
             self.input('template %s' % self._template)
             self.input('directory %s' % self._directory)
+
+            if '.cbf' in template[-4:]:
+                self.input('detector pilatus')
+            
             if self._spacegroup:
                 self.input('symmetry %s' % self._spacegroup)
             for image in self._images:
