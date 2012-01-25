@@ -1,6 +1,7 @@
 * text=auto !eol
 /README -text
 bin/empty_pipeline -text
+bin/som.brute_force_substructure -text
 bin/som.check_pdb -text
 bin/som.difference_map -text
 bin/som.dimple -text
@@ -25,6 +26,7 @@ doc/specifications/fast_data_reduction.rst -text
 doc/specifications/readme.rst -text
 doc/use_cases/top_level.pdf -text
 doc/use_cases/top_level.rst -text
+example/example.mtz -text
 lib/__init__.py -text
 lib/interfaces/AtomPhaser.py -text
 lib/interfaces/MADAtomPhaser.py -text
@@ -84,6 +86,7 @@ src/modules/refine.py -text
 src/modules/rigid_body_refine.py -text
 src/modules/symmetry_information.py -text
 src/pipelines/__init__.py -text
+src/pipelines/brute_force_substructure.py -text
 src/pipelines/difference_map.py -text
 src/pipelines/dimple.py -text
 src/pipelines/select_pdb.py -text
