@@ -23,12 +23,15 @@ class shelx_cc_weak_pipeline:
 
         self._symmetry = None
         self._reindex_op = None
+
+        self._cc = None
+        self._cc_weak = None
         
         return
     
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
-        self._ccp4_factory.set_working_directory(working_directory)
+        self._factory.set_working_directory(working_directory)
         return
 
     def get_working_directory(self):
@@ -53,13 +56,16 @@ class shelx_cc_weak_pipeline:
     def module(self):
         return self._factory
 
+    def get_cc(self):
+        return self._cc, self._cc_weak
+
     def shelx_cc_weak_pipeline(self):
 
         # this will run the following pipeline:
         #
         # get the cell constants -> prepare the intensity data ->
         # prepare the pdb file -> rigid body refinement -> real refinement
-        
+
         temporary_files = []
 
         if not self._hklin:
@@ -92,6 +98,8 @@ class shelx_cc_weak_pipeline:
         fs.set_hklin(hklin)
         fs.set_nha(self._nha)
         fs.find_sites()
+
+        self._cc, self._cc_weak = fs.get_cc()
 
         for temporary_file in temporary_files:
             os.remove(temporary_file)

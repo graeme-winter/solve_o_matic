@@ -1,5 +1,6 @@
 import os
 import sys
+import exceptions
 
 #if not 'SOM_ROOT' in os.environ:
 #    raise RuntimeError, 'SOM_ROOT undefined'
@@ -9,6 +10,17 @@ import sys
     
 from cctbx.sgtbx import space_group, space_group_symbols
 from cctbx.uctbx import unit_cell
+from iotbx import mtz
+
+if not os.environ.has_key('XIA2CORE_ROOT'):
+    raise RuntimeError, 'XIA2CORE_ROOT not defined'
+
+sys.path.append(os.path.join(os.environ['XIA2CORE_ROOT'],
+                             'Python'))
+
+from Background.Background import Background
+
+from substructure import shelx_cc_weak_pipeline
 
 def guess_nha(cell, pointgroup):
     '''Guess # heavy atoms likely to be in here (as a floating point number)
@@ -23,6 +35,21 @@ def guess_nha(cell, pointgroup):
     v_asu = uc.volume() / n_ops
 
     return 0.023 * v_asu / (2.7 * 128)
+
+def nint(a):
+    return int(round(a))
+
+def useful_nha(cell, pointgroup):
+    nha = guess_nha(cell, pointgroup)
+
+    result = []
+
+    for f in [0.25, 0.5, 1.0, 2.0, 4.0]:
+        nha_test = nint(f * nha)
+        if nha_test and not nha_test in result:
+            result.append(nha_test)
+
+    return result
 
 def generate_enantiomorph_unique_spacegroups(pointgroup):
     '''Generate an enantiomorph unique list of chiral spacegroups which
@@ -51,12 +78,80 @@ def generate_enantiomorph_unique_spacegroups(pointgroup):
         sg_test.type().universal_hermann_mauguin_symbol().replace(' ', '') \
         for sg_test in eu_list]
 
+def generate_all_spacegroups(pointgroup):
+    '''Generate an enantiomorph unique list of chiral spacegroups which
+    share a pointgroup with this pointgroup.'''
+    
+    sg = space_group(space_group_symbols(pointgroup).hall())
+    pg = sg.build_derived_patterson_group()
+
+    eu_list = []
+
+    for j in range(1, 231):
+        sg_test = space_group(space_group_symbols(j).hall())
+
+        if not sg_test.is_chiral():
+            continue
+        
+        pg_test = sg_test.build_derived_patterson_group()
+        if pg_test == pg:
+            if not sg_test in eu_list:
+                eu_list.append(sg_test)
+
+    return [
+        sg_test.type().universal_hermann_mauguin_symbol().replace(' ', '') \
+        for sg_test in eu_list]
+
+def brute_force_substructure(hklin):
+
+    wd = os.getcwd()
+
+    m = mtz.object(hklin)
+    
+    pointgroup = m.space_group().type().number()
+
+    for crystal in m.crystals():
+        if crystal.name() != 'HKL_base':
+            uc = crystal.unit_cell().parameters()
+
+    substructure_pipelines = { }
+    jobs = []
+
+    for spacegroup in generate_enantiomorph_unique_spacegroups(pointgroup):
+        for nha in useful_nha(uc, pointgroup):
+
+            wd_j = os.path.join(wd, spacegroup, str(nha))
+
+            if not os.path.exists(wd_j):
+                os.makedirs(wd_j)
+            
+            shelx_pipeline = shelx_cc_weak_pipeline()
+            shelx_pipeline.set_working_directory(wd_j)
+            shelx_pipeline.set_hklin(hklin)
+            shelx_pipeline.set_nha(nha)
+            shelx_pipeline.set_symmetry(spacegroup)
+            substructure_pipelines[(spacegroup, nha)] = shelx_pipeline
+
+            job = Background(shelx_pipeline, 'shelx_cc_weak_pipeline')
+            jobs.append(job)
+            job.start()
+
+    for j, job in enumerate(jobs):
+        try:
+           job.stop()
+        except exceptions.Exception, e:
+            print e
+            print job.get_traceback()
+
+    for spacegroup in generate_enantiomorph_unique_spacegroups(pointgroup):
+        for nha in useful_nha(uc, pointgroup):
+            cc, cc_weak = substructure_pipelines[(spacegroup, nha)].get_cc()
+            
+            print '%10s %3d %.3f %.3f' % (spacegroup, nha, cc, cc_weak)
+
+    return
 
 if __name__ == '__main__':
 
-    cell = [51.6432, 51.6432, 157.6767, 90.0000, 90.0000, 90.0000]
-    pointgroup = 'P422'
-
-    print guess_nha(cell, pointgroup)
-    print generate_enantiomorph_unique_spacegroups(pointgroup)
-
+    brute_force_substructure(os.path.abspath(sys.argv[1]))
+    

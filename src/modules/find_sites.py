@@ -23,11 +23,15 @@ class find_sites:
         self._name = 'som_sad'
         self._nha = 0
 
+        self._cc = None
+        self._cc_weak = None
+
         return
 
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
         self._ccp4_factory.set_working_directory(working_directory)
+        self._shelx_factory.set_working_directory(working_directory)
         return
 
     def get_working_directory(self):
@@ -50,6 +54,9 @@ class find_sites:
 
     def shelx(self):
         return self._shelx_factory
+
+    def get_cc(self):
+        return self._cc, self._cc_weak
 
     def find_sites(self):
 
@@ -115,10 +122,15 @@ class find_sites:
             temporary_files.append(os.path.join(self.get_working_directory(),
                                                 '%s%s' % (self._name, f)))
 
-        print 'Final CC All / Weak: %.2f / %.2f' % (cc, cc_weak)
+
+        self._cc = cc
+        self._cc_weak = cc_weak
         
         for temporary_file in temporary_files:
-            os.remove(temporary_file)
+            try:
+                os.remove(temporary_file)
+            except OSError, e:
+                pass
 
         return
 
