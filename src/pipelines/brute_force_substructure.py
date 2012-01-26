@@ -143,11 +143,24 @@ def brute_force_substructure(hklin):
             print e
             print job.get_traceback()
 
+    best_cc_weak = 0.0
+    best_cc = 0.0
+    best_spacegroup = None
+    best_nha = None
+
     for spacegroup in generate_enantiomorph_unique_spacegroups(pointgroup):
         for nha in useful_nha(uc, pointgroup):
             cc, cc_weak = substructure_pipelines[(spacegroup, nha)].get_cc()
+
+            if cc_weak > best_cc_weak:
+                best_cc_weak = cc_weak
+                best_cc = cc
+                best_spacegroup = spacegroup
+                best_nha = nha
             
-            print '%10s %3d %.3f %.3f' % (spacegroup, nha, cc, cc_weak)
+
+    print 'Best solution: %s with %d sites, %.3f / %.3f' % \
+          (best_spacegroup, best_nha, best_cc, best_cc_weak)
 
     return
 
