@@ -60,8 +60,8 @@ def generate_enantiomorph_unique_spacegroups(pointgroup):
 
     eu_list = []
 
-    for j in range(1, 231):
-        sg_test = space_group(space_group_symbols(j).hall())
+    for j in space_group_symbol_iterator():
+        sg_test = space_group(j)
 
         if not sg_test.is_chiral():
             continue
@@ -75,7 +75,7 @@ def generate_enantiomorph_unique_spacegroups(pointgroup):
                 eu_list.append(sg_test)
 
     return [
-        sg_test.type().universal_hermann_mauguin_symbol().replace(' ', '') \
+        sg_test.type().lookup_symbol().replace(' ', '') \
         for sg_test in eu_list]
 
 def generate_all_spacegroups(pointgroup):
