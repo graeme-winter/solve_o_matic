@@ -8,7 +8,8 @@ import exceptions
 #if not os.environ['SOM_ROOT'] in sys.path:
 #    sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
     
-from cctbx.sgtbx import space_group, space_group_symbols
+from cctbx.sgtbx import space_group, space_group_symbols, \
+     space_group_symbol_iterator
 from cctbx.uctbx import unit_cell
 from iotbx import mtz
 
