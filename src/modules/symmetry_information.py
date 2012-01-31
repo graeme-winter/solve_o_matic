@@ -74,6 +74,12 @@ class symmetry_information:
 
     def get_pointgroup(self, short_name):
 
+        if ':' in short_name:
+            if short_name == 'R32:H':
+                short_name = 'H32'
+            if short_name == 'R3:H':
+                short_name = 'H3'
+
         if short_name in self._long_name_to_short_name:
             short_name = self._long_name_to_short_name[short_name]
         
