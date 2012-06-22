@@ -7,6 +7,7 @@ bin/som.difference_map -text
 bin/som.dimple -text
 bin/som.edit_pdb -text
 bin/som.select_pdb -text
+bin/som.select_pdb_all -text
 bin/som.strategy -text
 bin/som.substructure -text
 bin/som_strategy.bat -text
@@ -90,5 +91,6 @@ src/pipelines/brute_force_substructure.py -text
 src/pipelines/difference_map.py -text
 src/pipelines/dimple.py -text
 src/pipelines/select_pdb.py -text
+src/pipelines/select_pdb_all.py -text
 src/pipelines/strategy.py -text
 src/pipelines/substructure.py -text
