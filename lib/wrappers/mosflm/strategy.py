@@ -61,6 +61,8 @@ def Mosflm_strategy(DriverType = None):
             return
 
         def set_matrix(self, matrix):
+            if self.get_working_directory() in matrix:
+                matrix = matrix.replace(self.get_working_directory(), '.')
             self._matrix = matrix
             return
 
@@ -146,8 +148,9 @@ if __name__ == '__main__':
     ms.set_resolution(1.6)
     ms.set_mosaic(0.25)
     ms.set_spacegroup('P4')
-    ms.set_template('thaumatin_ssad_1_####.img')
-    ms.set_directory('/data2/gw56/dls/dna/nt1956-6/thaumatin_ssad')
+    ms.set_template('thaumatin_die_M1S5_1_####.img')
+    ms.set_directory(
+        '/dls/mx-scratch/gw56/drives/1/dls/dna/nt1956-6/thaumatin_die')
     for image in [1, 45, 90]:
         ms.add_image(image)
     ms.strategy()
@@ -164,8 +167,9 @@ if __name__ == '__main__':
     ms.set_resolution(1.6)
     ms.set_mosaic(0.25)
     ms.set_spacegroup('P4')
-    ms.set_template('thaumatin_ssad_1_####.img')
-    ms.set_directory('/data2/gw56/dls/dna/nt1956-6/thaumatin_ssad')
+    ms.set_template('thaumatin_die_M1S5_1_####.img')
+    ms.set_directory(
+        '/dls/mx-scratch/gw56/drives/1/dls/dna/nt1956-6/thaumatin_die')
     for image in [1, 45, 90]:
         ms.add_image(image)
     ms.strategy()

@@ -80,6 +80,8 @@ def Mosflm_index(DriverType = None):
                 self.input('symmetry %s' % self._spacegroup)
             for image in self._images:
                 self.input('autoindex dps refine image %d' % image)
+
+            self.input('best on')
             self.input('mosaic estimate')
             self.input('go')
             self.close_wait()
@@ -107,8 +109,9 @@ if __name__ == '__main__':
 
     mi = Mosflm_index()
 
-    mi.set_template('thaumatin_ssad_1_####.img')
-    mi.set_directory('/data2/gw56/dls/dna/nt1956-6/thaumatin_ssad')
+    mi.set_template('thaumatin_die_M1S5_1_####.img')
+    mi.set_directory(
+        '/dls/mx-scratch/gw56/drives/1/dls/dna/nt1956-6/thaumatin_die')
     for image in [1, 45, 90]:
         mi.add_image(image)
     mi.index()
