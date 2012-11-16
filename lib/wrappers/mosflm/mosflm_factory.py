@@ -2,6 +2,7 @@ import os
 
 from index import Mosflm_index
 from strategy import Mosflm_strategy
+from integrate import Mosflm_integrate
 
 class mosflm_factory:
 
@@ -22,6 +23,11 @@ class mosflm_factory:
         _strategy = Mosflm_strategy()
         _strategy.set_working_directory(self._working_directory)
         return _strategy
+
+    def integrate(self):
+        _integrate = Mosflm_integrate()
+        _integrate.set_working_directory(self._working_directory)
+        return _integrate
 
 
 

@@ -147,11 +147,28 @@ class calculate_strategy:
         self._completeness = ms.get_completeness()
         return
 
+    def integrate(self):
+        ms = self._mosflm_factory.integrate()
+        ms.write_log_file('integrate.log')
+        ms.set_matrix(self._matrix)
+        ms.set_resolution(self._resolution)
+        ms.set_mosaic(self._mosaic)
+        ms.set_spacegroup(self._spacegroup)
+        ms.set_template(self._template)
+        ms.set_directory(self._directory)
+        if self._anomalous:
+            ms.set_anomalous(self._anomalous)
+        for image in self._images:
+            ms.add_image(image)
+        ms.integrate()
+        return
+
     def calculate_strategy(self):
 
         self.select_images()
         self.resolution()
         self.strategy()
+        self.integrate()
 
         return
 

@@ -59,6 +59,7 @@ lib/wrappers/ccp4/truncate.py -text
 lib/wrappers/ccp4/unique.py -text
 lib/wrappers/mosflm/__init__.py -text
 lib/wrappers/mosflm/index.py -text
+lib/wrappers/mosflm/integrate.py -text
 lib/wrappers/mosflm/mosflm_factory.py -text
 lib/wrappers/mosflm/strategy.py -text
 lib/wrappers/phenix/index.py -text
