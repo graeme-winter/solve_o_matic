@@ -110,7 +110,7 @@ def Mosflm_integrate(DriverType = None):
             # do want to chmod the files bestfile.par and bestfile.hkl
             for f in 'bestfile.par', 'bestfile.hkl':
                 try:
-                    os.chmod(os.path.join(self.get_working_directory(), f)
+                    os.chmod(os.path.join(self.get_working_directory(), f),
                              0644)
                 except:
                     pass
