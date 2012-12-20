@@ -12,16 +12,7 @@ if not os.environ['SOM_ROOT'] in sys.path:
     
 from modules.module_factory import module_factory
 
-# function to guess the point group
-
-def ersatz_pointgroup(spacegroup):
-    
-    result = ''
-
-    for token in spacegroup.split():
-        result += token[0]
-
-    return result
+from dimple import ersatz_pointgroup
 
 # add a function in here to select the right PDB file - defined as having
 # something in common name-wise and having the same pointgroup
