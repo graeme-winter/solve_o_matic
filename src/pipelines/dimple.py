@@ -402,6 +402,9 @@ class ligand_pipeline:
 # function to guess the point group
 
 def ersatz_pointgroup(spacegroup):
+
+    if not ' ' in spacegroup:
+        return spacegroup
     
     result = ''
 
