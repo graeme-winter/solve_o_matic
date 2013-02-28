@@ -504,10 +504,21 @@ if __name__ == '__main__':
 
     candidates = []
 
+    # SCI-857: should be more relaxed here and perhaps ignore the naming
+    # filter if there are no names matching?
+
     for arg in sys.argv[1:]:
         if os.path.split(arg)[-1].split('.')[0] in os.getcwd():
             candidates.append(arg)
 
+    # no matching names, proceed with all files... 
+ 
+    if len(candidates) == 0:
+
+        print 'none of the file names matched %s: trying all' % os.getcwd()
+        
+        candidates = sys.argv[1:]
+        
     if len(candidates) == 0:
         raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
 
