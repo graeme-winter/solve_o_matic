@@ -508,15 +508,13 @@ if __name__ == '__main__':
     # filter if there are no names matching?
 
     for arg in sys.argv[1:]:
-        if os.path.split(arg)[-1].split('.')[0] in os.getcwd():
+        if os.path.split(arg)[-1].split('.')[0].lower() in os.getcwd().lower():
             candidates.append(arg)
 
     # no matching names, proceed with all files... 
  
     if len(candidates) == 0:
-
         print 'none of the file names matched %s: trying all' % os.getcwd()
-        
         candidates = sys.argv[1:]
         
     if len(candidates) == 0:
