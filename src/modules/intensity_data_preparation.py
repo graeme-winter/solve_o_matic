@@ -148,7 +148,8 @@ class intensity_data_preparation:
             
             hklout = pointless.check_origin()
 
-            hklin = hklout
+            if os.path.exists(hklout):
+                hklin = hklout
             hklout = os.path.join(self.get_working_directory(),
                                   '%s_reindex_sg.mtz' % name)
             temporary_files.append(hklout)

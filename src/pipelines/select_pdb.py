@@ -26,7 +26,6 @@ def select_right_pdb(hklin, pdb_list):
     im.set_hklin(hklin)
     im.interrogate_mtz()
     reference = ersatz_pointgroup(im.get_symmetry())
-
     reference_cell = im.get_cell()
 
     cells = { }
@@ -37,7 +36,11 @@ def select_right_pdb(hklin, pdb_list):
         ip.interrogate_pdb()
         if reference == ersatz_pointgroup(ip.get_symmetry_full()):
             candidates.append(xyzin)
-            cells[xyzin] = ip.get_cell()
+            if reference == 'P222':
+                cells[xyzin] = nearest_orthorhombic(reference_cell,
+                                                    ip.get_cell())
+            else:
+                cells[xyzin] = ip.get_cell()
 
     if len(candidates) == 0:
         raise RuntimeError, 'no matching coordinate files found'
@@ -46,7 +49,6 @@ def select_right_pdb(hklin, pdb_list):
     # the others... do this by sorting on the absolute differences in
     # cell constants then picking the closest match
 
-    # erm. doesn't this need to consider permutations for P222?
 
     if len(candidates) == 1:
         return candidates[0]
@@ -61,6 +63,38 @@ def select_right_pdb(hklin, pdb_list):
     diffs.sort()
 
     return diffs[0][1]
+
+def nearest_orthorhombic(ref_cell, test_cell):
+    '''Test for alternative indexing possibilities for an orthorhombic
+    primitive lattice, to handle e.g. P21221 vs. P21212.'''
+
+    for j in 3, 4, 5:
+        if int(round(ref_cell[j])) != 90:
+            return None
+
+    for j in 3, 4, 5:
+        assert(int(round(test_cell[j])) == 90)
+
+    a, b, c = tuple(test_cell[:3])
+
+    best = a * a + b * b * c * c
+    best_cell = None
+
+    # try permuting the cell axes
+
+    for test, reindex in ((a, b, c), 'h,k,l'), \
+            ((b, c, a), 'k,l,h'), \
+            ((c, a, b), 'l,h,k'):
+        
+        diff = sum(
+            [(test[j] - ref_cell[j]) * (test[j] - ref_cell[j]) \
+             for j in range(3)])
+
+        if diff < best:
+            best = diff
+            best_cell = test
+
+    return best_cell[0], best_cell[1], best_cell[2], 90, 90, 90
 
 # then add a function to determine (if possible) the right reindexing
 # operation for orthorhombic spacegroups
