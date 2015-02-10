@@ -11,7 +11,7 @@ if not os.environ['SOM_ROOT'] in sys.path:
 
 from interrogate_mtz import interrogate_mtz
 from symmetry_information import symmetry_information
-    
+
 # now import the factories that we will need
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
@@ -26,7 +26,7 @@ class intensity_data_preparation:
         # this is pretty straight forward - need to essentially define
         # where we're going to work, the input files, the correct
         # spacegroup and optionally the reindex operator
-        
+
         self._working_directory = os.getcwd()
         self._ccp4_factory = ccp4_factory()
 
@@ -40,7 +40,7 @@ class intensity_data_preparation:
         self._reindex_op = None
 
         self._symmetry_information = symmetry_information()
-               
+
         return
 
     def set_working_directory(self, working_directory):
@@ -75,7 +75,7 @@ class intensity_data_preparation:
 
         self._symmetry = symmetry
         return
-    
+
     def set_reindex_op(self, reindex_op):
         self._reindex_op = reindex_op
         return
@@ -108,7 +108,7 @@ class intensity_data_preparation:
         im.set_working_directory(self._working_directory)
         im.set_hklin(self._hklin)
         im.interrogate_mtz()
-        
+
         cell = im.get_cell()
         symmetry = im.get_symmetry()
 
@@ -145,7 +145,7 @@ class intensity_data_preparation:
 
             # pointless wrapper will return hklin if no alternative
             # indexing is possible
-            
+
             hklout = pointless.check_origin()
 
             if os.path.exists(hklout):
@@ -175,7 +175,7 @@ class intensity_data_preparation:
                               '%s_truncate.mtz' % name)
 
         temporary_files.append(hklout)
-        
+
         truncate = self.ccp4().truncate()
         truncate.set_hklin(hklin)
         truncate.set_hklout(hklout)
@@ -203,7 +203,7 @@ class intensity_data_preparation:
         cell = tuple(info['cell'])
         symmetry = info['symmetry']
         resolution = min(mtzdump.get_resolution_range())
-        
+
         hklout = os.path.join(self.get_working_directory(),
                               '%s_unique.mtz' % name)
         temporary_files.append(hklout)
@@ -265,9 +265,3 @@ if __name__ == '__main__':
         idp.set_reindex_op(reindex_op)
 
     idp.prepare_data_native()
-
-    
-        
-        
-        
-

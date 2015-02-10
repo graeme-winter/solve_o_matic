@@ -32,7 +32,7 @@ def Freerflag(DriverType = None):
             self.close_wait()
             self.check_for_errors()
             self.check_ccp4_errors()
-            
+
             return
 
     return FreerflagWrapper()

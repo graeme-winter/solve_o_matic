@@ -6,7 +6,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
-    
+
 # N.B. definition of CRYST1 record from
 # http://www.rcsb.org/robohelp/files_formats/structures/pdb/\
 # coordinate_file_description/cryst1.htm
@@ -63,7 +63,7 @@ class interrogate_pdb:
                                'GLU', 'LEU', 'ARG', 'TRP', 'VAL', 'ASN',
                                'TYR', 'MET']:
                     continue
-                
+
                 n = int(record[22:26])
                 sequence[n] = res
 
@@ -77,7 +77,7 @@ class interrogate_pdb:
 
         for n in sorted(sequence):
             self._sequence.append(sequence[n])
-        
+
         return
 
     def get_cell(self):
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     else:
         im.set_xyzin(sys.argv[1])
 
-        
+
     im.interrogate_pdb()
     print im.get_symmetry_full()
     print im.get_molecular_weight()

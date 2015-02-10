@@ -9,7 +9,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-    
+
 from modules.module_factory import module_factory
 
 from dimple import ersatz_pointgroup
@@ -85,7 +85,7 @@ def nearest_orthorhombic(ref_cell, test_cell):
     for test, reindex in ((a, b, c), 'h,k,l'), \
             ((b, c, a), 'k,l,h'), \
             ((c, a, b), 'l,h,k'):
-        
+
         diff = sum(
             [(test[j] - ref_cell[j]) * (test[j] - ref_cell[j]) \
              for j in range(3)])
@@ -120,7 +120,7 @@ def test_orthorhombic(ref_cell, test_cell):
     for test, reindex in ((a, b, c), 'h,k,l'), \
             ((b, c, a), 'k,l,h'), \
             ((c, a, b), 'l,h,k'):
-        
+
         diff = sum(
             [(test[j] - ref_cell[j]) * (test[j] - ref_cell[j]) \
              for j in range(3)])
@@ -156,5 +156,3 @@ if __name__ == '__main__':
         raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
 
     print '%s' % xyzin
-
-

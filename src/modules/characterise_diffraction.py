@@ -12,7 +12,7 @@ if not os.environ['SOM_ROOT'] in sys.path:
 # FIXME add an interrogate_image module - e.g. from fast_dp
 
 from interrogate_image import interrogate_image
-    
+
 # now import the factories that we will need
 
 from wrappers.mosflm.mosflm_factory import mosflm_factory
@@ -35,7 +35,7 @@ class characterise_diffraction:
 
         self._interrogate_image = None
         self._images = []
-        
+
         self._matrix = None
         self._spacegroup = None
         self._cell = None
@@ -50,7 +50,7 @@ class characterise_diffraction:
 
     def get_working_directory(self):
         return self._working_directory
-    
+
     def set_image(self, image):
         self._image = image
         self._interrogate_image = interrogate_image()
@@ -63,13 +63,13 @@ class characterise_diffraction:
 
     def get_spacegroup(self):
         return self._spacegroup
-    
+
     def get_cell(self):
         return self._cell
-    
+
     def get_mosaic(self):
         return self._mosaic
-    
+
     def get_matrix(self):
         return self._matrix
 
@@ -88,9 +88,12 @@ class characterise_diffraction:
         mi = self._mosflm_factory.index()
 
         mi.write_log_file('index.log')
-        
+
         mi.set_template(ii.get_template())
         mi.set_directory(ii.get_directory())
+
+        if ii.get_goniometer_is_vertical():
+            mi.set_omega(270)
 
         if self._spacegroup:
             mi.set_spacegroup(self._spacegroup)
@@ -113,7 +116,7 @@ class characterise_diffraction:
         return
 
 if __name__ == '__main__':
-    
+
     cd = characterise_diffraction()
     cd.set_image(sys.argv[1])
     cd.characterise()
@@ -121,8 +124,3 @@ if __name__ == '__main__':
     print 'Unit cell: %.3f %.3f %.3f %.3f %.3f %.3f' % cd.get_cell()
     print 'Spacegroup: %s' % cd.get_spacegroup()
     print 'Mosaic: %.2f' % cd.get_mosaic()
-        
-        
-    
-        
-    

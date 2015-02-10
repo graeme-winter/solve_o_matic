@@ -13,7 +13,7 @@ if not os.environ['SOM_ROOT'] in sys.path:
 # FIXME add an interrogate_image module - e.g. from fast_dp
 
 from interrogate_image import interrogate_image
-    
+
 # now import the factories that we will need
 
 from wrappers.mosflm.mosflm_factory import mosflm_factory
@@ -33,7 +33,7 @@ class calculate_strategy:
 
         self._interrogate_image = None
         self._images = []
-        
+
         self._template = None
         self._directory = None
         self._matrix = None
@@ -42,11 +42,11 @@ class calculate_strategy:
         self._anomalous = False
 
         self._resolution = None
-        
+
         self._phi_start = None
         self._phi_end = None
         self._phi_width = None
-        
+
         self._completeness = None
 
         return
@@ -58,7 +58,7 @@ class calculate_strategy:
 
     def get_working_directory(self):
         return self._working_directory
-    
+
     def set_image(self, image):
         self._image = image
         self._interrogate_image = interrogate_image()
@@ -70,28 +70,28 @@ class calculate_strategy:
     def set_spacegroup(self, spacegroup):
         self._spacegroup = spacegroup
         return
-    
+
     def set_mosaic(self, mosaic):
         self._mosaic = mosaic
         return
-    
+
     def set_matrix(self, matrix):
         self._matrix = matrix
         return
-    
+
     def set_anomalous(self, anomalous = True):
         self._anomalous = anomalous
         return
-    
+
     def get_phi_start(self):
         return self._phi_start
-    
+
     def get_phi_end(self):
         return self._phi_end
-    
+
     def get_phi_width(self):
         return self._phi_width
-    
+
     def get_completeness(self):
         return self._completeness
 
@@ -129,6 +129,9 @@ class calculate_strategy:
             ms.write_log_file('strategy_anomalous.log')
         else:
             ms.write_log_file('strategy_native.log')
+        ii = self._interrogate_image
+        if ii.get_goniometer_is_vertical():
+            ms.set_omega(270)
         ms.set_matrix(self._matrix)
         ms.set_resolution(self._resolution)
         ms.set_mosaic(self._mosaic)
@@ -174,9 +177,9 @@ class calculate_strategy:
 
 
 if __name__ == '__main__':
-    
+
     from characterise_diffraction import characterise_diffraction
-    
+
     cd = characterise_diffraction()
     cd.set_image(sys.argv[1])
     cd.characterise()
@@ -196,7 +199,7 @@ if __name__ == '__main__':
     print 'Phi range: %.1f to %.1f' % (cs.get_phi_start(), cs.get_phi_end())
     print 'Phi width: %.1f' % cs.get_phi_width()
     print 'Completeness: %.2f' % cs.get_completeness()
-    
+
     cs = calculate_strategy()
     cs.set_image(sys.argv[1])
     cs.set_matrix(cd.get_matrix())
@@ -209,9 +212,3 @@ if __name__ == '__main__':
     print 'Phi range: %.1f to %.1f' % (cs.get_phi_start(), cs.get_phi_end())
     print 'Phi width: %.1f' % cs.get_phi_width()
     print 'Completeness: %.2f' % cs.get_completeness()
-    
-    
-        
-                                
-
-    

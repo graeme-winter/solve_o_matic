@@ -57,11 +57,10 @@ def Pdbset(DriverType = None):
             self.check_for_errors()
             self.check_ccp4_errors()
 
-            return                       
-                    
+            return
+
     return PdbsetWrapper()
 
 if __name__ == '__main__':
     # FIXME add a test
     pass
-

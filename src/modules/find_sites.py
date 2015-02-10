@@ -6,7 +6,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
-    
+
 # now import the factories that we will need
 
 from wrappers.shelx.shelx_factory import shelx_factory
@@ -67,12 +67,12 @@ class find_sites:
         mtzdump = self.ccp4().mtzdump()
         mtzdump.set_hklin(self._hklin)
         mtzdump.mtzdump()
-        
+
         datasets = mtzdump.get_datasets()
 
         # FIXME need to handle this gracefully - more than one data set
         # is fine though I will need their names, e.g. SAD, PEAK and so on.
-        
+
         if len(datasets) != 1:
             raise RuntimeError, 'need exactly one data set in %s' % \
                   self._hklin
@@ -104,7 +104,7 @@ class find_sites:
         shelxc.set_name(self._name)
         shelxc.shelxc()
 
-        # shelxc makes the following files: 
+        # shelxc makes the following files:
         for f in '_fa.ins', '_fa.hkl', '.hkl':
             temporary_files.append(os.path.join(self.get_working_directory(),
                                                 '%s%s' % (self._name, f)))
@@ -117,7 +117,7 @@ class find_sites:
 
         cc, cc_weak = shelxd.get_cc()
 
-        # shelxd makes the following files: 
+        # shelxd makes the following files:
         for f in '_fa.pdb', '_fa.res', '_fa.lst':
             temporary_files.append(os.path.join(self.get_working_directory(),
                                                 '%s%s' % (self._name, f)))
@@ -125,7 +125,7 @@ class find_sites:
 
         self._cc = cc
         self._cc_weak = cc_weak
-        
+
         for temporary_file in temporary_files:
             try:
                 os.remove(temporary_file)
@@ -137,11 +137,3 @@ class find_sites:
 if __name__ == '__main__':
     # then run a test!
     pass
-
-
-    
-        
-        
-        
-
-        

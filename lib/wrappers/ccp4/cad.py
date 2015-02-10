@@ -33,7 +33,7 @@ def Cad(DriverType = None):
             self._cell_parameters = None
             self._column_suffix = None
 
-            # assignment of project / crystal / dataset 
+            # assignment of project / crystal / dataset
             self._pname = None
             self._xname = None
             self._dname = None
@@ -62,7 +62,7 @@ def Cad(DriverType = None):
             self._freein_column = freein_column
 
             return
-        
+
         def set_project_info(self, pname, xname, dname):
             self._pname = pname
             self._xname = xname
@@ -87,9 +87,9 @@ def Cad(DriverType = None):
 
             if not self._hklin_files:
                 raise RuntimeError, 'no hklin files defined'
-            
+
             self.check_hklout()
-            
+
             hklin_counter = 0
 
             # for each reflection file, need to gather the column names
@@ -154,7 +154,7 @@ def Cad(DriverType = None):
             self.check_ccp4_errors()
 
             return
-        
+
         def update(self):
 
             if not self._hklin_files:
@@ -174,7 +174,7 @@ def Cad(DriverType = None):
             mtzdump.set_hklin(self._hklin)
             mtzdump.dump()
             columns = mtzdump.get_columns()
-            
+
             column_names_by_file[hklin] = []
             dataset_names_by_file[hklin] = mtzdump.get_datasets()
 
@@ -185,7 +185,7 @@ def Cad(DriverType = None):
                 name = c[0]
                 if name in ['H', 'K', 'L']:
                     continue
-                                          
+
                 column_names_by_file[hklin].append(name)
 
             self.add_command_line('hklin1')
@@ -199,14 +199,14 @@ def Cad(DriverType = None):
                            (dataset_id, self._xname, self._dname))
                 self.input('dpname file_number 1 %d %s' % \
                            (dataset_id, self._pname))
-                
+
             column_counter = 0
-            labin_command = 'labin file_number 1' 
+            labin_command = 'labin file_number 1'
             for column in column_names_by_file[hklin]:
                 column_counter += 1
                 labin_command += ' E%d=%s' % (column_counter, column)
 
-            self.input(labin_command)            
+            self.input(labin_command)
 
             pname, xname, dname = dataset_names_by_file[hklin][0].split('/')
             dataset_id = dataset_ids[0]
@@ -219,14 +219,14 @@ def Cad(DriverType = None):
             if self._column_suffix:
                 suffix = self._column_suffix
                 column_counter = 0
-                labout_command = 'labout file_number 1' 
+                labout_command = 'labout file_number 1'
                 for column in column_names_by_file[hklin]:
                     column_counter += 1
                     labout_command += ' E%d=%s_%s' % \
                                      (column_counter, column, suffix)
 
                 self.input(labout_command)
-                
+
             self.close_wait()
 
             self.check_for_errors()
@@ -240,7 +240,7 @@ def Cad(DriverType = None):
 
             if len(self._hklin_files) > 1:
                 raise RuntimeError, 'can have only one hklin to update'
-            
+
             hklin = self._hklin_files[0]
 
             self.check_hklout()
@@ -264,7 +264,7 @@ def Cad(DriverType = None):
             self.check_ccp4_errors()
 
             return
-        
+
     return CadWrapper()
 
 if __name__ == '__main__':

@@ -114,10 +114,10 @@ def Mosflm_integrate(DriverType = None):
                              0644)
                 except:
                     pass
-            
-                
+
+
             return
-            
+
     return Mosflm_integrateWrapper()
 
 
@@ -135,5 +135,3 @@ if __name__ == '__main__':
     for image in [1, 45, 90]:
         ms.add_image(image)
     ms.integrate()
-
-

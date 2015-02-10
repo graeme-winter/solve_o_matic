@@ -1,6 +1,8 @@
 import os
 import sys
 import subprocess
+import exceptions
+import time
 
 if not 'SOM_ROOT' in os.environ:
     raise RuntimeError, 'SOM_ROOT undefined'
@@ -11,7 +13,6 @@ if not os.environ['SOM_ROOT'] in sys.path:
 from jiffies.files import image2template, image2image, \
      image2template_directory, \
      find_matching_images, template_directory_number2image
-
 ### BODGE ###
 
 # I should implement a proper diffdump wrapper as per xia2.
@@ -52,6 +53,12 @@ def run_job(executable, arguments = [], stdin = [], working_directory = None):
 
     return output
 
+def get_dectris_serial_no(record):
+    if not 'S/N' in record:
+        return '0'
+    tokens = record.split()
+    return tokens[tokens.index('S/N') + 1]
+
 def failover_cbf(cbf_file):
     '''CBF files from the latest update to the PILATUS detector cause a
     segmentation fault in diffdump. This is a workaround.'''
@@ -68,12 +75,21 @@ def failover_cbf(cbf_file):
             header['detector_class'] = 'pilatus 2M'
             header['detector'] = 'dectris'
             header['size'] = (1679, 1475)
+            header['serial_number'] = get_dectris_serial_no(record)
             continue
 
         if 'PILATUS 6M' in record:
             header['detector_class'] = 'pilatus 6M'
             header['detector'] = 'dectris'
             header['size'] = (2527, 2463)
+            header['serial_number'] = get_dectris_serial_no(record)
+            continue
+
+        if 'PILATUS3 6M' in record:
+            header['detector_class'] = 'pilatus 6M'
+            header['detector'] = 'dectris'
+            header['size'] = (2527, 2463)
+            header['serial_number'] = get_dectris_serial_no(record)
             continue
 
         if 'Start_angle' in record:
@@ -118,9 +134,20 @@ def failover_cbf(cbf_file):
             struct_time = time.strptime(datestring, format)
             header['date'] = time.asctime(struct_time)
             header['epoch'] = time.mktime(struct_time)
-            
-        except:
+
+        except exceptions.Exception, e:
             pass
+
+        try:
+            datestring = record.split()[-1].split('.')[0]
+            format = '%Y-%m-%dT%H:%M:%S'
+            struct_time = time.strptime(datestring, format)
+            header['date'] = time.asctime(struct_time)
+            header['epoch'] = time.mktime(struct_time)
+
+        except exceptions.Exception, e:
+            pass
+
 
         try:
             datestring = record.replace('#', '').strip().split('.')[0]
@@ -128,9 +155,16 @@ def failover_cbf(cbf_file):
             struct_time = time.strptime(datestring, format)
             header['date'] = time.asctime(struct_time)
             header['epoch'] = time.mktime(struct_time)
-            
-        except:
+
+        except exceptions.Exception, e:
             pass
+
+    # cope with vertical goniometer on I24 @ DLS from 2015/1/1
+    if header.get('serial_number', '0') == '60-0119' and \
+            int(header['date'].split()[-1]) >= 2015 and True:
+        header['goniometer_is_vertical'] = True
+    else:
+        header['goniometer_is_vertical'] = False
 
     return header
 
@@ -142,9 +176,9 @@ def read_image_metadata(image):
 
     template, directory = image2template_directory(image)
     matching = find_matching_images(template, directory)
-    
+
     # work around (preempt) diffdump failure with the new 2M instrument
-        
+
     try:
         if '.cbf' in image[-4:]:
             metadata = failover_cbf(image)
@@ -164,9 +198,10 @@ def read_image_metadata(image):
 
             return metadata
 
-    except:
+    except exceptions.Exception, e:
         pass
-    
+
+
     # MAR CCD images record the beam centre in pixels...
 
     diffdump_output = run_job('diffdump', arguments = [image])
@@ -177,42 +212,42 @@ def read_image_metadata(image):
         if 'Wavelength' in record:
             wavelength = float(record.split()[-2])
             metadata['wavelength'] = wavelength
-            
+
         elif 'Beam center' in record:
             x = float(record.replace('(', ' ').replace(
                 'mm', ' ').replace(',', ' ').split()[3])
             y = float(record.replace('(', ' ').replace(
                 'mm', ' ').replace(',', ' ').split()[4])
             metadata['beam'] = x, y
-            
+
         elif 'Image Size' in record:
             x = int(record.replace('(', ' ').replace(
                 'px', ' ').replace(',', ' ').split()[3])
             y = int(record.replace('(', ' ').replace(
                 'px', ' ').replace(',', ' ').split()[4])
             metadata['size'] = x, y
-            
+
         elif 'Pixel Size' in record:
             x = float(record.replace('(', ' ').replace(
                 'mm', ' ').replace(',', ' ').split()[3])
             y = float(record.replace('(', ' ').replace(
                 'mm', ' ').replace(',', ' ').split()[4])
             metadata['pixel'] = x, y
-            
+
         elif 'Distance' in record:
             distance = float(record.split()[-2])
             metadata['distance'] = distance
-            
+
         elif 'Oscillation' in record:
             phi_start = float(record.split()[3])
             phi_end = float(record.split()[5])
             phi_width = phi_end - phi_start
-            
+
             if phi_width > 360.0:
                 phi_width -= 360.0
-                
+
             metadata['oscillation'] = phi_start, phi_width
-                
+
         elif 'Manufacturer' in record or 'Image type' in record:
             detector = record.split()[-1]
             if detector == 'ADSC':
@@ -228,21 +263,21 @@ def read_image_metadata(image):
     if (metadata['detector'] == 'PILATUS_6M') and \
        (metadata['size'] == (1679, 1475)):
                 metadata['detector'] = 'PILATUS_2M'
-        
+
     # now compute the filename template and what have you, and also
     # verify that the results stored make sense, particularly w.r.t.
     # the beam centre, which may be stored in pixels not mm.
-    
+
     template, directory = image2template_directory(image)
     matching = find_matching_images(template, directory)
     metadata['images'] = matching
-    
+
     # MAR CCD images record the beam centre in pixels...
-        
+
     if metadata['detector'] == 'MARCCD':
         metadata['beam'] = (metadata['beam'][0] * metadata['pixel'][0],
                             metadata['beam'][1] * metadata['pixel'][1])
-        
+
     metadata['directory'] = directory
     metadata['template'] = template
     metadata['start'] = min(matching)
@@ -266,10 +301,10 @@ class interrogate_image:
 
     def get_beam(self):
         return self._metadata['beam']
-        
+
     def get_size(self):
         return self._metadata['size']
-        
+
     def get_pixel(self):
         return self._metadata['pixel']
 
@@ -281,7 +316,7 @@ class interrogate_image:
 
     def get_phi_start(self):
         return self._metadata['oscillation'][0]
-        
+
     def get_phi_end(self):
         return self._metadata['oscillation'][1]
 
@@ -294,6 +329,9 @@ class interrogate_image:
     def get_directory(self):
         return self._metadata['directory']
 
+    def get_goniometer_is_vertical(self):
+        return self._metadata['goniometer_is_vertical']
+
 if __name__ == '__main__':
 
     ii = interrogate_image()
@@ -305,7 +343,3 @@ if __name__ == '__main__':
     print ii.get_images()
     print ii.get_distance()
     print ii.get_wavelength()
-    
-        
-
-

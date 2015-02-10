@@ -47,7 +47,7 @@ def Refmac5(DriverType = None):
 
             self._mode = None
             self._ncycles = None
-            
+
             return
 
         def set_labin(self, program_label, file_label):
@@ -60,7 +60,7 @@ def Refmac5(DriverType = None):
 
         def set_ncycles(self, ncycles):
             '''Set the number of cycles of refinement to use.'''
-            
+
             self._ncycles = ncycles
             return
 
@@ -115,7 +115,7 @@ def Refmac5(DriverType = None):
                     self.input('ncycle 15')
                 else:
                     self.input('ncycle %d' % self._ncycles)
-                
+
             elif self._mode == self._mode_rigidbody:
                 self.input('refinement type rigidbody resolution 15 3.5')
                 self.input('scale type simple lssc anisotropic experimental')
@@ -132,7 +132,7 @@ def Refmac5(DriverType = None):
             # reindexing issues... thanks, Garib.
 
             self.input('twin')
-                
+
             self.close_wait()
 
             self.check_for_errors()
@@ -148,4 +148,3 @@ def Refmac5(DriverType = None):
 if __name__ == '__main__':
     # FIXME write test...
     pass
-

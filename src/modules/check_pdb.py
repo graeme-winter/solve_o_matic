@@ -32,7 +32,7 @@ class check_pdb:
 
             if 'CRYST1' in record:
                 CRYST1 = True
-            
+
             if 'ATOM  ' in record[:6] or 'HETATM' in record[:6]:
                 residue = record[17:20]
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 2:
         raise RuntimeError, '%s file.pdb [...]' % sys.argv[0]
-    
+
     for arg in sys.argv[1:]:
         print arg
         try:
@@ -64,7 +64,3 @@ if __name__ == '__main__':
             print 'ok'
         except Exception, e:
             print e
-
-    
-
-    

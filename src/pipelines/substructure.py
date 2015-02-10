@@ -6,7 +6,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-    
+
 # import the modules that we will need
 
 from modules.module_factory import module_factory
@@ -14,7 +14,7 @@ from modules.module_factory import module_factory
 class shelx_cc_weak_pipeline:
 
     def __init__(self):
-        
+
         self._working_directory = os.getcwd()
         self._factory = module_factory()
 
@@ -26,9 +26,9 @@ class shelx_cc_weak_pipeline:
 
         self._cc = None
         self._cc_weak = None
-        
+
         return
-    
+
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
         self._factory.set_working_directory(working_directory)
@@ -76,7 +76,7 @@ class shelx_cc_weak_pipeline:
 
         if not self._symmetry:
             raise RuntimeError, 'symmetry not defined'
-    
+
         # prepare intensity data
 
         name = os.path.split(self._hklin)[-1][:-4]

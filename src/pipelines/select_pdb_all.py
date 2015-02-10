@@ -9,13 +9,13 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-    
+
 from modules.module_factory import module_factory
 
 # function to guess the point group
 
 def ersatz_pointgroup(spacegroup):
-    
+
     result = ''
 
     for token in spacegroup.split():
@@ -95,7 +95,7 @@ def test_orthorhombic(ref_cell, test_cell):
     for test, reindex in ((a, b, c), 'h,k,l'), \
             ((b, c, a), 'k,l,h'), \
             ((c, a, b), 'l,h,k'):
-        
+
         diff = sum(
             [(test[j] - ref_cell[j]) * (test[j] - ref_cell[j]) \
              for j in range(3)])
@@ -133,5 +133,3 @@ if __name__ == '__main__':
         print 'No files found'
     else:
         print '%s' % xyzin
-
-

@@ -6,7 +6,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
-    
+
 # now import the factories that we will need
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
@@ -78,7 +78,7 @@ class refine:
         refmac5.set_hklout(self._hklout)
         refmac5.set_xyzin(self._xyzin)
         refmac5.set_xyzout(self._xyzout)
-        
+
         refmac5.set_mode_restrained()
         refmac5.set_ncycles(7)
         refmac5.refmac5()
@@ -97,7 +97,7 @@ class refine:
         loggraphs = refmac5.parse_ccp4_loggraph()
 
         loggraph = loggraphs['Rfactor analysis, stats vs cycle']
-        
+
         cycle_col = loggraph['columns'].index('Ncyc')
         r_col = loggraph['columns'].index('Rfact')
         rfree_col = loggraph['columns'].index('Rfree')
@@ -119,9 +119,3 @@ class refine:
 if __name__ == '__main__':
     # then I should run a test...
     pass
-
-
-        
-    
-    
-        

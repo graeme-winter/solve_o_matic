@@ -35,7 +35,7 @@ def image2template(filename):
 
             for digit in string.digits:
                 number = number.replace(digit, '#')
-                
+
             return patterns[pattern] % (prefix, number, exten)
 
     raise RuntimeError, 'filename %s not understood as a template' % \
@@ -76,10 +76,10 @@ def image2template_directory(filename):
     directory = os.path.dirname(filename)
 
     if not directory:
-        
+
         # then it should be the current working directory
         directory = os.getcwd()
-        
+
     image = os.path.split(filename)[-1]
     template = image2template(image)
 
@@ -98,7 +98,7 @@ def find_matching_images(template, directory):
     # change 30/may/2008 - now escape the template in this search to cope with
     # file templates with special characters in them, such as "+" -
     # fix to a problem reported by Joel B.
-    
+
     length = template.count('#')
     regexp_text = re.escape(template).replace('\\#' * length,
                                               '([0-9]{%d})' % length)

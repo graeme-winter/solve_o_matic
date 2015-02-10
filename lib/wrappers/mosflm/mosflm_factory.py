@@ -28,8 +28,3 @@ class mosflm_factory:
         _integrate = Mosflm_integrate()
         _integrate.set_working_directory(self._working_directory)
         return _integrate
-
-
-
-
-    

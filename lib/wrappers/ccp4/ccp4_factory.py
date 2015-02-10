@@ -70,7 +70,3 @@ class ccp4_factory:
         _pointless = Pointless()
         _pointless.set_working_directory(self._working_directory)
         return _pointless
-
-
-
-    

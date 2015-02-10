@@ -23,13 +23,15 @@ def Mosflm_index(DriverType = None):
             self._template = None
             self._directory = None
             self._images = []
-            
+
             self._cell = None
             self._spacegroup = None
             self._mosaic = None
 
             self._matrix = None
-            
+
+            self._omega = 0
+
             return
 
         def set_template(self, template):
@@ -38,6 +40,10 @@ def Mosflm_index(DriverType = None):
 
         def set_directory(self, directory):
             self._directory = directory
+            return
+
+        def set_omega(self, omega):
+            self._omega = omega
             return
 
         def add_image(self, image):
@@ -72,10 +78,10 @@ def Mosflm_index(DriverType = None):
             self.input('newmat mosflm_index.mat')
             self.input('template %s' % self._template)
             self.input('directory %s' % self._directory)
-
             if '.cbf' in self._template[-4:]:
                 self.input('detector pilatus')
-            
+            if self._omega:
+                self.input('detector omega %d' % self._omega)
             if self._spacegroup:
                 self.input('symmetry %s' % self._spacegroup)
             for image in self._images:
@@ -100,8 +106,8 @@ def Mosflm_index(DriverType = None):
                                         'mosflm_index.mat')
 
             return
-            
-            
+
+
     return Mosflm_indexWrapper()
 
 
@@ -115,8 +121,7 @@ if __name__ == '__main__':
     for image in [1, 45, 90]:
         mi.add_image(image)
     mi.index()
-                     
+
     print 'Unit cell: %.3f %.3f %.3f %.3f %.3f %.3f' % mi.get_cell()
     print 'Spacegroup: %s' % mi.get_spacegroup()
     print 'Mosaic: %.2f' % mi.get_mosaic()
-    

@@ -65,19 +65,15 @@ class module_factory:
         find_sites_instance = _find_sites()
         find_sites_instance.set_working_directory(self._working_directory)
         return find_sites_instance
-    
+
     def characterise_diffraction(self):
         characterise_diffraction_instance = _characterise_diffraction()
         characterise_diffraction_instance.set_working_directory(
             self._working_directory)
         return characterise_diffraction_instance
-    
+
     def calculate_strategy(self):
         calculate_strategy_instance = _calculate_strategy()
         calculate_strategy_instance.set_working_directory(
             self._working_directory)
         return calculate_strategy_instance
-    
-    
-
-        

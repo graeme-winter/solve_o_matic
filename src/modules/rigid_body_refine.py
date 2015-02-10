@@ -6,7 +6,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
-    
+
 # now import the factories that we will need
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
@@ -90,7 +90,7 @@ class rigid_body_refine:
         loggraphs = refmac5.parse_ccp4_loggraph()
 
         loggraph = loggraphs['Rfactor analysis, stats vs cycle']
-        
+
         cycle_col = loggraph['columns'].index('Ncyc')
         r_col = loggraph['columns'].index('Rfact')
         rfree_col = loggraph['columns'].index('Rfree')
@@ -109,7 +109,7 @@ class rigid_body_refine:
         # ok perhaps run some mr...
 
         print 'Rigid body refinement failed: trying MR'
-        
+
         ip = interrogate_pdb()
 
         ip.set_xyzin(self._xyzin)
@@ -129,7 +129,7 @@ class rigid_body_refine:
         phaser.set_molecular_weight(mw)
 
         phaser.mr()
-        
+
         os.remove(hklout)
 
         return
@@ -137,9 +137,3 @@ class rigid_body_refine:
 if __name__ == '__main__':
     # then I should run a test...
     pass
-
-
-        
-    
-    
-        

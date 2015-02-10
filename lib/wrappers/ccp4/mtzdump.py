@@ -29,7 +29,7 @@ def Mtzdump(DriverType = None):
             # return information
             self._header = { }
             self._header['datasets'] = []
-            self._header['dataset_info'] = { } 
+            self._header['dataset_info'] = { }
 
             self._batch_header = { }
 
@@ -63,12 +63,12 @@ def Mtzdump(DriverType = None):
                     batch = int(output[i + 1].split()[0])
                     if not batch in batches:
                         batches.append(batch)
-                
+
                 if 'Column Labels' in line:
                     # then the column labels are in two lines time...
                     labels = output[i + 2].strip().split()
                     self._header['column_labels'] = labels
-                    
+
                 if 'Column Types' in line:
                     # then the column types are in two lines time...
                     types = output[i + 2].strip().split()
@@ -81,7 +81,7 @@ def Mtzdump(DriverType = None):
 
                 if 'Space group' in line and '\'' in line:
                     self._header['symmetry'] = line.split('\'')[1].strip()
-                    
+
                 if 'Dataset ID, ' in line:
                     block = 0
                     while output[block * 5 + i + 2].strip():
@@ -93,12 +93,12 @@ def Mtzdump(DriverType = None):
                         cell = map(float, output[5 * block + i + 5].strip(
                             ).split())
                         wavelength = float(output[5 * block + i + 6].strip())
-                        
+
                         dataset_id = '%s/%s/%s' % \
                                      (project, crystal, dataset)
-            
+
                         if not dataset_id in self._header['datasets']:
-                        
+
                             self._header['datasets'].append(dataset_id)
                             self._header['dataset_info'][dataset_id] = { }
                             self._header['dataset_info'][
@@ -107,7 +107,7 @@ def Mtzdump(DriverType = None):
                                 dataset_id]['cell'] = cell
                             self._header['dataset_info'][
                                 dataset_id]['id'] = dataset_number
-                            
+
                         block += 1
 
                 if 'No. of reflections used in FILE STATISTICS' in line:
@@ -126,7 +126,7 @@ def Mtzdump(DriverType = None):
 
         def get_resolution_range(self):
             return self._resolution_range
-                
+
         def get_datasets(self):
             return self._header['datasets']
 

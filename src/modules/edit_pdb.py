@@ -31,12 +31,12 @@ class edit_pdb:
         remove = []
 
         if monomers_to_remove:
-            
+
             for j, record in enumerate(pdb_records):
-            
+
                 if 'ATOM  ' in record[:6] or 'HETATM' in record[:6]:
                     residue = record[17:20]
-                    
+
                     if residue in monomers_to_remove:
                         remove.append(j)
                         if 'ANISOU' in pdb_records[j + 1][:6]:
@@ -44,10 +44,10 @@ class edit_pdb:
 
         else:
             for j, record in enumerate(pdb_records):
-            
+
                 if 'ATOM  ' in record[:6] or 'HETATM' in record[:6]:
                     residue = record[17:20]
-                    
+
                     if not residue in self._known_monomers:
                         remove.append(j)
                         if 'ANISOU' in pdb_records[j + 1][:6]:
@@ -71,11 +71,5 @@ if __name__ == '__main__':
     if len(sys.argv) < 3:
         raise RuntimeError, '%s xyzin xyzout [monomers to remove]' % \
               sys.argv[0]
-    
+
     ep.edit_pdb(sys.argv[1], sys.argv[2], sys.argv[3:])
-
-    
-
-    
-
-    

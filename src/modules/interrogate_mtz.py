@@ -6,7 +6,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'lib'))
-    
+
 # now import the factories that we will need
 
 from wrappers.ccp4.ccp4_factory import ccp4_factory
@@ -46,13 +46,13 @@ class interrogate_mtz:
         mtzdump = self.ccp4().mtzdump()
         mtzdump.set_hklin(self._hklin)
         mtzdump.mtzdump()
-        
+
         datasets = mtzdump.get_datasets()
-        
+
         if len(datasets) != 1:
             raise RuntimeError, 'need exactly one data set in %s' % \
                   self._hklin
-    
+
         info = mtzdump.get_dataset_info(datasets[0])
         self._cell = tuple(info['cell'])
         self._symmetry = info['symmetry']
@@ -70,4 +70,3 @@ if __name__ == '__main__':
     im.set_hklin(os.path.join(os.environ['SOM_ROOT'], 'data', 'insulin.mtz'))
     im.interrogate_mtz()
     print im.get_symmetry()
-

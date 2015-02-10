@@ -53,7 +53,7 @@ def Shelxd(DriverType = None):
 
         def get_cc(self):
             return self._cc, self._cc_weak
-        
+
 
     return ShelxdWrapper()
 

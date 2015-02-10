@@ -9,7 +9,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-    
+
 # import the modules that we will need
 
 from modules.module_factory import module_factory
@@ -17,7 +17,7 @@ from modules.module_factory import module_factory
 class strategy_pipeline:
 
     def __init__(self):
-        
+
         self._working_directory = os.getcwd()
         self._factory = module_factory()
         self._image = None
@@ -30,7 +30,7 @@ class strategy_pipeline:
         self._phi_start = None
         self._phi_end = None
         self._phi_width = None
-        
+
         self._completeness = None
 
         self._resolution = None
@@ -55,28 +55,28 @@ class strategy_pipeline:
 
     def get_spacegroup(self):
         return self._spacegroup
-    
+
     def get_cell(self):
         return self._cell
-    
+
     def get_mosaic(self):
         return self._mosaic
-    
+
     def get_matrix(self):
         return self._matrix
 
     def get_phi_start(self):
         return self._phi_start
-    
+
     def get_phi_end(self):
         return self._phi_end
-    
+
     def get_phi_width(self):
         return self._phi_width
 
     def get_n_images(self):
         return self._n_images
-    
+
     def get_completeness(self):
         return self._completeness
 
@@ -109,7 +109,7 @@ class strategy_pipeline:
         cs.set_mosaic(self._mosaic)
         cs.set_anomalous(anomalous)
         cs.calculate_strategy()
-        
+
         self._phi_start = cs.get_phi_start()
         self._phi_end = cs.get_phi_end()
         self._phi_width = cs.get_phi_width()
@@ -149,7 +149,7 @@ def write_html_file(image, character, native, anomalous):
 
     text = template.format(image = image,
                            cell_a = character[0][0],
-                           cell_b = character[0][1], 
+                           cell_b = character[0][1],
                            cell_c = character[0][2],
                            cell_alpha = character[0][3],
                            cell_beta = character[0][4],
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     print 'Mosaic: %.2f' % sp.get_mosaic()
 
     character = (sp.get_cell(), sp.get_spacegroup(), sp.get_mosaic())
-    
+
     print 'Native strategy:'
     print 'Phi range: %.1f to %.1f' % (sp.get_phi_start(), sp.get_phi_end())
     print 'Phi width: %.1f' % sp.get_phi_width()
@@ -211,7 +211,7 @@ if __name__ == '__main__':
     print 'No. images: %d' % sp.get_n_images()
     print 'Completeness: %.2f' % sp.get_completeness()
     print 'Resolution:   %.2f' % sp.get_resolution()
-    
+
     anomalous = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
                  sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
 
@@ -226,5 +226,3 @@ if __name__ == '__main__':
 
     write_html_file(os.path.split(sys.argv[1])[-1],
                     character, native, anomalous)
-    
-        

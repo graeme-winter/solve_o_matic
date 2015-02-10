@@ -63,28 +63,28 @@ def Phaser(DriverType = None):
         def set_hklin(self, hklin):
             self._hklin = hklin
             return
-        
+
         def get_hklin(self):
             return self._hklin
 
         def set_hklout(self, hklout):
             self._hklout = hklout
             return
-        
+
         def get_hklout(self):
             return self._hklout
 
         def set_xyzin(self, xyzin):
             self._xyzin = xyzin
             return
-        
+
         def get_xyzin(self):
             return self._xyzin
 
         def set_xyzout(self, xyzout):
             self._xyzout = xyzout
             return
-        
+
         def get_xyzout(self):
             return self._xyzout
 
@@ -106,7 +106,7 @@ def Phaser(DriverType = None):
             self.input('root mr')
 
             self.close_wait()
-            
+
             # fixme check return status &c.
 
             self.check_for_errors()
@@ -117,7 +117,7 @@ def Phaser(DriverType = None):
                                          'mr.1.mtz'), self._hklout)
 
             return
-            
+
     return PhaserWrapper()
 
 if __name__ == '__main__':

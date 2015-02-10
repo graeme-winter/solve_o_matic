@@ -7,7 +7,7 @@ import exceptions
 #
 #if not os.environ['SOM_ROOT'] in sys.path:
 #    sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-    
+
 from cctbx.sgtbx import space_group, space_group_symbols, \
      space_group_symbol_iterator
 from cctbx.uctbx import unit_cell
@@ -28,7 +28,7 @@ def guess_nha(cell, pointgroup):
     based on Matthews coefficient, average proportion of methionine in
     protein sequences and typical mass of an amino acid.'''
 
-    sg = space_group(space_group_symbols(pointgroup).hall())    
+    sg = space_group(space_group_symbols(pointgroup).hall())
     uc = unit_cell(cell)
 
     n_ops = len(sg.all_ops())
@@ -55,7 +55,7 @@ def useful_nha(cell, pointgroup):
 def generate_enantiomorph_unique_spacegroups(pointgroup):
     '''Generate an enantiomorph unique list of chiral spacegroups which
     share a pointgroup with this pointgroup.'''
-    
+
     sg = space_group(space_group_symbols(pointgroup).hall())
     pg = sg.build_derived_patterson_group()
 
@@ -66,7 +66,7 @@ def generate_enantiomorph_unique_spacegroups(pointgroup):
 
         if not sg_test.is_chiral():
             continue
-        
+
         pg_test = sg_test.build_derived_patterson_group()
         if pg_test == pg:
             enantiomorph = sg_test.change_basis(
@@ -82,7 +82,7 @@ def generate_enantiomorph_unique_spacegroups(pointgroup):
 def generate_all_spacegroups(pointgroup):
     '''Generate an enantiomorph unique list of chiral spacegroups which
     share a pointgroup with this pointgroup.'''
-    
+
     sg = space_group(space_group_symbols(pointgroup).hall())
     pg = sg.build_derived_patterson_group()
 
@@ -93,7 +93,7 @@ def generate_all_spacegroups(pointgroup):
 
         if not sg_test.is_chiral():
             continue
-        
+
         pg_test = sg_test.build_derived_patterson_group()
         if pg_test == pg:
             if not sg_test in eu_list:
@@ -108,7 +108,7 @@ def brute_force_substructure(hklin):
     wd = os.getcwd()
 
     m = mtz.object(hklin)
-    
+
     pointgroup = m.space_group().type().number()
 
     for crystal in m.crystals():
@@ -125,7 +125,7 @@ def brute_force_substructure(hklin):
 
             if not os.path.exists(wd_j):
                 os.makedirs(wd_j)
-            
+
             shelx_pipeline = shelx_cc_weak_pipeline()
             shelx_pipeline.set_working_directory(wd_j)
             shelx_pipeline.set_hklin(hklin)
@@ -158,7 +158,7 @@ def brute_force_substructure(hklin):
                 best_cc = cc
                 best_spacegroup = spacegroup
                 best_nha = nha
-            
+
 
     print 'Best solution: %s with %d sites, %.3f / %.3f' % \
           (best_spacegroup, best_nha, best_cc, best_cc_weak)
@@ -168,4 +168,3 @@ def brute_force_substructure(hklin):
 if __name__ == '__main__':
 
     brute_force_substructure(os.path.abspath(sys.argv[1]))
-    

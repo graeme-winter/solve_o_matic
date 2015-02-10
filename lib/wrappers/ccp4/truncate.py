@@ -44,7 +44,7 @@ def Truncate(DriverType = None):
             self.check_ccp4_errors()
 
             return
-            
+
     return TruncateWrapper()
 
 if __name__ == '__main__':

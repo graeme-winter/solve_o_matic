@@ -10,7 +10,7 @@ if not 'SOM_ROOT' in os.environ:
 
 if not os.environ['SOM_ROOT'] in sys.path:
     sys.path.append(os.path.join(os.environ['SOM_ROOT'], 'src'))
-    
+
 # import the modules that we will need
 
 from modules.module_factory import module_factory
@@ -34,7 +34,7 @@ def get_debug():
 class ligand_pipeline:
 
     def __init__(self):
-        
+
         self._working_directory = os.getcwd()
         self._factory = module_factory()
 
@@ -42,14 +42,14 @@ class ligand_pipeline:
         self._hklout = None
         self._xyzin = None
         self._xyzout = None
-                
+
         self._nres = None
 
         self._symmetry = None
         self._reindex_op = None
 
         self._mode = LP_MODE_MS
-        
+
         return
 
     def set_mode(self, mode):
@@ -70,7 +70,7 @@ class ligand_pipeline:
 
     def get_modes(self):
         return LP_MODES
-    
+
     def set_working_directory(self, working_directory):
         self._working_directory = working_directory
         self._ccp4_factory.set_working_directory(working_directory)
@@ -120,7 +120,7 @@ class ligand_pipeline:
         #
         # get the cell constants -> prepare the intensity data ->
         # prepare the pdb file -> rigid body refinement -> real refinement
-        
+
         temporary_files = []
 
         if not self._hklin:
@@ -141,12 +141,12 @@ class ligand_pipeline:
 
             if self._reindex_op and False:
                 raise RuntimeError, 'symmetry not defined'
-            
+
             ip = self.module().interrogate_pdb()
             ip.set_xyzin(self._xyzin)
             ip.interrogate_pdb()
             self._symmetry = ip.get_symmetry()
-                
+
         # prepare intensity data
 
         name = os.path.split(self._hklin)[-1][:-4]
@@ -169,7 +169,7 @@ class ligand_pipeline:
 
         # prepare the pdb file - N.B. this should include removing the
         # residues which are not in the monomer library
-        
+
         im = self.module().interrogate_mtz()
         im.set_hklin(hklin)
         im.interrogate_mtz()
@@ -193,10 +193,10 @@ class ligand_pipeline:
 
         if pdb_symmetry != self._symmetry.replace(' ', ''):
             for temporary_file in temporary_files:
-                os.remove(temporary_file)                
+                os.remove(temporary_file)
             raise RuntimeError, 'mismatching symmetry'
 
-        # copy the experimental cell constants in to the pdb file -> this 
+        # copy the experimental cell constants in to the pdb file -> this
         # should give better refinement results
 
         xyzout = os.path.join(self.get_working_directory(),
@@ -209,7 +209,7 @@ class ligand_pipeline:
         pp.set_symmetry(self._symmetry)
         pp.set_cell(cell)
         pp.prepare_pdb_refine()
-        
+
         if get_debug():
             print 'Preparation: %.2f' % (time.time() - t0)
 
@@ -222,7 +222,7 @@ class ligand_pipeline:
                               '%s_rb.pdb' % name)
 
         temporary_files.append(xyzout)
-        
+
         rbr = self.module().rigid_body_refine()
         rbr.set_hklin(hklin)
         rbr.set_xyzin(xyzin)
@@ -237,7 +237,7 @@ class ligand_pipeline:
         # then the "proper" refinement
 
         xyzin = xyzout
-        
+
         r = self.module().refine()
         r.set_hklin(hklin)
         r.set_hklout(self._hklout)
@@ -270,7 +270,7 @@ class ligand_pipeline:
         #
         # get the cell constants -> prepare the intensity data ->
         # prepare the pdb file -> rigid body refinement -> real refinement
-        
+
         temporary_files = []
 
         if not self._hklin:
@@ -291,12 +291,12 @@ class ligand_pipeline:
 
             if self._reindex_op and False:
                 raise RuntimeError, 'symmetry not defined'
-            
+
             ip = self.module().interrogate_pdb()
             ip.set_xyzin(self._xyzin)
             ip.interrogate_pdb()
             self._symmetry = ip.get_symmetry()
-                
+
         # prepare intensity data
 
         name = os.path.split(self._hklin)[-1][:-4]
@@ -315,7 +315,7 @@ class ligand_pipeline:
         hklin = hklout
 
         # prepare the pdb file
-        
+
         im = self.module().interrogate_mtz()
         im.set_hklin(hklin)
         im.interrogate_mtz()
@@ -339,10 +339,10 @@ class ligand_pipeline:
 
         if pdb_symmetry != self._symmetry.replace(' ', ''):
             for temporary_file in temporary_files:
-                os.remove(temporary_file)                
+                os.remove(temporary_file)
             raise RuntimeError, 'mismatching symmetry'
 
-        # copy the experimental cell constants in to the pdb file -> this 
+        # copy the experimental cell constants in to the pdb file -> this
         # should give better refinement results
 
         xyzout = os.path.join(self.get_working_directory(),
@@ -355,7 +355,7 @@ class ligand_pipeline:
         pp.set_symmetry(self._symmetry)
         pp.set_cell(cell)
         pp.prepare_pdb_refine()
-        
+
         # run some molecular replacement
 
         xyzin = xyzout
@@ -366,7 +366,7 @@ class ligand_pipeline:
                               '%s_rb.mtz' % name)
 
         temporary_files.append(xyzout)
-        
+
         mr = self.module().molecular_replace()
         mr.set_hklin(hklin)
         mr.set_hklout(hklout)
@@ -377,7 +377,7 @@ class ligand_pipeline:
         # then the "proper" refinement
 
         xyzin = xyzout
-        
+
         r = self.module().refine()
         r.set_hklin(hklin)
         r.set_hklout(self._hklout)
@@ -405,7 +405,7 @@ def ersatz_pointgroup(spacegroup):
 
     if not ' ' in spacegroup:
         return spacegroup
-    
+
     result = ''
 
     for token in spacegroup.split():
@@ -483,7 +483,7 @@ def test_orthorhombic(ref_cell, test_cell):
     for test, reindex in ((a, b, c), 'h,k,l'), \
             ((b, c, a), 'k,l,h'), \
             ((c, a, b), 'l,h,k'):
-        
+
         diff = sum(
             [(test[j] - ref_cell[j]) * (test[j] - ref_cell[j]) \
              for j in range(3)])
@@ -511,12 +511,12 @@ if __name__ == '__main__':
         if os.path.split(arg)[-1].split('.')[0].lower() in os.getcwd().lower():
             candidates.append(arg)
 
-    # no matching names, proceed with all files... 
- 
+    # no matching names, proceed with all files...
+
     if len(candidates) == 0:
         print 'none of the file names matched %s: trying all' % os.getcwd()
         candidates = sys.argv[1:]
-        
+
     if len(candidates) == 0:
         raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
 
@@ -536,7 +536,7 @@ if __name__ == '__main__':
     im.interrogate_mtz()
 
     reindex_op = None
-    
+
     if ersatz_pointgroup(im.get_symmetry()) == 'P222':
 
         # compare unit cells...
@@ -551,9 +551,8 @@ if __name__ == '__main__':
     lp.set_hklout(hklout)
     lp.set_xyzin(xyzin)
     lp.set_xyzout(xyzout)
-    
+
     if reindex_op:
         lp.set_reindex_op(reindex_op)
 
     lp.ligand_pipeline()
-

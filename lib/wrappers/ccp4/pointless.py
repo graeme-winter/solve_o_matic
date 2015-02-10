@@ -24,7 +24,7 @@ def Pointless(DriverType = None):
 
             self._cc = 0.0
             self._reindex = None
-            
+
             return
 
         def check_origin(self):
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     if len(sys.argv) != 4:
         raise RuntimeError, '%s hklin xyzin hklout' % sys.argv[0]
-        
+
     hklin = sys.argv[1]
     xyzin = sys.argv[2]
     hklout = sys.argv[3]
@@ -88,6 +88,3 @@ if __name__ == '__main__':
     p.check_origin()
 
     print '%s %.2f' % (p.get_reindex(), p.get_cc())
-
-    
-

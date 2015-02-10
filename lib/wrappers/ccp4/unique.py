@@ -63,7 +63,7 @@ def Unique(DriverType = None):
             self.check_for_errors()
             self.check_ccp4_errors()
 
-            return                       
+            return
 
     return UniqueWrapper()
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     import tempfile
 
     hklout = os.path.join(tempfile.mkdtemp(), 'unique-test.mtz')
-    
+
     unique = Unique()
 
     unique.set_cell((78.0500, 78.0500, 36.9500,

@@ -34,7 +34,8 @@ def Mosflm_strategy(DriverType = None):
             self._phi_width = None
 
             self._completeness = None
-            
+            self._omega = 0
+
             return
 
         def set_template(self, template):
@@ -64,6 +65,10 @@ def Mosflm_strategy(DriverType = None):
             if self.get_working_directory() in matrix:
                 matrix = matrix.replace(self.get_working_directory(), '.')
             self._matrix = matrix
+            return
+
+        def set_omega(self, omega):
+            self._omega = omega
             return
 
         def set_anomalous(self, anomalous = True):
@@ -97,6 +102,9 @@ def Mosflm_strategy(DriverType = None):
             self.input('directory %s' % self._directory)
             if '.cbf' in self._template[-4:]:
                 self.input('detector pilatus')
+            if self._omega:
+                self.input('detector omega %d' % self._omega)
+
             self.input('findspots find %s' % self._images[0])
             self.input('go')
             self.input('mosaic %f' % self._mosaic)
@@ -133,10 +141,10 @@ def Mosflm_strategy(DriverType = None):
                 if 'Optimum rotation' in record:
                     self._completeness = 0.01 * float(
                         record.replace('%', '').split()[3])
-                
+
             return
-            
-            
+
+
     return Mosflm_strategyWrapper()
 
 
@@ -173,7 +181,7 @@ if __name__ == '__main__':
     for image in [1, 45, 90]:
         ms.add_image(image)
     ms.strategy()
-                     
+
     print 'Anomalous'
     print 'Phi range: %.1f to %.1f' % (ms.get_phi_start(), ms.get_phi_end())
     print 'Phi width: %.1f' % ms.get_phi_width()

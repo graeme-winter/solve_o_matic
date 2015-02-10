@@ -78,7 +78,7 @@ def Shelxc(DriverType = None):
             return
 
         def check_input(self):
-            
+
             # check that the input parameters are set sensibly...
             # require at the minimum:
             #
@@ -108,7 +108,7 @@ def Shelxc(DriverType = None):
                 self.input('SAD %s\n' % self._sad)
             if self._native:
                 self.input('NATIVE %s\n' % self._native)
-            
+
             self.input('CELL %f %f %f %f %f %f' % tuple(self._cell))
             self.input('SPAG %s' % self._symmetry)
             self.input('FIND %d' % self._nha)

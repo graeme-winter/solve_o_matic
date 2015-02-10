@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # sites.py
-# 
+#
 # An object to store atomic position information, particularly for
 # substructure searches. N.B. this may be input (i.e. we don't know where
-# they are, but we do know what there are and how many there should be) or 
+# they are, but we do know what there are and how many there should be) or
 # output, with the positions in the asymmetric unit included, in Angstroms.
 #
-# N.B. this will also include some crystallographic functionality, for 
+# N.B. this will also include some crystallographic functionality, for
 # example inverting the substructure, calculating fractional coordinates
 # and so on.
 
@@ -71,7 +71,3 @@ class sites:
 
 if __name__ == '__main__':
     pass
-
-
-
-        

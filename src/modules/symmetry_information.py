@@ -66,7 +66,7 @@ class symmetry_information:
 
         if short_name in self._long_name_to_short_name:
             short_name = self._long_name_to_short_name[short_name]
-            
+
         if not short_name in self._short_name_to_number:
             raise RuntimeError, 'short name %s not known' % short_name
 
@@ -82,7 +82,7 @@ class symmetry_information:
 
         if short_name in self._long_name_to_short_name:
             short_name = self._long_name_to_short_name[short_name]
-        
+
         if not short_name in self._short_name_to_pointgroup:
             raise RuntimeError, 'short name %s not known' % short_name
 
@@ -93,5 +93,3 @@ if __name__ == '__main__':
 
     print si.get_pointgroup('P212121')
     print si.get_pointgroup('P 21 21 21')
-
-    
