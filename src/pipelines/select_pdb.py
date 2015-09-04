@@ -43,15 +43,13 @@ def select_right_pdb(hklin, pdb_list):
                 cells[xyzin] = ip.get_cell()
 
     if len(candidates) == 0:
-        raise RuntimeError, 'no matching coordinate files found'
+        return None
+    elif len(candidates) == 1:
+        return candidates[0]
 
     # then if there are more than one, see if one matches closer than
     # the others... do this by sorting on the absolute differences in
     # cell constants then picking the closest match
-
-
-    if len(candidates) == 1:
-        return candidates[0]
 
     diffs = []
 
@@ -146,13 +144,11 @@ if __name__ == '__main__':
             candidates.append(arg)
 
     if len(candidates) == 0:
-        raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
+        sys.exit(0)
 
     hklin = 'fast_dp.mtz'
 
     xyzin = select_right_pdb(hklin, candidates)
 
-    if not xyzin:
-        raise RuntimeError, 'no candidate pdb files matched %s' % os.getcwd()
-
-    print '%s' % xyzin
+    if xyzin:
+        print '%s' % xyzin
