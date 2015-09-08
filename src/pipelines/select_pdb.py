@@ -148,7 +148,10 @@ if __name__ == '__main__':
 
     hklin = 'fast_dp.mtz'
 
-    xyzin = select_right_pdb(hklin, candidates)
+    try:
+        xyzin = select_right_pdb(hklin, candidates)
+    except RuntimeError, e:
+        sys.exit(1)
 
     if xyzin:
         print '%s' % xyzin
