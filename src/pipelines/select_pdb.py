@@ -33,14 +33,19 @@ def select_right_pdb(hklin, pdb_list):
     for xyzin in pdb_list:
         ip = module_factory().interrogate_pdb()
         ip.set_xyzin(xyzin)
-        ip.interrogate_pdb()
-        if reference == ersatz_pointgroup(ip.get_symmetry_full()):
-            candidates.append(xyzin)
-            if reference == 'P222':
-                cells[xyzin] = nearest_orthorhombic(reference_cell,
-                                                    ip.get_cell())
-            else:
-                cells[xyzin] = ip.get_cell()
+        try:
+            ip.interrogate_pdb()
+            if reference == ersatz_pointgroup(ip.get_symmetry_full()):
+                candidates.append(xyzin)
+                if reference == 'P222':
+                    cells[xyzin] = nearest_orthorhombic(reference_cell,
+                                                        ip.get_cell())
+                else:
+                    cells[xyzin] = ip.get_cell()
+        except RuntimeError, e:
+            sys.stderr.write('%s\n' % e)
+            continue
+            
 
     if len(candidates) == 0:
         return None
@@ -151,6 +156,7 @@ if __name__ == '__main__':
     try:
         xyzin = select_right_pdb(hklin, candidates)
     except RuntimeError, e:
+        sys.stderr.write('%s\n' % e)
         sys.exit(1)
 
     if xyzin:
