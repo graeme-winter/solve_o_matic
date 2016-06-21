@@ -14,6 +14,9 @@ bin/som_strategy.bat -text
 data/insulin.mtz -text
 data/insulin.pdb -text
 data/lyso_example_i.mtz -text
+data/th_8_1_0001.cbf -text
+data/th_8_1_0002.cbf -text
+data/th_8_1_0003.cbf -text
 doc/architecture/model_phaser.pdf -text
 doc/architecture/model_phaser.rst -text
 doc/architecture/overview.pdf -text
