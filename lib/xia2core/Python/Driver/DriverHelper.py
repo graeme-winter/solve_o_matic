@@ -351,37 +351,13 @@ class _RandomNamer:
 
     def __init__(self):
         
-        if not os.environ.has_key('XIA2CORE_ROOT'):
-            raise RuntimeError, 'XIA2CORE_ROOT not defined'
-    
-        self._names = []
-        self._used_names = []
-
-        for l in open(os.path.join(os.environ['XIA2CORE_ROOT'],
-                                   'Data', 'Random', 'names.txt')).readlines():
-            self._names.append(l.strip())
-
         self._last = 0
 
     def generate(self):
         '''Generate a random name.'''
 
-        if True:
-            self._last += 1
-            return '%08d' % self._last
-
-        name = ''
-
-        # FIXME in extreme cases this will result in an infinate loop
-        # as we try to find an unused name from the 80,000        
-
-        while name in self._used_names or name == '':
-            i = int(random.random() * len(self._names))
-            name = self._names[i]
-            
-        self._used_names.append(name)
-        
-        return 'xia-%s' % name
+        self._last += 1
+        return '%08d' % self._last
 
 RandomNamer = _RandomNamer()
         

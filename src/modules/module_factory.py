@@ -14,6 +14,8 @@ from characterise_diffraction import characterise_diffraction as \
      _characterise_diffraction
 from calculate_strategy import calculate_strategy as \
      _calculate_strategy
+from calculate_better_strategy import calculate_better_strategy as \
+     _calculate_better_strategy
 
 class module_factory:
 
@@ -77,3 +79,9 @@ class module_factory:
         calculate_strategy_instance.set_working_directory(
             self._working_directory)
         return calculate_strategy_instance
+
+    def calculate_better_strategy(self):
+        calculate_better_strategy_instance = _calculate_better_strategy()
+        calculate_better_strategy_instance.set_working_directory(
+            self._working_directory)
+        return calculate_better_strategy_instance

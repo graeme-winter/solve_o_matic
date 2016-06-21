@@ -299,6 +299,9 @@ class interrogate_image:
         self._metadata = read_image_metadata(image)
         return
 
+    # FIXME get bits to record things like the transmission, exposure time
+    # and the particular detector instance i.e. serial number or something
+
     def get_beam(self):
         return self._metadata['beam']
 
