@@ -97,6 +97,7 @@ class strategy_pipeline:
         self._spacegroup = cd.get_spacegroup()
         self._mosaic = cd.get_mosaic()
         self._matrix = cd.get_matrix()
+        self._detector = cd.get_detector()
 
     def strategy_pipeline_strategy(self, anomalous = False):
 
@@ -108,6 +109,8 @@ class strategy_pipeline:
         cs.set_spacegroup(self._spacegroup)
         cs.set_mosaic(self._mosaic)
         cs.set_anomalous(anomalous)
+        if self._detector:
+            cs.set_detector(self._detector)
         cs.calculate_strategy()
 
         self._phi_start = cs.get_phi_start()

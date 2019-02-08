@@ -22,6 +22,7 @@ def Mosflm_strategy(DriverType = None):
 
             self._template = None
             self._directory = None
+            self._detector = None
             self._images = []
             self._spacegroup = None
             self._mosaic = None
@@ -44,6 +45,10 @@ def Mosflm_strategy(DriverType = None):
 
         def set_directory(self, directory):
             self._directory = directory
+            return
+
+        def set_detector(self, detector):
+            self._detector = detector
             return
 
         def add_image(self, image):
@@ -100,7 +105,9 @@ def Mosflm_strategy(DriverType = None):
             self.input('matrix %s' % self._matrix)
             self.input('template %s' % self._template)
             self.input('directory %s' % self._directory)
-            if '.cbf' in self._template[-4:]:
+            if self._detector:
+                self.input('detector %s' % self._detector)
+            elif '.cbf' in self._template[-4:]:
                 self.input('detector pilatus')
             if self._omega:
                 self.input('detector omega %d' % self._omega)

@@ -41,6 +41,8 @@ class characterise_diffraction:
         self._cell = None
         self._mosaic = None
 
+        self._detector = None
+
         return
 
     def set_working_directory(self, working_directory):
@@ -73,6 +75,9 @@ class characterise_diffraction:
     def get_matrix(self):
         return self._matrix
 
+    def get_detector(self):
+        return self._detector
+
     # useful methods
 
     def select_images(self):
@@ -103,6 +108,7 @@ class characterise_diffraction:
 
         if ii.get_detector_class():
             mi.set_detector_type(ii.get_detector_class().split()[0])
+            self._detector = ii.get_detector_class().split()[0]
 
         mi.index()
 

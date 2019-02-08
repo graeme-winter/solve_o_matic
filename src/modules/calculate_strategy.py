@@ -36,6 +36,7 @@ class calculate_strategy:
 
         self._template = None
         self._directory = None
+        self._detector = None
         self._matrix = None
         self._spacegroup = None
         self._mosaic = None
@@ -66,6 +67,9 @@ class calculate_strategy:
         self._template = self._interrogate_image.get_template()
         self._directory = self._interrogate_image.get_directory()
         return
+
+    def set_detector(self, detector):
+        self._detector = detector
 
     def set_spacegroup(self, spacegroup):
         self._spacegroup = spacegroup
@@ -138,6 +142,8 @@ class calculate_strategy:
         ms.set_spacegroup(self._spacegroup)
         ms.set_template(self._template)
         ms.set_directory(self._directory)
+        if self._detector:
+            ms.set_detector(self._detector)
         if self._anomalous:
             ms.set_anomalous(self._anomalous)
         for image in self._images:
