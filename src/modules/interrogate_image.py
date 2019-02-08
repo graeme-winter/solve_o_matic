@@ -92,6 +92,13 @@ def failover_cbf(cbf_file):
             header['serial_number'] = get_dectris_serial_no(record)
             continue
 
+        if 'EIGER 16M' in record:
+            header['detector_class'] = 'eiger 16M'
+            header['detector'] = 'dectris'
+            header['size'] = (4362, 4148)
+            header['serial_number'] = get_dectris_serial_no(record)
+            continue
+
         if 'Start_angle' in record:
             header['phi_start'] = float(record.split()[-2])
             continue
@@ -183,10 +190,12 @@ def read_image_metadata(image):
         if '.cbf' in image[-4:]:
             metadata = failover_cbf(image)
             assert(metadata['detector_class'] in \
-                   ['pilatus 2M', 'pilatus 6M'])
+                   ['pilatus 2M', 'pilatus 6M', 'eiger 16M'])
 
             if metadata['detector_class'] == 'pilatus 2M':
                 metadata['detector'] = 'PILATUS_2M'
+            elif metadata['detector_class'] == 'eiger 16M':
+                metadata['detector'] = 'EIGER_16M'
             else:
                 metadata['detector'] = 'PILATUS_6M'
 
@@ -333,7 +342,10 @@ class interrogate_image:
         return self._metadata['directory']
 
     def get_goniometer_is_vertical(self):
-        return self._metadata['goniometer_is_vertical']
+        return self._metadata.get('goniometer_is_vertical', False)
+
+    def get_detector_class(self):
+        return self._metadata.get('detector_class', '')
 
 if __name__ == '__main__':
 

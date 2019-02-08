@@ -101,6 +101,9 @@ class characterise_diffraction:
         for image in self._images:
             mi.add_image(image)
 
+        if ii.get_detector_class():
+            mi.set_detector_type(ii.get_detector_class().split()[0])
+
         mi.index()
 
         self._cell = mi.get_cell()

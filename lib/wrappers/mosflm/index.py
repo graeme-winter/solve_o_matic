@@ -28,6 +28,8 @@ def Mosflm_index(DriverType = None):
             self._spacegroup = None
             self._mosaic = None
 
+            self._detector_type = None
+
             self._matrix = None
 
             self._omega = 0
@@ -40,6 +42,10 @@ def Mosflm_index(DriverType = None):
 
         def set_directory(self, directory):
             self._directory = directory
+            return
+
+        def set_detector_type(self, detector_type):
+            self._detector_type = detector_type
             return
 
         def set_omega(self, omega):
@@ -78,7 +84,9 @@ def Mosflm_index(DriverType = None):
             self.input('newmat mosflm_index.mat')
             self.input('template %s' % self._template)
             self.input('directory %s' % self._directory)
-            if '.cbf' in self._template[-4:]:
+            if self._detector_type:
+                self.input('detector %s' % self._detector_type)
+            elif '.cbf' in self._template[-4:]:
                 self.input('detector pilatus')
             if self._omega:
                 self.input('detector omega %d' % self._omega)
