@@ -40,7 +40,8 @@ class characterise_diffraction:
         self._spacegroup = None
         self._cell = None
         self._mosaic = None
-
+        self._beam = None
+        
         self._detector = None
 
         return
@@ -77,6 +78,9 @@ class characterise_diffraction:
 
     def get_detector(self):
         return self._detector
+
+    def get_beam(self):
+        return self._beam
 
     # useful methods
 
@@ -116,6 +120,7 @@ class characterise_diffraction:
         self._spacegroup = mi.get_spacegroup()
         self._matrix = mi.get_matrix()
         self._mosaic = mi.get_mosaic()
+        self._beam = mi.get_beam()
 
     def characterise(self):
 

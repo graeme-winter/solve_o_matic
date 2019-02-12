@@ -33,6 +33,7 @@ def Mosflm_index(DriverType = None):
             self._matrix = None
 
             self._omega = 0
+            self._beam = 0
 
             return
 
@@ -75,6 +76,9 @@ def Mosflm_index(DriverType = None):
         def get_matrix(self):
             return self._matrix
 
+        def get_beam(self):
+            return self._beam
+
         def index(self):
             assert(self._template != None)
             assert(self._directory != None)
@@ -109,6 +113,9 @@ def Mosflm_index(DriverType = None):
                     self._spacegroup = record.split('(')[0].split()[-1]
                 if 'The mosaicity has been estimated as' in record:
                     self._mosaic = float(record.split()[7])
+                if 'Beam coordinates of' in record and \
+                  'have been refined to' in record:
+                    self._beam = tuple(map(float, record.split()[-2:]))
 
             self._matrix = os.path.join(self.get_working_directory(),
                                         'mosflm_index.mat')

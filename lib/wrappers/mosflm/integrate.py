@@ -22,6 +22,7 @@ def Mosflm_integrate(DriverType = None):
 
             self._template = None
             self._directory = None
+            self._beam = None
             self._images = []
             self._spacegroup = None
             self._mosaic = None
@@ -36,6 +37,10 @@ def Mosflm_integrate(DriverType = None):
 
         def set_directory(self, directory):
             self._directory = directory
+            return
+
+        def set_beam(self, beam):
+            self._beam = beam
             return
 
         def add_image(self, image):
@@ -87,6 +92,8 @@ def Mosflm_integrate(DriverType = None):
             self.input('symmetry %s' % self._spacegroup)
             self.input('matrix %s' % self._matrix)
             self.input('template %s' % self._template)
+            if self._beam:
+                self.input('beam %f %f' % self._beam)
             self.input('directory %s' % self._directory)
             if '.cbf' in self._template[-4:]:
                 self.input('detector pilatus')

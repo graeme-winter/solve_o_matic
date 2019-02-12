@@ -38,6 +38,7 @@ class calculate_better_strategy:
 
         self._template = None
         self._directory = None
+        self._beam = None
         self._matrix = None
         self._spacegroup = None
         self._mosaic = None
@@ -85,6 +86,9 @@ class calculate_better_strategy:
         self._anomalous = anomalous
         return
 
+    def set_beam(self, beam):
+        self._beam = beam
+    
     def get_phi_start(self):
         return self._phi_start
 
@@ -158,19 +162,20 @@ class calculate_better_strategy:
         return
 
     def integrate(self):
-        ms = self._mosflm_factory.integrate()
-        ms.write_log_file('integrate.log')
-        ms.set_matrix(self._matrix)
-        ms.set_resolution(self._resolution)
-        ms.set_mosaic(self._mosaic)
-        ms.set_spacegroup(self._spacegroup)
-        ms.set_template(self._template)
-        ms.set_directory(self._directory)
+        mi = self._mosflm_factory.integrate()
+        mi.write_log_file('integrate.log')
+        mi.set_matrix(self._matrix)
+        mi.set_resolution(self._resolution)
+        mi.set_mosaic(self._mosaic)
+        mi.set_spacegroup(self._spacegroup)
+        mi.set_template(self._template)
+        mi.set_directory(self._directory)
+        mi.set_beam(self._beam)
         if self._anomalous:
-            ms.set_anomalous(self._anomalous)
+            mi.set_anomalous(self._anomalous)
         for image in self._images:
-            ms.add_image(image)
-        ms.integrate()
+            mi.add_image(image)
+        mi.integrate()
         return
 
     def calculate_strategy(self):
