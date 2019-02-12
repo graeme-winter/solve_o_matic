@@ -332,6 +332,9 @@ class interrogate_image:
     def get_phi_end(self):
         return self._metadata['oscillation'][1]
 
+    def get_exposure_time(self):
+        return self._metadata['exposure_time']
+    
     def get_images(self):
         return self._metadata['images']
 

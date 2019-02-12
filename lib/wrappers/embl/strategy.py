@@ -115,6 +115,12 @@ def BestStrategy(DriverType = None):
         def get_multiplicity(self):
             return self._multiplicity
 
+        def get_transmission_percent(self):
+            return self._transmission_percent
+
+        def get_exposure_time(self):
+            return self._exposure_time
+        
         def strategy(self):
 
             assert self._detector
@@ -168,6 +174,9 @@ def BestStrategy(DriverType = None):
             # BEWARE this is dependent on order of output
             for j, record in enumerate(output):
                 tokens = record.split()
+                if 'Resolution limit' in record and 'Transmission' in record:
+                    self._transmission_percent = float(tokens[6].replace(
+                        '%', ''))
                 if 'Phi_start - Phi_finish' in record:
                     self._phi_start = float(tokens[-3])
                     self._phi_end = float(tokens[-1])

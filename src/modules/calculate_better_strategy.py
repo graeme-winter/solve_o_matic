@@ -136,9 +136,15 @@ class calculate_better_strategy:
         else:
             best.write_log_file('strategy_native.log')
 
+        ii = self._interrogate_image
+        detector = ii.get_detector_class()
+        exposure = ii.get_exposure_time()
+        magic_name_table = {'pilatus 6M':'pilatus6m',
+                            'eiger 16M':'eiger2-16m'}
+            
         # FIXME need to get this from somewhere
-        best.set_detector('pilatus6m')
-        best.set_t_ref(0.5)
+        best.set_detector(magic_name_table[detector])
+        best.set_t_ref(exposure)
         best.set_T_max(807)
         best.set_t_min(0.067)
         best.set_trans_ref(25.0)
@@ -159,6 +165,8 @@ class calculate_better_strategy:
         self._phi_width = best.get_phi_width()
         self._completeness = best.get_completeness()
         self._resolution = best.get_resolution()
+        self._transmission_percent = best.get_transmission_percent()
+        self._exposure_time = best.get_exposure_time()
         return
 
     def integrate(self):
