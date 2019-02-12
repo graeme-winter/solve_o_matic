@@ -3,17 +3,17 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 19th June 2006
-# 
+#
 # A DriverFactory for cluster-specific driver instances.
 # At the moment this supports the following machines:
-# 
+#
 # Linux/Sun Grid Engine
-# 
-# 
+#
+#
 
 import os
 
@@ -44,7 +44,7 @@ class _ClusterDriverFactory:
 
         if not type in self._implemented_types:
             raise RuntimeError, 'unimplemented driver class: %s' % type
-        
+
         self._driver_type = type
 
         return
@@ -69,5 +69,3 @@ if __name__ == '__main__':
     d = ClusterDriverFactory.Driver()
 
     d = ClusterDriverFactory.Driver('nosuchtype')
-
-    

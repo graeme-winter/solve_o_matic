@@ -3,15 +3,15 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 31st May 2006
-# 
+#
 # A factory to provide access to the decorator classes. So far this is
-# 
+#
 # "ccp4" -> A CCP4 Decorator
-# 
+#
 
 from CCP4Decorator import CCP4DecoratorFactory
 
@@ -38,5 +38,3 @@ DecoratorFactory = _DecoratorFactory()
 if __name__ == '__main__':
     # run some kind of test here
     raise RuntimeError, 'no test available'
-
-

@@ -13,7 +13,7 @@ These options are:
 -R 3.0       - min multiplicity
 -i2s 2.0     - min I/sigI at edge
 -sh 1        - shape factor, increase if large xtal in small beam
--T 807.0     - maximum total exposure time 
+-T 807.0     - maximum total exposure time
 -mos         - files from mosflm - must come at end
 
 Extra options
@@ -99,9 +99,9 @@ Scaling
  B-factor eigenvalues :   8.78  10.23  10.23 Angstrom^2
  Scaling error        :   6% at the resolution limit
 
-Commentary 
+Commentary
 
-The time limit here makes essentially no difference - we are massively within the 
+The time limit here makes essentially no difference - we are massively within the
 time limit :)
 
 The calculation of this took some 45s to perform...

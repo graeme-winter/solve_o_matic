@@ -45,7 +45,7 @@ def select_right_pdb(hklin, pdb_list):
         except RuntimeError, e:
             sys.stderr.write('%s\n' % e)
             continue
-            
+
 
     if len(candidates) == 0:
         return None

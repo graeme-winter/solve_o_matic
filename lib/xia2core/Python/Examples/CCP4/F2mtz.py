@@ -2,13 +2,13 @@
 # F2mtz.py
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
-# 
+#
 # 31st May 2006
-# 
+#
 # A wrapper for the CCP4 program f2mtz
-# 
+#
 
 import os
 import sys
@@ -66,7 +66,7 @@ def F2mtz(DriverType = None):
             self.input('symmetry %s' % self._symmetry)
             self.input('labout H K L FP FOM PHIB SIGFP')
             self.input('CTYPOUT H H H F W P Q')
-            
+
             self.close_wait()
 
             return self.get_ccp4_status()
@@ -87,5 +87,3 @@ if __name__ == '__main__':
     status = f.f2mtz()
 
     print status
-
-    

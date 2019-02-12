@@ -3,15 +3,15 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 31st May 2006
-# 
-# An illustration of how to use a Driver/Decorator to run a program - 
+#
+# An illustration of how to use a Driver/Decorator to run a program -
 # in this case sortmtz. Note well that this is an example!
-# 
-# 
+#
+#
 
 import os
 import sys
@@ -58,7 +58,7 @@ def Sortmtz(DriverType = None):
             self.close_wait()
 
             return self.get_ccp4_status()
-                                       
+
     return SortmtzWrapper()
 
 if __name__ == '__main__':
@@ -86,6 +86,3 @@ if __name__ == '__main__':
     s.write_log_file('sortmtz.log')
 
     print '%s => %s' % (s.getTask(), status)
-    
-
-        

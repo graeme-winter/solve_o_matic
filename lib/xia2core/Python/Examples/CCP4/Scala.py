@@ -3,13 +3,13 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 31st May 2006
-# 
+#
 # An illustration wrapper for the program scala.
-# 
+#
 
 import os
 import sys
@@ -92,14 +92,14 @@ if __name__ == '__main__':
     status = s.scale()
 
     s.write_log_file('scala.log')
-    
+
     results = s.parse_ccp4_loggraph()
-    
+
     print '%s => %s' % (s.get_Task(), status)
 
     scalepack = '12287_1_E1_scaled.sca'
     hklout = '12287_1_E1_scaled.broken'
-    
+
     s = Scala()
 
     s.set_scalepack(scalepack)
@@ -109,7 +109,5 @@ if __name__ == '__main__':
     status = s.scale()
 
     results = s.parse_ccp4_loggraph()
-    
-    print '%s => %s' % (s.get_task(), status)
 
-    
+    print '%s => %s' % (s.get_task(), status)

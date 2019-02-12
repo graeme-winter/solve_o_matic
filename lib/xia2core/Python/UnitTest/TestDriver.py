@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # TestDriver.py
-# 
+#
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root dorectory of this package.
 #
 # 24th May 2006
-# 
+#
 # Unit tests for the python Driver class implementations.
 #
 
@@ -114,9 +114,9 @@ class TestDriver(unittest.TestCase):
         # exception_str = str(re)
 
         # self.assertEqual(found_exception, True)
-        # self.assertEqual(exception_str, 
+        # self.assertEqual(exception_str,
         # 'executable "nosuchprogram" does not exist')
-        
+
     def testsignalkill(self):
         '''Test the kill signal.'''
 
@@ -134,16 +134,16 @@ class TestDriver(unittest.TestCase):
             # self.assertEqual(str(re), 'child process has termimated')
             self.assertEqual(1, 1)
             return
-        
+
         while True:
             line = d.output()
             if not line:
                 break
 
-        
+
         found_exception = False
         exception_str = ''
-        
+
         try:
             d.check_for_errors()
         except RuntimeError, re:
@@ -158,9 +158,9 @@ class TestDriver(unittest.TestCase):
             self.assertEqual(exception_str,
                              'child error')
         else:
-            self.assertEqual(exception_str, 
+            self.assertEqual(exception_str,
                              'child killed')
-            
+
     def testsignalsegv(self):
         '''Test the segmentation fault signal.'''
 
@@ -174,11 +174,11 @@ class TestDriver(unittest.TestCase):
                 line = d.output()
                 if not line:
                     break
-                
+
         except RuntimeError, e:
             self.assertEqual(str(e), 'child segmentation fault')
             return
-        
+
         found_exception = False
         exception_str = ''
 
@@ -189,20 +189,20 @@ class TestDriver(unittest.TestCase):
             exception_str = str(re)
 
         # this is os specific: windows does not return the error code
-        # nor does the return code come back at all as an error. 
+        # nor does the return code come back at all as an error.
         # ergo no errors to report on windows
 
         if os.name == 'nt':
             pass
         else:
             self.assertEqual(found_exception, True)
-            self.assertEqual(exception_str, 
+            self.assertEqual(exception_str,
                              'child segmentation fault')
 
     if os.name == 'nt':
         def testsignalsegv(self):
             pass
-            
+
     def testsignalabrt(self):
         '''Test the abort signal.'''
 
@@ -221,10 +221,10 @@ class TestDriver(unittest.TestCase):
             self.assertEqual(str(e), 'child aborted')
             return
 
-        
+
         found_exception = False
         exception_str = ''
-        
+
         try:
             d.check_for_errors()
         except RuntimeError, re:
@@ -239,14 +239,11 @@ class TestDriver(unittest.TestCase):
             self.assertEqual(exception_str,
                              'child error')
         else:
-            self.assertEqual(exception_str, 
+            self.assertEqual(exception_str,
                              'child aborted')
-            
-        
+
+
 
 
 if __name__ == '__main__':
     unittest.main()
-
-
-            

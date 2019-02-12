@@ -3,32 +3,32 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 24th may 2006
-# 
+#
 # Helper functions (mostly abstraction layer) for the Driver implementations.
-# 
+#
 # Implemented functions:
 # kill_process(Popen process instance)
 #
 # script_writer(String name, String exec,
 #               String [] command_line, String [] input)
-# 
-# executable_exists(executable) - see Change 1/SEP/06 in DefaultDriver - 
+#
+# executable_exists(executable) - see Change 1/SEP/06 in DefaultDriver -
 # This will search the path for something which will respond to executable.
-# 
+#
 # Functions to be implemented:
-# 
+#
 # Modification log:
 # 20/JUN/06 added getting-of-status to bash scripts -> script_name.xstatus
 #           this means that if this file exists, then the job has run...
 # 1/SEP/06  added method to search for executables in the command environment
-#           also added code to use "call" for batch files on windows - 
+#           also added code to use "call" for batch files on windows -
 #           this still passes in the output and input redirection, which
 #           documentation at:
-# 
+#
 #           http://www.microsoft.com/resources/documentation/
 #           windows/xp/all/proddocs/en-us/batch.mspx?mfr=true
 #
@@ -81,12 +81,12 @@ def script_writer(working_directory,
         # FIXME 1/SEP/06 - if the "executable" is a batch file on
         # windows then this should be called. We know in here that
         # we're on win32, so...
-        
+
         if executable.split('.')[-1] == 'bat':
             script.write('@call %s ' % executable)
         else:
             script.write('@%s ' % executable)
-            
+
         for c in command_line_tokens:
             script.write('"%s" ' % c)
 
@@ -128,7 +128,7 @@ def script_writer(working_directory,
         # make the directories we have been asked to
         for dir in mkdirs:
             script.write('mkdir -p %s\n' % dir)
-        
+
         script.write('%s ' % executable)
 
         for c in command_line_tokens:
@@ -138,11 +138,11 @@ def script_writer(working_directory,
 
         for i in input_records:
             script.write('%s' % i)
-            
+
         script.write('eof\n')
 
         # record the status from this script
-        script.write('echo "$?" > %s.xstatus\n' % script_name)        
+        script.write('echo "$?" > %s.xstatus\n' % script_name)
 
         script.close()
 
@@ -256,7 +256,7 @@ def error_abrt(record):
         # os.uname call will work
 
         name = os.uname()[0]
-        
+
         if name == 'Linux' and 'Aborted' in record:
             raise RuntimeError, 'child aborted'
 
@@ -319,7 +319,7 @@ def executable_exists(executable):
         for file in executable_files:
             if os.path.exists(file):
                 return file
-            
+
         # if we have reached here we have an absolute path
         # without a matching executable file
 
@@ -343,14 +343,14 @@ def executable_exists(executable):
                 # is executable here... and is not a directory!
                 if not os.path.isdir(os.path.join(directory, file)):
                     return os.path.join(directory, file)
-            
+
     return ''
 
 class _RandomNamer:
     '''A class to generate random names.'''
 
     def __init__(self):
-        
+
         self._last = 0
 
     def generate(self):
@@ -360,7 +360,7 @@ class _RandomNamer:
         return '%08d' % self._last
 
 RandomNamer = _RandomNamer()
-        
+
 def generate_random_name():
     '''Generate a random name to use as a handle for a job.'''
 
@@ -370,5 +370,3 @@ if __name__ == '__main__':
 
     for i in range(10):
         print '"%s"' % generate_random_name()
-
-    

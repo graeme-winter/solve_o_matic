@@ -3,13 +3,13 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 31st May 2006
-# 
+#
 # A wrapper for the CCP4 program freerflag
-# 
+#
 
 import os
 import sys

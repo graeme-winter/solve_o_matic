@@ -3,13 +3,13 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 31st May 2006
-# 
+#
 # A wrapper for the CCP4 program cad
-# 
+#
 
 import os
 import sys
@@ -48,7 +48,7 @@ def Cad(DriverType = None):
             self.add_command_line('hklin1')
             self.add_command_line(hklin)
 
-            self.set_task('Rewriting reflections %s => %s' % 
+            self.set_task('Rewriting reflections %s => %s' %
                       `   (os.path.split(hklin)[-1],
                        `   os.path.split(self.getHklout())[-1]))
 
@@ -60,7 +60,7 @@ def Cad(DriverType = None):
             self.close_wait()
 
             # CAD eof looks like "Normal Termination of CAD" - Bummer!
-            
+
             return self.get_ccp4_status().replace(' of CAD', '')
 
     return CadWrapper()

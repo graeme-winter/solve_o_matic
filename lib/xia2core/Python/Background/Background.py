@@ -1,9 +1,9 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # Background.py
 #
 #   Copyright (C) 2009 Diamond Light Source, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # Code to allow background (i.e. threaded) running of tasks.
@@ -92,13 +92,13 @@ if __name__ == '__cpu.py__':
 
     import math
     import sys
-    
+
     for record in sys.stdin:
         pass
-    
+
     def factor(v):
         m = int(math.sqrt(v)) + 1
-        
+
         for j in range(2, m):
             if v % j == 0:
                 f = [j]
@@ -109,4 +109,3 @@ if __name__ == '__cpu.py__':
 
     for j in range(10000000000, 10000000100):
         print factor(j)
-    

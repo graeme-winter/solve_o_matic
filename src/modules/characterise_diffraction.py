@@ -41,7 +41,7 @@ class characterise_diffraction:
         self._cell = None
         self._mosaic = None
         self._beam = None
-        
+
         self._detector = None
 
         return

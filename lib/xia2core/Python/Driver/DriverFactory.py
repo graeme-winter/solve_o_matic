@@ -3,17 +3,17 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 24th May 2006
-# 
+#
 # A factory for Driver implementations.
-# 
+#
 # At the moment this will instantiate
-# 
+#
 # SimpleDriver, ScriptDriver, QSubDriver, InteractiveDriver
-# 
+#
 # instances only.
 #
 
@@ -46,13 +46,13 @@ class _DriverFactory:
 
     def set_driver_type(self, type):
         return self.setDriver_type(type)
-    
+
     def setDriver_type(self, type):
         '''Set the kind of driver this factory should produce.'''
 
         if not type in self._implemented_types:
             raise RuntimeError, 'unimplemented driver class: %s' % type
-        
+
         self._driver_type = type
 
         return
@@ -89,5 +89,3 @@ if __name__ == '__main__':
     d = DriverFactory.Driver()
 
     d = DriverFactory.Driver('nosuchtype')
-
-    

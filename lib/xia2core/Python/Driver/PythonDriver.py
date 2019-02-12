@@ -3,7 +3,7 @@
 #
 #   Copyright (C) 2013 Diamond Light Source, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # A driver class to launch Python subprocesses with the shared environment
@@ -30,7 +30,7 @@ class PythonDriver(DefaultDriver):
 
         # here self._executable refers to the Python program which should be
         # executed
-        
+
         if self._executable is None:
             raise RuntimeError, 'no executable is set.'
 
@@ -72,7 +72,7 @@ class PythonDriver(DefaultDriver):
                                        universal_newlines = True,
                                        env = environment,
                                        shell = True)
-        
+
         return
 
     def check(self):
@@ -91,7 +91,7 @@ class PythonDriver(DefaultDriver):
 
     def _output(self):
         # need to put some kind of timeout facility on this...
-        
+
         return self._popen.stdout.readline()
 
     def _status(self):
@@ -100,7 +100,7 @@ class PythonDriver(DefaultDriver):
         return self._popen.poll()
 
     def close(self):
-        
+
         if not self.check():
             raise RuntimeError, 'child process has termimated'
 
@@ -124,4 +124,3 @@ if __name__ == '__main__':
 
     for record in pd.get_all_output():
         print record[:-1]
-    

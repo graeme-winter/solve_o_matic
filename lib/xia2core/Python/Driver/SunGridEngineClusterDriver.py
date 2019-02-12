@@ -3,12 +3,12 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 20th June 2006
-# 
-# A Driver implementation to work with sun grid engine clusters via the 
+#
+# A Driver implementation to work with sun grid engine clusters via the
 # "qsub" shell command. This is based on ScriptDriver. This works like...
 #
 # Inherited from DefaultClusterDriver
@@ -71,7 +71,7 @@ class SunGridEngineClusterDriver(DefaultClusterDriver):
 
     def cleanup(self):
         '''Cleanup and close-out.'''
-        
+
         sge_stdout = os.path.join(self._working_directory,
                                   '%s.sh.o%s' % (self._script_name,
                                                  self._job_id))
@@ -106,7 +106,7 @@ class SunGridEngineClusterDriver(DefaultClusterDriver):
 
         pass
 
-    
+
 if __name__ == '__main__':
     # Then run a simple test
 
@@ -123,4 +123,3 @@ if __name__ == '__main__':
             break
 
         print line.strip()
-

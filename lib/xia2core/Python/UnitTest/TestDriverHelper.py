@@ -3,13 +3,13 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 25th May 2006
-# 
+#
 # Tests for the Driver Helper functions.
-# 
+#
 
 import os, sys
 
@@ -67,6 +67,3 @@ class TestDriverHelper(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-            

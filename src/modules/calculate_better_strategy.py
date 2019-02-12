@@ -88,7 +88,7 @@ class calculate_better_strategy:
 
     def set_beam(self, beam):
         self._beam = beam
-    
+
     def get_phi_start(self):
         return self._phi_start
 

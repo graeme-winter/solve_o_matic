@@ -3,16 +3,16 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 19th June 2006
-# 
+#
 # A general ClusterDriver which should be inherited from for specific
 # cluster driver implementations. This provides facility for recording
 # jobs finishing, writing scripts etc, but not the queue-specific
 # submission, which should be handled by classes derived from this.
-# 
+#
 
 import os
 import time
@@ -29,7 +29,7 @@ class DefaultClusterDriver(DefaultDriver):
 
         if os.name != 'posix':
             raise RuntimeError, 'os "%s" not supported' % os.name
-        
+
         DefaultDriver.__init__(self)
 
         self._script_command_line = []
@@ -41,7 +41,7 @@ class DefaultClusterDriver(DefaultDriver):
 
         # this is opened by the close() method and read by output
         # from self._script_name.xout
-        
+
         self._output_file = None
 
         return
@@ -49,13 +49,13 @@ class DefaultClusterDriver(DefaultDriver):
     def set_name(self, name):
         '''Set the name to something sensible.'''
         self._script_name = name
-        
+
         return
 
     def start(self):
         '''This is pretty meaningless in terms of running things through
         scripts...'''
-        
+
         for c in self._command_line:
             self._script_command_line.append(c)
 
@@ -74,7 +74,7 @@ class DefaultClusterDriver(DefaultDriver):
     def _check_executable_old(self, executable):
         '''Overload the check method to always be True. This handles the
         strange setups you find on clusters.'''
-        
+
         return True
 
     def _check_executable(self, executable):
@@ -113,7 +113,7 @@ class DefaultClusterDriver(DefaultDriver):
 
         # now have a while loop watching for the .xstatus file
         # using os.path.exists()
-        
+
         xstatus_file = os.path.join(self._working_directory,
                                     '%s.xstatus' % self._script_name)
 
@@ -141,5 +141,3 @@ class DefaultClusterDriver(DefaultDriver):
         '''This is meaningless...'''
 
         pass
-
-    

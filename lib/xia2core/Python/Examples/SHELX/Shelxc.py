@@ -3,15 +3,15 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 1st June 2006
-# 
+#
 # An illustration of using Driver directly to operate a program - in this case
 # shelxc for preparing experimental phasing data.
-# 
-# 
+#
+#
 
 import os
 import sys
@@ -130,7 +130,7 @@ def Shelxc(DriverType = None):
                 self.input('SAD %s\n' % self._sad)
             if self._native:
                 self.input('NATIVE %s\n' % self._native)
-            
+
             self.input('CELL %f %f %f %f %f %f' % tuple(self._cell))
             self.input('SPAG %s' % self._symmetry)
             self.input('FIND %d' % self._nha)

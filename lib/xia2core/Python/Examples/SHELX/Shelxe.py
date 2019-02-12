@@ -3,15 +3,15 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 1st June 2006
-# 
+#
 # An illustration of using Driver directly to operate a program - in this case
 # shelxe for phasing experimental data.
-# 
-# 
+#
+#
 
 import os
 import sys
@@ -83,6 +83,3 @@ if __name__ == '__main__':
     s.set_solvent(0.46)
 
     s.phase()
-
-    
-                

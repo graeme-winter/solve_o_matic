@@ -3,16 +3,16 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 31st May 2006
-# 
-# Unit test suite for the CCP4 Driver interface - this will ensure that 
-# everything is working properly for CCP4 examples. This makes use of 
+#
+# Unit test suite for the CCP4 Driver interface - this will ensure that
+# everything is working properly for CCP4 examples. This makes use of
 # provided input data (two wavelengths worth).
-#  
-# 
+#
+#
 
 import os, sys
 
@@ -45,10 +45,10 @@ class TestCCP4(unittest.TestCase):
         hklout = '12287_1_E1_sorted.mtz'
 
         s = Sortmtz()
-        
+
         s.set_hklin(hklin)
         s.set_hklout(hklout)
-        
+
         status = s.sort()
 
         self.assertEqual(status, 'Normal termination')
@@ -66,10 +66,10 @@ class TestCCP4(unittest.TestCase):
         hklout = '12287_1_E2_sorted.mtz'
 
         s = Sortmtz()
-        
+
         s.set_hklin(hklin)
         s.set_hklout(hklout)
-        
+
         status = s.sort()
 
         self.assertEqual(status, 'Normal termination')

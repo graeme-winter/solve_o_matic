@@ -3,40 +3,40 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 25th May 2006
-# 
+#
 # A decorator to add hklin and hklout methods to a Driver instance.
 # This will probably include some other interesting things like
-# xyzin etc at some point in the future, once such things become 
+# xyzin etc at some point in the future, once such things become
 # important.
-# 
+#
 # Supported Keywords:
-# HKLIN input MTZ reflection file (.mtz) 
-# HLKOUT output MTZ reflection file (.mtz) 
-# MAPIN input map file (.map) 
-# MAPOUT output map file (.map) 
-# XYZIN input coordinate file (.pdb) 
-# XYZOUT output coordinate file (.pdb) 
-# 
+# HKLIN input MTZ reflection file (.mtz)
+# HLKOUT output MTZ reflection file (.mtz)
+# MAPIN input map file (.map)
+# MAPOUT output map file (.map)
+# XYZIN input coordinate file (.pdb)
+# XYZOUT output coordinate file (.pdb)
+#
 # All accessed via setHklin(hklin) getHklin() etc.
-# 
+#
 # List from:
-# 
+#
 # http://www.ccp4.ac.uk/dist/html/ccp4.html
-# 
+#
 # Done:
 # Add a mechanism for recording and parsing of loggraph output.
-# 
+#
 # FIXME 06/NOV/06 would be fun to record the HKLIN and HKLOUT files to
 #                 be able to track how the processing went and what jobs
 #                 were executed to make that happen...
-# 
+#
 # FIXME 24/NOV/06 need to be able to cope with columns in loggraph output
 #                 running together.
-# 
+#
 
 import os
 import sys
@@ -73,9 +73,9 @@ def CCP4DecoratorFactory(DriverInstance):
         def __init__(self):
             # note well - this is evil I am calling another classes constructor
             # in here. Further this doesn't know what it is constructing!
-            
+
             self._original_class.__init__(self)
-            
+
             self._hklin = None
             self._hklout = None
             self._xyzin = None
@@ -96,7 +96,7 @@ def CCP4DecoratorFactory(DriverInstance):
                 else:
                     self.add_working_environment('LD_LIBRARY_PATH',
                                                  os.environ['CLIB'])
-            
+
             return
 
         def set_hklin(self, hklin):
@@ -120,7 +120,7 @@ def CCP4DecoratorFactory(DriverInstance):
                 raise RuntimeError, 'hklin not defined'
             if not os.path.exists(self._hklin):
                 raise RuntimeError, 'hklin %s does not exist' % self._hklin
-        
+
         def set_hklout(self, hklout):
             return self.setHklout(hklout)
 
@@ -136,18 +136,18 @@ def CCP4DecoratorFactory(DriverInstance):
 
         def getHklout(self):
             return self._hklout
-        
+
         def checkHklout(self):
             if self._hklout is None:
                 raise RuntimeError, 'hklout not defined'
 
             # check that these are different files!
-            
+
             if self._hklout == self._hklin:
                 raise RuntimeError, \
                       'hklout and hklin are the same file (%s)' % \
                       str(self._hklin)
-        
+
         def set_xyzin(self, xyzin):
             return self.setXyzin(xyzin)
 
@@ -178,14 +178,14 @@ def CCP4DecoratorFactory(DriverInstance):
 
         def check_xyzout(self):
             return self.checkXyzout()
-        
+
         def setXyzout(self, xyzout):
             self._xyzout = xyzout
             return
 
         def getXyzout(self):
             return self._xyzout
-        
+
         def checkXyzout(self):
             if self._xyzout is None:
                 raise RuntimeError, 'xyzout not defined'
@@ -198,20 +198,20 @@ def CCP4DecoratorFactory(DriverInstance):
 
         def check_mapin(self):
             return self.checkMapin()
-        
+
         def setMapin(self, mapin):
             self._mapin = mapin
             return
 
         def getMapin(self):
             return self._mapin
-        
+
         def checkMapin(self):
             if self._mapin is None:
                 raise RuntimeError, 'mapin not defined'
             if not os.path.exists(self._mapin):
                 raise RuntimeError, 'mapin %s does not exist' % self._mapin
-        
+
         def set_mapout(self, mapout):
             return self.setMapout(mapout)
 
@@ -231,7 +231,7 @@ def CCP4DecoratorFactory(DriverInstance):
         def checkMapout(self):
             if self._mapout is None:
                 raise RuntimeError, 'mapout not defined'
-        
+
         def describe(self):
             '''An overloading of the Driver describe() method.'''
 
@@ -262,7 +262,7 @@ def CCP4DecoratorFactory(DriverInstance):
                 description += ' %s' % (self._mapout)
 
             return description
-        
+
         def start(self):
             '''Add all the hklin etc to the command line then call the
             base classes start() method. Also make any standard ccp4
@@ -270,7 +270,7 @@ def CCP4DecoratorFactory(DriverInstance):
 
             for env in ['BINSORT_SCR', 'CCP4_SCR']:
                 if os.environ.has_key(env):
-                    directory = os.environ[env]                    
+                    directory = os.environ[env]
                     self.add_scratch_directory(directory)
                     try:
                         os.mkdir(directory)
@@ -318,7 +318,7 @@ def CCP4DecoratorFactory(DriverInstance):
             for line in self.get_all_output():
                 if 'CCP4 library signal' in line:
                     error = line.split(':')[1].strip()
-                    
+
                     # throw away the "status" in brackets
 
                     if '(' in error:
@@ -334,11 +334,11 @@ def CCP4DecoratorFactory(DriverInstance):
                                 raise RuntimeError, '%s:%s' % (error, cause)
 
                     # then cope with the general case
-                    
+
                     else:
                         raise RuntimeError, error
 
-            return 
+            return
 
         def get_ccp4_status(self):
             '''Check through the standard output and get the program
@@ -395,7 +395,7 @@ def CCP4DecoratorFactory(DriverInstance):
                 if '$TABLE' in line:
 
                     n_dollar = line.count('$$')
-                    
+
                     current = line.split(':')[1].replace('>',
                                                                   '').strip()
                     self._loggraph[current] = { }
@@ -420,19 +420,19 @@ def CCP4DecoratorFactory(DriverInstance):
 
                         if n_dollar == 4:
                             break
-                        
+
                         i += 1
                         line = output[i]
 
                     # at this stage I should have the whole 9 yards in
-                    # a single string... 
+                    # a single string...
 
                     tokens = loggraph_info.split('$$')
                     self._loggraph[current]['columns'] = tokens[1].split()
 
                     if len(tokens) < 4:
                         raise RuntimeError, 'loggraph "%s" broken' % current
-                    
+
                     data = tokens[3].split('\n')
 
                     # pop takes the data off the end so...
@@ -453,8 +453,8 @@ def CCP4DecoratorFactory(DriverInstance):
                         if len(record) == columns:
                             self._loggraph[current]['data'].append(record)
 
-            return self._loggraph                
-        
+            return self._loggraph
+
     return CCP4Decorator()
 
 if __name__ == '__main__':
@@ -464,8 +464,8 @@ if __name__ == '__main__':
     sys.path.append(os.path.join(os.environ['XIA2CORE_ROOT'],
                                  'Python',
                                  'Driver'))
-    
-    from DriverFactory import DriverFactory    
+
+    from DriverFactory import DriverFactory
 
     d = DriverFactory.Driver('script')
 
@@ -474,4 +474,3 @@ if __name__ == '__main__':
     from pydoc import help
 
     print help(d.__class__)
-    

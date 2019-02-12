@@ -157,7 +157,7 @@ def BestStrategy(DriverType = None):
 
             self.start()
             self.close_wait()
-                    
+
             # FIXME really I should check for bugs or errors
             output = self.get_all_output()
 
@@ -203,7 +203,7 @@ def BestStrategy(DriverType = None):
     return BestStrategyWrapper()
 
 if __name__ == '__main__':
-    
+
     best = BestStrategy()
     best.set_detector('pilatus6m')
     best.set_t_ref(0.5)

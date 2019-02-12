@@ -3,15 +3,15 @@
 #
 #   Copyright (C) 2006 CCLRC, Graeme Winter
 #
-#   This code is distributed under the BSD license, a copy of which is 
+#   This code is distributed under the BSD license, a copy of which is
 #   included in the root directory of this package.
 #
 # 24th May 2006
-# 
-# An initial implementation of the simplest Driver type - the one which 
-# just wraps the subprocess.Popen class. Note well: this will require 
-# Python 2.4. 
-# 
+#
+# An initial implementation of the simplest Driver type - the one which
+# just wraps the subprocess.Popen class. Note well: this will require
+# Python 2.4.
+#
 # Applicability: Windows/OS X/UNIX
 #
 
@@ -80,7 +80,7 @@ class SimpleDriver(DefaultDriver):
                                        universal_newlines = True,
                                        env = environment,
                                        shell = True)
-        
+
         # somehow here test for failure - oh, you can't because
         # the shell spawned is probably still ok
 
@@ -96,7 +96,7 @@ class SimpleDriver(DefaultDriver):
             return True
 
         # FIXME this should do a proper test!
-        
+
         return True
 
     def _input(self, record):
@@ -110,7 +110,7 @@ class SimpleDriver(DefaultDriver):
 
     def _output(self):
         # need to put some kind of timeout facility on this...
-        
+
         return self._popen.stdout.readline()
 
     def _status(self):
@@ -119,7 +119,7 @@ class SimpleDriver(DefaultDriver):
         return self._popen.poll()
 
     def close(self):
-        
+
         if not self.check():
             raise RuntimeError, 'child process has termimated'
 
@@ -146,7 +146,3 @@ if __name__ == '__main__':
             break
 
     d.check_for_errors()
-
-
-
-    
