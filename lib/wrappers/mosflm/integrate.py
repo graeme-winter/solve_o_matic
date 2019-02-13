@@ -23,6 +23,7 @@ def Mosflm_integrate(DriverType = None):
             self._template = None
             self._directory = None
             self._beam = None
+            self._limits_dict = { }
             self._images = []
             self._spacegroup = None
             self._mosaic = None
@@ -41,6 +42,10 @@ def Mosflm_integrate(DriverType = None):
 
         def set_beam(self, beam):
             self._beam = beam
+            return
+
+        def set_limits_dict(self, limits_dict):
+            self._limits_dict = limits_dict
             return
 
         def add_image(self, image):
@@ -89,6 +94,18 @@ def Mosflm_integrate(DriverType = None):
             assert(self._images != [])
 
             self.start()
+
+            if self._limits_dict:
+                c0 = 'xmin {xmin} xmax {xmax} ymin {ymin} ymax {ymax}'.format(
+                    **self._limits_dict)
+                c1 = 'rmin {rmin} rmax {rmax}'.format(
+                    **self._limits_dict)
+                c2 = 'rmin xscan {xscan} xscan {xscan}'.format(
+                    **self._limits_dict)
+                self.input('limits %s' % c0)
+                self.input('limits %s' % c1)
+                self.input('limits %s' % c2)
+
             self.input('symmetry %s' % self._spacegroup)
             self.input('matrix %s' % self._matrix)
             self.input('template %s' % self._template)

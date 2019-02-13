@@ -186,6 +186,24 @@ class calculate_better_strategy:
         mi.set_template(self._template)
         mi.set_directory(self._directory)
         mi.set_beam(self._beam)
+
+        # in here compute the detector limits too
+        ii = self._interrogate_image
+        px = ii.get_pixel()
+        size = ii.get_size()
+
+        sx = px[0] * size[0]
+        sy = px[1] * size[1]
+        bx, by = self._beam
+
+        limits_dict = {'xscan':0.5 * sx, 'yscan':sy * 0.5,
+                       'xmin':0.0, 'ymin':0.0, 'rmin':2.0,
+                       'xmax':max(bx, sx - bx),
+                       'ymax':max(by, sy - by),
+                       'rmax':math.sqrt(max(bx, sx - bx) ** 2 +
+                                        max(by, sy - by) ** 2)}
+        mi.set_limits_dict(limits_dict)
+
         if self._anomalous:
             mi.set_anomalous(self._anomalous)
         for image in self._images:
