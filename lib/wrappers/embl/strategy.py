@@ -170,6 +170,8 @@ def BestStrategy(DriverType = None):
             for record in output:
                 if 'ERROR' in record:
                     raise RuntimeError, record.strip()
+                if 'Determination of B-factor failed' in record:
+                    raise RuntimeError, record.strip()
 
             # BEWARE this is dependent on order of output
             for j, record in enumerate(output):
