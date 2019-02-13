@@ -120,7 +120,7 @@ def BestStrategy(DriverType = None):
 
         def get_exposure_time(self):
             return self._exposure_time
-        
+
         def strategy(self):
 
             assert self._detector

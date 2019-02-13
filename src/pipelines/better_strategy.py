@@ -31,6 +31,8 @@ class strategy_pipeline:
         self._phi_end = None
         self._phi_width = None
 
+        self._transmission_percent = None
+        self._exposure_time = None
         self._completeness = None
 
         self._resolution = None
@@ -84,6 +86,12 @@ class strategy_pipeline:
     def get_resolution(self):
         return self._resolution
 
+    def get_transmission_percent(self):
+        return self._transmission_percent
+
+    def get_exposure_time(self):
+        return self._exposure_time
+
     def strategy_pipeline_characterise(self):
 
         assert(self._image)
@@ -118,6 +126,9 @@ class strategy_pipeline:
         self._phi_width = cs.get_phi_width()
         self._completeness = cs.get_completeness()
         self._resolution = cs.get_resolution()
+
+        self._transmission_percent = cs.get_transmission_percent()
+        self._exposure_time = cs.get_exposure_time()
 
         # derived things
 
@@ -202,6 +213,8 @@ if __name__ == '__main__':
     print 'No. images: %d' % sp.get_n_images()
     print 'Completeness: %.2f' % sp.get_completeness()
     print 'Resolution:   %.2f' % sp.get_resolution()
+    print 'Transmission (%%): %.1f' % sp.get_transmission_percent()
+    print 'Exposure time (s): %.3f' % sp.get_exposure_time()
 
     native = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
               sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
@@ -214,6 +227,8 @@ if __name__ == '__main__':
     print 'No. images: %d' % sp.get_n_images()
     print 'Completeness: %.2f' % sp.get_completeness()
     print 'Resolution:   %.2f' % sp.get_resolution()
+    print 'Transmission (%%): %.1f' % sp.get_transmission_percent()
+    print 'Exposure time (s): %.3f' % sp.get_exposure_time()
 
     anomalous = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
                  sp.get_n_images(), sp.get_completeness(), sp.get_resolution())

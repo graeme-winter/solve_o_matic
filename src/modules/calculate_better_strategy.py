@@ -49,7 +49,8 @@ class calculate_better_strategy:
         self._phi_start = None
         self._phi_end = None
         self._phi_width = None
-
+        self._transmission_percent = None
+        self._exposure_time = None
         self._completeness = None
 
         return
@@ -104,6 +105,12 @@ class calculate_better_strategy:
     def get_resolution(self):
         return self._resolution
 
+    def get_transmission_percent(self):
+        return self._transmission_percent
+
+    def get_exposure_time(self):
+        return self._exposure_time
+
     # real methods
 
     def select_images(self):
@@ -141,7 +148,7 @@ class calculate_better_strategy:
         exposure = ii.get_exposure_time()
         magic_name_table = {'pilatus 6M':'pilatus6m',
                             'eiger 16M':'eiger2-16m'}
-            
+
         # FIXME need to get this from somewhere
         best.set_detector(magic_name_table[detector])
         best.set_t_ref(exposure)
