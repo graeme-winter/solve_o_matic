@@ -148,18 +148,19 @@ class calculate_better_strategy:
         exposure = ii.get_exposure_time()
         magic_name_table = {'pilatus 6M':'pilatus6m',
                             'eiger 16M':'eiger2-16m'}
+        speed_table = {'pilatus 6M':0.01,
+                       'eiger 16M':0.008}
 
-        # FIXME need to get this from somewhere
+        # arbitrary parameters for a first version - for an Eiger / Pilatus3
         best.set_detector(magic_name_table[detector])
         best.set_t_ref(exposure)
-        best.set_T_max(807)
-        best.set_t_min(0.067)
+        best.set_T_max(60)
+        best.set_t_min(speed_table[detector])
         best.set_trans_ref(ii.get_transmission_percent())
         best.set_S_max(10.0)
-        best.set_w_min(0.1)
+        best.set_w_min(0.05)
 
         # FIXME these should ideally be optional but...
-        best.set_M_min(3.0)
         best.set_C_min(99.0)
         best.set_i2s(2.0)
         best.set_mos_dat('bestfile.dat')
