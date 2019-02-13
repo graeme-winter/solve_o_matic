@@ -100,7 +100,7 @@ def Mosflm_integrate(DriverType = None):
                     **self._limits_dict)
                 c1 = 'rmin {rmin} rmax {rmax}'.format(
                     **self._limits_dict)
-                c2 = 'rmin xscan {xscan} xscan {xscan}'.format(
+                c2 = 'xscan {xscan} yscan {yscan}'.format(
                     **self._limits_dict)
                 self.input('limits %s' % c0)
                 self.input('limits %s' % c1)
