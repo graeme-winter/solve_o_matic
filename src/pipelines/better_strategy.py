@@ -150,8 +150,8 @@ def write_dat_file(character, native, anomalous):
     dat_file = open('strategy.dat', 'w')
     dat_file.write('character,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,' % character[0])
     dat_file.write('%s,%.2f\n' % (character[1], character[2]))
-    dat_file.write('mosflm native,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % native)
-    dat_file.write('mosflm anomalous,%.1f,%.1f,%.1f,%d,%.2f,%.2f\n' % \
+    dat_file.write('mosflm+best native,%.1f,%.1f,%.1f,%d,%.2f,%.2f,%.3f,%.3f\n' % native)
+    dat_file.write('mosflm+best anomalous,%.1f,%.1f,%.1f,%d,%.2f,%.2f,%.3f,%.3f\n' % \
                    anomalous)
     dat_file.close()
     return
@@ -217,7 +217,8 @@ if __name__ == '__main__':
     print 'Exposure time (s): %.3f' % sp.get_exposure_time()
 
     native = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
-              sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
+              sp.get_n_images(), sp.get_completeness(), sp.get_resolution(),
+              sp.get_transmission_percent(), sp.get_exposure_time())
 
     sp.strategy_pipeline_strategy(anomalous = True)
     print 'Anomalous strategy:'
@@ -231,7 +232,8 @@ if __name__ == '__main__':
     print 'Exposure time (s): %.3f' % sp.get_exposure_time()
 
     anomalous = (sp.get_phi_start(), sp.get_phi_end(), sp.get_phi_width(),
-                 sp.get_n_images(), sp.get_completeness(), sp.get_resolution())
+                 sp.get_n_images(), sp.get_completeness(), sp.get_resolution(),
+                 sp.get_transmission_percent(), sp.get_exposure_time())
 
     write_dat_file(character, native, anomalous)
 
