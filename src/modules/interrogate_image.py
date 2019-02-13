@@ -114,7 +114,11 @@ def failover_cbf(cbf_file):
             continue
 
         if 'Filter_transmission' in record:
-            header['transmission'] = float(record.split()[-1])
+            t = float(record.split()[-1])
+            # because sometimes people use percent - what if 0.05%? too bad...
+            if t > 1.0:
+                t *= 0.01
+            header['transmission'] = t
             continue
 
         if 'Detector_distance' in record:
