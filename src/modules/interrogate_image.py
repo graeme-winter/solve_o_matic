@@ -113,6 +113,10 @@ def failover_cbf(cbf_file):
             header['exposure_time'] = float(record.split()[-2])
             continue
 
+        if 'Filter_transmission' in record:
+            header['transmission'] = float(record.split()[-1])
+            continue
+
         if 'Detector_distance' in record:
             header['distance'] = 1000 * float(record.split()[2])
             continue
@@ -308,9 +312,6 @@ class interrogate_image:
         self._metadata = read_image_metadata(image)
         return
 
-    # FIXME get bits to record things like the transmission, exposure time
-    # and the particular detector instance i.e. serial number or something
-
     def get_beam(self):
         return self._metadata['beam']
 
@@ -334,6 +335,9 @@ class interrogate_image:
 
     def get_exposure_time(self):
         return self._metadata['exposure_time']
+
+    def get_transmission_percent(self):
+        return 100 * self._metadata.get('transmission', 1.0)
 
     def get_images(self):
         return self._metadata['images']

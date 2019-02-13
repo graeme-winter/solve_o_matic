@@ -154,7 +154,7 @@ class calculate_better_strategy:
         best.set_t_ref(exposure)
         best.set_T_max(807)
         best.set_t_min(0.067)
-        best.set_trans_ref(25.0)
+        best.set_trans_ref(ii.get_transmission_percent())
         best.set_S_max(10.0)
         best.set_w_min(0.1)
 
