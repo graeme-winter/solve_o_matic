@@ -92,7 +92,7 @@ def failover_cbf(cbf_file):
             header['serial_number'] = get_dectris_serial_no(record)
             continue
 
-        if 'EIGER 16M' in record:
+        if 'EIGER 16M' in record or 'EIGER 2XE 16M' in record:
             header['detector_class'] = 'eiger 16M'
             header['detector'] = 'dectris'
             header['size'] = (4362, 4148)
